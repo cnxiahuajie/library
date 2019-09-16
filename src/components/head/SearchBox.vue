@@ -12,8 +12,11 @@
 
 <style lang="scss" scoped>
     .search-input {
-        width: 300px;
-        padding: 10px;
-        margin-left: 10px;
+        width: calc(100% - 10px);
+        outline: none;
+        height: 52px;
+        padding-left: 10px;
+        border: 0;
+        background-color: rgba(0,0,0,0);
     }
 </style>
