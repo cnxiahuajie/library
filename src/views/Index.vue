@@ -1,19 +1,27 @@
 <template>
     <div class="root">
-        <HeadAssembly/>
+        <HeadAssembly @handleSearch="handleSearch" />
         <div class="area-line"></div>
-        <BodyAssembly/>
+        <BodyAssembly ref="bodyAssembly"/>
     </div>
 </template>
 
 <script>
-    import HeadAssembly from "../components/head/Assembly";
-    import BodyAssembly from '../components/body/Assembly';
+    import HeadAssembly from "@/components/head/Assembly";
+    import BodyAssembly from '@/components/body/Assembly';
 
     export default {
         name: "Index",
         components: {HeadAssembly, BodyAssembly},
+        data () {
+            return {
+            }
+        },
         methods: {
+            // 更新搜索关键字
+            handleSearch(query) {
+                this.$refs.bodyAssembly.handleSearch(query);
+            }
         }
     }
 </script>

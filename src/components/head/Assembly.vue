@@ -2,7 +2,7 @@
     <div class="root">
         <div class="search-box-container">
             <div class="head-left">
-                <SearchBox/>
+                <SearchBox @handleSearch="handleSearch"/>
             </div>
             <div class="head-right">
                 <UploadArticle/>
@@ -17,7 +17,13 @@
     import UploadArticle from "./UploadArticle";
     export default {
         name: "Assembly",
-        components: {UploadArticle, SearchBox}
+        components: {UploadArticle, SearchBox},
+        methods: {
+            // 更新搜搜关键字
+            handleSearch(query) {
+                this.$emit('handleSearch', query)
+            }
+        }
     }
 </script>
 

@@ -3,15 +3,11 @@
         <el-upload
                 class="upload-component"
                 ref="upload"
+                drag
                 :action="action"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :file-list="fileList"
-                :auto-upload="false">
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传
-            </el-button>
-            <div slot="tip" class="el-upload__tip">只能上传.html文件，请使用Typora编辑文档并导出为.html</div>
+                :accept="'.html'">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         </el-upload>
     </div>
 </template>
@@ -20,18 +16,11 @@
     export default {
         name: "Upload",
         props: {
-            dialogTitle: String,
-            action: String
+            dialogTitle: String
         },
         data() {
             return {
-                fileList: [{
-                    name: 'food.jpeg',
-                    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-                }, {
-                    name: 'food2.jpeg',
-                    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-                }]
+                action: '/api/v1/article/upload'
             };
         },
         methods: {
@@ -49,5 +38,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .upload-component {
+        margin: auto;
+    }
 </style>

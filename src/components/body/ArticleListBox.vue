@@ -1,14 +1,13 @@
 <template>
     <div class="root">
-        <div class="articles" v-for="n in 20" :key="n" :id="idGenerator(n)">
+        <div v-if="articles.length === 0" style="margin-top: calc(50vh - 47px); text-align: center;"><p style="font-size: 14px; color: #999;">在左上角进行文章搜索，或者点击右上角的[<span style="font-weight: bold;">捐赠</span>]按钮进行文章捐赠。</p></div>
+        <div v-else class="articles" v-for="article in articles" :key="article.id" :id="article.id">
             <div class="article-item">
-                <h1>什么是面向对象[[{{n}}]]？</h1>
-                <p>
-                    面向对象(Object Oriented,OO)是软件开发方法。面向对象的概念和应用已超越了程序设计和软件开发，扩展到如数据库系统、交互式界面、应用结构、应用平台、分布式系统、网络管理结构、CAD技术、人工智能等领域。面向对象是一种对现实世界理解和抽象的方法，是计算机编程技术 [1]  发展到一定阶段后的产物。
-                </p>
+                <h1 v-text="article.title"></h1>
+                <p v-html="article.content"></p>
                 <div class="button-group">
-                    <a href="#" @click="previewArticle(n)">预览</a>
-                    <a href="#" @click="markArticle(n)">标记</a>
+                    <a href="#" @click="previewArticle(article.id)">预览</a>
+                    <a href="#" @click="markArticle(article.id)">标记</a>
                 </div>
             </div>
         </div>
@@ -16,12 +15,32 @@
 </template>
 
 <script>
+    import apiArticle from '@/assets/api/api.article'
+
     export default {
         name: "ArticleListBox",
+        data() {
+            return {
+                page: 1,
+                articles: []
+            }
+        },
+        mounted() {
+            this.handleSearchArticle();
+        },
         methods: {
+            // 搜索文章
+            handleSearchArticle(query) {
+                apiArticle.listArticleByQuery(query, this.page).then(res => {
+                    if (res.data.details.content) {
+                        this.articles = res.data.details.content;
+                    }
+                });
+            },
             // 预览文章
-            previewArticle(dataId) {
-                this.$emit('previewArticle', dataId);
+            previewArticle(id) {
+                this.$emit('previewArticle', id);
+
             },
             // 标记文章
             markArticle(dataId) {
@@ -43,21 +62,33 @@
 
 <style lang="scss" scoped>
     .root .articles .article-item {
-        padding: 10px;
+        padding: 0px 10px;
+    }
+
+    .root .articles .article-item:not(:first-child) {
         margin-top: 10px;
     }
-    .root .articles .article-item .button-group a{
+
+    .root .articles .article-item .button-group a {
         text-decoration: none;
+        font-size: 14px;
     }
-    .root .articles .article-item .button-group a:not(:first-child){
+
+    .root .articles .article-item .button-group a:not(:first-child) {
         margin-left: 10px;
     }
-    .root .articles .article-item h1 {
-        font-size: 20px;
-    }
-    .root .articles .article-item .content {
 
+    .root .articles .article-item h1 {
+        font-size: 18px;
     }
+
+    .root .articles .article-item p {
+        max-height: 100px;
+        overflow: hidden;
+        font-size: 14px;
+        text-indent: 2em;
+    }
+
     .mark {
         background-color: #409EFF;
         color: #fff;
