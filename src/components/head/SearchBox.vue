@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
     export default {
         name: "SearchBox",
         data() {
@@ -13,6 +14,7 @@
             }
         },
         methods: {
+            // 执行搜索
             handleSearch() {
                 this.$emit('handleSearch', this.query);
             }
@@ -22,6 +24,7 @@
 
 <style lang="scss" scoped>
     .search-input {
+        font-size: 14px;
         width: calc(100% - 10px);
         outline: none;
         height: 52px;

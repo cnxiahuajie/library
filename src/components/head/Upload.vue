@@ -1,13 +1,26 @@
 <template>
     <div class="root">
+        <transition name="el-zoom-in-center">
+            <div v-show="uploadSuccess">
+                <img src="@/assets/images/upload_success.png"/>
+                <p class="upload-success-tip">
+                    上传成功
+                </p>
+            </div>
+        </transition>
         <el-upload
                 class="upload-component"
                 ref="upload"
                 drag
+                v-show="!uploadSuccess"
+                v-loading="uploading"
                 :action="action"
-                :accept="'.html'">
+                :accept="'.html'"
+                :show-file-list="false"
+                :before-upload="handleBeforeUpload"
+                :on-success="handleSuccess">
             <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__text">将.html文件拖到此处，或<em>点击上传</em></div>
         </el-upload>
     </div>
 </template>
@@ -20,25 +33,32 @@
         },
         data() {
             return {
-                action: '/api/v1/article/upload'
+                action: '/provider-library/v1/article/upload',
+                uploading: false,
+                uploadSuccess: false
             };
         },
         methods: {
-            submitUpload() {
-                this.$refs.upload.submit();
+            // 上传时
+            handleBeforeUpload(event, file, fileList) {
+                this.uploading = true;
             },
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
-            },
-            handlePreview(file) {
-                console.log(file);
+            // 上传成功
+            handleSuccess(response, file, fileList) {
+                this.uploading = false;
+                this.uploadSuccess = true;
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .upload-component {
-        margin: auto;
+    .root {
+        text-align: center;
+    }
+
+    .upload-success-tip {
+        margin-top: 0px;
+        color: #409EFF;
     }
 </style>

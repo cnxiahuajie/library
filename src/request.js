@@ -1,10 +1,11 @@
 import axios from 'axios'
 import store from './store'
+import {Message} from 'element-ui'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: '/api',
-    timeout: 15000 // 请求超时时间
+    baseURL: '/provider-library',
+    timeout: 6000 // 请求超时时间
 })
 
 service.interceptors.response.use(
@@ -18,6 +19,14 @@ service.interceptors.response.use(
             hasError: true,
             status: error.response.status,
             statusText: error.response.statusText
+        }
+
+        if (404 === httpError.status) {
+            Message.error({message: '服务器被吃了⊙﹏⊙∥'});
+        } else if (403 === httpError.status) {
+            Message.error({message: '权限不足，请联系管理员！'});
+        } else {
+            Message.error({message: '未知错误'});
         }
         store.commit('ON_HTTP_ERROR', httpError)
         return Promise.reject(error)
