@@ -15,10 +15,10 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/provider-library/api': {
-                target: 'http://192.168.122.39:8080', // 设置你调用的接口域名和端口号
+                target: 'http://192.168.229.152:63367', // 设置你调用的接口域名和端口号
                 changeOrigin: true, // 跨域
                 pathRewrite: {
-                    '^/provider-library/api': '/provider-library'
+                    '^/provider-library/api': '/'
                 }
             }
         }
