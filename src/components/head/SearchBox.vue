@@ -16,7 +16,9 @@
         methods: {
             // 执行搜索
             handleSearch() {
-                this.$emit('handleSearch', this.query);
+                if (this.query) {
+                    this.$emit('handleSearch', this.query);
+                }
             }
         }
     }

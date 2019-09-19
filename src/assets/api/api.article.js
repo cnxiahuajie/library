@@ -2,10 +2,13 @@ import request from '@/request'
 
 export default {
 
+    // 上传服务路径
+    UPLOAD_URL: '/provider-library/api/v1/article/upload',
+
     // 搜索文章
     listArticleByQuery(q = '-', page) {
         return request({
-            url: `/v1/article/search/${q}/${page}`,
+            url: `/api/v1/article/search/${q}/${page}`,
             method: 'get'
         })
     },
@@ -13,7 +16,7 @@ export default {
     // 查看文章
     getArticleById(id) {
         return request({
-            url: `/v1/article/${id}`,
+            url: `/api/v1/article/${id}`,
             method: 'get'
         })
     }

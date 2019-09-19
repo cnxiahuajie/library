@@ -1,7 +1,7 @@
 <template>
     <div class="root">
         <div v-show="articles.length === 0 && !articleLoading" style="margin-top: calc(50vh - 47px); text-align: center;">
-            <p style="font-size: 14px; color: #999;">在左上角进行文章搜索，或者点击右上角的[<span style="font-weight: bold;">捐赠</span>]按钮进行文章捐赠。</p>
+            <p style="font-size: 14px; color: #999;">在左上角进行文章搜索，或者点击右上角的&nbsp;<i class="el-icon-document-add"></i>&nbsp;按钮进行文章捐赠。</p>
         </div>
         <transition-group name="el-fade-in">
             <div  v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id" :id="idGenerator(article.id)">

@@ -2,15 +2,14 @@
     <div class="root">
         <ul>
             <li>
-                <el-button plain @click="dialogUploadVisible = true">捐赠</el-button>
-                <el-dialog class="donation-article-dialog" :title="'捐赠文章'" :visible.sync="dialogUploadVisible"
+                <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
+                <el-dialog class="donation-article-dialog" :title="'上传文章'" :visible.sync="dialogUploadVisible"
                            :before-close="handleCloseUploadArticle"
                            :destroy-on-close="true"
                             :close-on-click-modal="false"
                             :close-on-press-escape="false">
-                    <ArticleUpload v-show="!downloadTyporaVisible" ref="articleUpload" v-bind:dialogTitle="'捐赠文章'"
-                                   v-bind:dialogUploadVisible="dialogUploadVisible"
-                                   v-bind:action="'https://jsonplaceholder.typicode.com/posts/'"/>
+                    <ArticleUpload v-show="!downloadTyporaVisible" ref="articleUpload" v-bind:dialogTitle="'上传文章'" v-bind:uploadUrl="uploadUrl"
+                                   v-bind:dialogUploadVisible="dialogUploadVisible"/>
                     <el-dialog
                             class="remind-dialog"
                             title="友情提示"
@@ -44,6 +43,7 @@
 
 <script>
     import ArticleUpload from './Upload'
+    import apiArticle from '@/assets/api/api.article'
 
     const KEEP_REMIND_COOKIE_KEY = "library_download_typora_keep_remind";
     // 继续提醒
@@ -56,6 +56,8 @@
         components: {ArticleUpload},
         data() {
             return {
+                // 上传地址
+                uploadUrl: apiArticle.UPLOAD_URL,
                 // 是否打开下载typora提示框
                 downloadTyporaVisible: false,
                 // 继续提醒

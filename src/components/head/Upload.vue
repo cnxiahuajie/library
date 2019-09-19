@@ -14,7 +14,7 @@
                 drag
                 v-show="!uploadSuccess"
                 v-loading="uploading"
-                :action="action"
+                :action="uploadUrl"
                 :accept="'.html'"
                 :show-file-list="false"
                 :before-upload="handleBeforeUpload"
@@ -29,11 +29,11 @@
     export default {
         name: "Upload",
         props: {
-            dialogTitle: String
+            dialogTitle: String,
+            uploadUrl: String
         },
         data() {
             return {
-                action: '/provider-library/v1/article/upload',
                 uploading: false,
                 uploadSuccess: false
             };
