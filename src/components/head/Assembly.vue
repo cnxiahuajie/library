@@ -38,11 +38,11 @@
 
     .root .search-box-container .head-left {
         float: left;
-        width: calc(60vw);
+        width: calc(50%);
     }
 
     .root .search-box-container .head-right {
         float: right;
-        width: calc(38vw);
+        width: calc(50%);
     }
 </style>

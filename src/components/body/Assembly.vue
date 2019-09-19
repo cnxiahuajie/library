@@ -86,19 +86,15 @@
 
     .root .body-left {
         float: left;
-        width: calc(50vw);
+        width: calc(50%);
         background-color: white;
         overflow-y: scroll;
     }
 
     .root .body-right {
         float: right;
-        width: calc(50vw);
+        width: calc(50%);
         overflow-y: scroll;
     }
 
-    .root .area-line {
-        border-left: 1px #ccc solid;
-        float: left;
-    }
 </style>
