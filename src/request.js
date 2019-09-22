@@ -10,8 +10,8 @@ const service = axios.create({
 
 service.interceptors.response.use(
     function (response) {
-        //请求正常则返回
-        return Promise.resolve(response)
+        // 将响应的数据内容字符串反序列化为数据对象,请求正常则返回
+        return Promise.resolve(response.data.data)
     },
     function (error) {
         // 请求错误则向store commit这个状态变化

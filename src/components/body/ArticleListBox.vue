@@ -1,7 +1,10 @@
 <template>
     <div class="root">
-        <div v-show="articles.length === 0 && !articleLoading" style="margin-top: calc(50vh - 47px); text-align: center;">
+        <div class="tip" v-show="articles.length === 0 && !articleLoading && searchStatus === '0'">
             <p style="font-size: 14px; color: #999;">在左上角进行文章搜索，或者点击右上角的&nbsp;<i class="el-icon-document-add"></i>&nbsp;按钮进行文章上传。</p>
+        </div>
+        <div class="tip" v-show="articles.length === 0 && searchStatus === '2'">
+            <p style="font-size: 14px; color: #999;">没有找到任何关于[{{query}}]的内容。</p>
         </div>
         <transition-group name="el-fade-in">
             <div  v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id" :id="idGenerator(article.id)">
@@ -36,6 +39,8 @@
                 query: '',
                 isLastPage: false,
                 articleLoading: false,
+                // 搜索状态[0=未搜索/1=搜索中/2=搜索结束]
+                searchStatus: '0',
                 articles: []
             }
         },
@@ -51,6 +56,7 @@
                 if (!this.isLastPage) {
                     this.articleLoading = true;
                     this.page++;
+                    this.searchStatus = '1';
                     this.handleSearchArticle(this.query);
                 }
             },
@@ -61,15 +67,16 @@
                     this.handleCleanArticles();
                 }
                 this.query = query;
-                apiArticle.listArticleByQuery(query, this.page).then(res => {
-                    if (res.data.details.content) {
-                        this.isLastPage = res.data.details.last;
-                        for (let i = 0, len = res.data.details.content.length; i < len; i++) {
-                            this.articles.push(res.data.details.content[i]);
+                apiArticle.listArticleByQuery(query, this.page).then(data => {
+                    if (data.content) {
+                        this.isLastPage = data.last;
+                        for (let i = 0, len = data.content.length; i < len; i++) {
+                            this.articles.push(data.content[i]);
                         }
-                        this.articleLoading = false;
                     }
-                }, err => { this.articleLoading = false; });
+                    this.articleLoading = false;
+                    this.searchStatus = '2';
+                }, err => { this.articleLoading = false; this.searchStatus = '2'; });
             },
             // 预览文章
             previewArticle(id) {
@@ -123,5 +130,9 @@
     .mark {
         background-color: #409EFF;
         color: #fff;
+    }
+
+    .root .tip {
+        margin-top: calc(50vh - 47px); text-align: center;
     }
 </style>

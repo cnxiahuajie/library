@@ -6,6 +6,8 @@
 
 <script>
 
+    const GAME_COMMAND = ["::::", ""];
+
     export default {
         name: "SearchBox",
         data() {

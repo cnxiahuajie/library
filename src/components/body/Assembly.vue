@@ -89,11 +89,12 @@
         width: calc(50%);
         background-color: white;
         overflow-y: scroll;
+        border-right: 1px solid #ccc;
     }
 
     .root .body-right {
         float: right;
-        width: calc(50%);
+        width: calc(50% - 1px);
         overflow-y: scroll;
     }
 
