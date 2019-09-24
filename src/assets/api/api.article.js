@@ -19,6 +19,15 @@ export default {
             url: `/api/v1/article/${id}`,
             method: 'get'
         })
+    },
+
+    // 更新文章
+    updateArticle(data) {
+        return request({
+            url: '/api/v1/article',
+            data: data,
+            method: 'patch'
+        })
     }
 
 }

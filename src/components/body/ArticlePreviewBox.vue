@@ -1,36 +1,38 @@
 <template>
     <div class="root" v-loading="articleLoading">
         <div v-show="!article.content" v-html="defaultContent"></div>
-        <transition-group name="el-zoom-in-top">
-            <div class="article-status" v-show="article.content && !articleLoading" :key="'article-status'">
-                <div style="float: left;">
-                    <el-button type="text" @click="dialogEditArticleVisible = true">编辑</el-button>
-                </div>
-                <div style="float: left;">
-                    <el-rate
-                            v-model="articleRate"
-                            disabled
-                            show-score
-                            text-color="#ff9900"
-                            score-template="{value}">
-                    </el-rate>
-                </div>
-                <div class="clearfix"></div>
+        <div class="article-status" v-show="article.content && !articleLoading">
+            <div class="operation-bar">
+                <ul>
+                    <li style="float: left;">
+                        <el-switch
+                                v-model="viewMode"
+                                active-text="黑暗模式"
+                                inactive-text="高亮模式">
+                        </el-switch>
+                    </li>
+                    <li style="float: right;">
+                        <el-button type="text" @click="dialogEditArticleVisible = true">编辑</el-button>
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
             </div>
-            <div v-show="article.content" class="article-view" :key="'article-body'" v-html="article.content"></div>
-        </transition-group>
+        </div>
+        <transition name="el-zoom-in-top">
+            <div v-show="article.content" class="article-view" v-html="article.content"></div>
+        </transition>
 
         <el-dialog
                 title="编辑文章"
                 :visible.sync="dialogEditArticleVisible"
                 :before-close="handleEditArticleClose">
-            <Edit v-bind:id="article.id" @closeDialogArticleEdit="closeDialogArticleEdit" />
+            <Edit v-bind:id="article.id" @closeDialogArticleEdit="closeDialogArticleEdit" @articleUpdated="articleUpdated" />
         </el-dialog>
     </div>
 </template>
 
 <script>
-    import apiArticle from '@/assets/api/api.article'
+    import apiArticle from '@/assets/api/api.article';
     import Edit from "../../views/article/Edit";
 
     export default {
@@ -38,6 +40,7 @@
         components: {Edit},
         data() {
             return {
+                viewMode: false,
                 dialogEditArticleVisible: false,
                 // 加载文章
                 articleLoading: false,
@@ -49,11 +52,22 @@
                     content: null,
                     upCount: 0,
                     downCount: 0
-                },
-                articleRate: 0
+                }
+            }
+        },
+        watch: {
+            viewMode(val) {
+                if (val) {
+                    let articleView = document.getElementsByClassName('article-view')[0];
+                    articleView.classList.add('view-dark');
+                }
             }
         },
         methods: {
+            articleUpdated(id) {
+                this.handlePreviewArticle(id);
+                this.closeDialogArticleEdit();
+            },
             handleEditArticleClose(done) { done(); },
             // 预览文章
             handlePreviewArticle(id) {
@@ -62,12 +76,8 @@
                     apiArticle.getArticleById(id).then(data => {
                         this.article = data;
                         this.articleLoading = false;
-                        this.calcRate();
                     });
                 }
-            },
-            calcRate() {
-                this.articleRate = 5;
             },
             closeDialogArticleEdit() {
                 this.dialogEditArticleVisible = false;
@@ -77,4 +87,11 @@
 </script>
 
 <style lang="scss" scoped>
+    .operation-bar {
+        border-bottom: 1px solid #ccc;
+    }
+    .operation-bar ul {
+        list-style: none;
+        padding: 5px 10px;
+    }
 </style>

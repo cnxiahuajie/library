@@ -8,8 +8,23 @@ const service = axios.create({
     timeout: 6000 // 请求超时时间
 })
 
+service.interceptors.request.use((config) => {
+    config.data = {
+        clientId: 'library-ui',
+        timestamp: new Date().getTime(),
+        data: JSON.stringify(config.data)
+    }
+    return config;
+}, (err) => {
+    Promise.reject(err);
+})
+
 service.interceptors.response.use(
     function (response) {
+        console.log(response);
+        if (response.config.method === 'patch' && response.status === 200) {
+            Message.success({message: '修改成功！'});
+        }
         // 将响应的数据内容字符串反序列化为数据对象,请求正常则返回
         return Promise.resolve(response.data.data)
     },

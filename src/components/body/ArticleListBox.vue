@@ -34,7 +34,7 @@
         name: "ArticleListBox",
         data() {
             return {
-                page: 1,
+                page: 0,
                 scroll: 0,
                 query: '',
                 isLastPage: false,
@@ -48,7 +48,7 @@
             // 清除文章列表
             handleCleanArticles () {
                 this.articles = [];
-                this.page = 1;
+                this.page = 0;
                 this.isLastPage = false;
             },
             // 下一页
@@ -85,8 +85,8 @@
             },
             // 标记文章
             markArticle(dataId) {
-                var articleElementId = 'article_' + dataId;
-                var element = document.getElementById(articleElementId);
+                let articleElementId = 'article_' + dataId;
+                let element = document.getElementById(articleElementId);
                 if (element.classList.contains('mark')) {
                     element.classList.remove('mark')
                 } else {

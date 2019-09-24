@@ -4,11 +4,6 @@
             <el-form-item label="标题">
                 <el-input v-model="formData.title"></el-input>
             </el-form-item>
-            <el-form-item label="内容">
-                <el-card shadow="never">
-                    <div class="article-show-box" v-html="formData.content"></div>
-                </el-card>
-            </el-form-item>
             <el-form-item label="状态">
                 <el-radio-group v-model="formData.status">
                     <el-radio :label="enable">启用</el-radio>
@@ -39,8 +34,8 @@
                 enable: ENABLE,
                 disable: DISABLE,
                 formData: {
+                    id: '',
                     title: '',
-                    content: '',
                     status: ''
                 }
             }
@@ -52,11 +47,12 @@
             loadArticle(id) {
                 apiArticle.getArticleById(id).then(data => {
                     this.formData = data;
-                    console.log(data);
                 })
             },
             onSubmit() {
-
+                apiArticle.updateArticle(this.formData).then(data => {
+                    this.$emit('articleUpdated', data.id);
+                })
             },
             closeDialogArticleEdit() {
                 this.$emit('closeDialogArticleEdit');
