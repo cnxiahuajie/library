@@ -6,7 +6,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {
     Button, Upload, Dialog, Loading, Divider, Tag, Switch, Link, Tooltip, Rate, Form, FormItem, Radio, RadioGroup,
-    Input, Card
+    Input, Card, CheckboxGroup, Checkbox
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/base.css';
 import VueCookies from 'vue-cookies'
@@ -31,6 +31,8 @@ Vue.use(Radio);
 Vue.use(RadioGroup);
 Vue.use(Input);
 Vue.use(Card);
+Vue.use(CheckboxGroup);
+Vue.use(Checkbox);
 
 Vue.prototype.$ELEMENT = {size: 'small', zIndex: 3000};
 

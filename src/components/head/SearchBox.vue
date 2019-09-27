@@ -6,8 +6,6 @@
 
 <script>
 
-    const GAME_COMMAND = ["::::", ""];
-
     export default {
         name: "SearchBox",
         data() {
@@ -29,7 +27,7 @@
 <style lang="scss" scoped>
     .search-input {
         font-size: 14px;
-        width: calc(100% - 10px);
+        width: calc(100%);
         outline: none;
         height: 52px;
         padding-left: 10px;

@@ -2,7 +2,21 @@
     <div class="root">
         <ul>
             <li>
-                <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
+                <el-tooltip class="item" effect="dark" content="系统设置" placement="bottom-end">
+                    <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
+                </el-tooltip>
+                <el-dialog class="donation-article-dialog" :title="'系统设置'" :visible.sync="dialogSettingsVisible"
+                           :before-close="handleCloseSettings"
+                           :destroy-on-close="true"
+                           :close-on-click-modal="false"
+                           :close-on-press-escape="false">
+                    <Settings @handleSettingsSaved="handleSettingsSaved"/>
+                </el-dialog>
+            </li>
+            <li>
+                <el-tooltip class="item" effect="dark" content="上传文章" placement="bottom-end">
+                    <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
+                </el-tooltip>
                 <el-dialog class="donation-article-dialog" :title="'上传文章'" :visible.sync="dialogUploadVisible"
                            :before-close="handleCloseUploadArticle"
                            :destroy-on-close="true"
@@ -36,6 +50,7 @@
                     </el-dialog>
                 </el-dialog>
             </li>
+
             <div class="clearfix"></div>
         </ul>
     </div>
@@ -44,6 +59,7 @@
 <script>
     import ArticleUpload from './Upload'
     import apiArticle from '@/assets/api/api.article'
+    import Settings from "./Settings";
 
     const KEEP_REMIND_COOKIE_KEY = "library_download_typora_keep_remind";
     // 继续提醒
@@ -53,9 +69,11 @@
 
     export default {
         name: "UploadArticle",
-        components: {ArticleUpload},
+        components: {Settings, ArticleUpload},
         data() {
             return {
+                // 是否打开系统设置提示框
+                dialogSettingsVisible: false,
                 // 上传地址
                 uploadUrl: apiArticle.UPLOAD_URL,
                 // 是否打开下载typora提示框
@@ -81,6 +99,14 @@
             this.openRemind();
         },
         methods: {
+            // 保存设置
+            handleSettingsSaved() {
+                this.dialogSettingsVisible = false;
+            },
+            // 关闭系统设置
+            handleCloseSettings(done) {
+                done();
+            },
             // 打开提醒
             openRemind() {
                 var keepRemind = this.$cookies.get(KEEP_REMIND_COOKIE_KEY);
