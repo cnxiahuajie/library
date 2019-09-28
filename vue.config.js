@@ -15,7 +15,7 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/api': {
-                target: 'http://192.168.229.141:8080', // 设置你调用的接口域名和端口号
+                target: 'http://192.168.0.104:8080', // 设置你调用的接口域名和端口号
                 changeOrigin: true, // 跨域
                 pathRewrite: {
                     '^/api': '/'

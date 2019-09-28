@@ -5,13 +5,10 @@
                 <el-input v-model="formData.name"></el-input>
             </el-form-item>
             <el-form-item label="你的兴趣">
-                <el-checkbox-group v-model="formData.interest">
-                    <el-checkbox label="web">前端</el-checkbox>
-                    <el-checkbox label="service">后端</el-checkbox>
-                    <el-checkbox label="ssh">运维</el-checkbox>
-                    <el-checkbox label="test">测试</el-checkbox>
-                    <el-checkbox label="db">数据库</el-checkbox>
-                    <el-checkbox label="fish">咸鱼</el-checkbox>
+                <el-checkbox-group v-model="interestSelected">
+                    <el-checkbox :label="category.id" v-for="category in articleCategoryList" v-bind:key="category.id">
+                        {{category.name}}
+                    </el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="邮箱">
@@ -22,32 +19,40 @@
 </template>
 
 <script>
+    import apiArticleCategory from '@/assets/api/api.articleCategory'
 
     const SETTINGS = "settings";
 
     export default {
         name: "Settings",
-        data () {
+        data() {
             return {
+                interestSelected: [],
+                articleCategoryList: [],
                 formData: {
                     name: '路人',
-                    interest: [],
+                    interests: [],
                     email: ''
                 }
             }
         },
-        mounted () {
+        mounted() {
+            this.initArticleCategorys();
             let settings = this.$cookies.get(SETTINGS);
             if (settings) {
                 this.formData = settings;
+                if (this.formData.interests) {
+                    this.formData.interests.forEach(item => {
+                        this.interestSelected.push(item.id);
+                    })
+                } else {
+                    this.interestSelected = [];
+                }
             }
         },
         computed: {
             name() {
                 return this.formData.name;
-            },
-            interest() {
-                return this.formData.interest;
             },
             email() {
                 return this.formData.email;
@@ -57,14 +62,33 @@
             name(val) {
                 this.handleSaveAnonUser();
             },
-            interest(val) {
-                this.handleSaveAnonUser();
+            interestSelected: {
+                handler(newValue, oldValue) {
+                    this.formData.interests = [];
+                    for (let i = 0; i < newValue.length; i++) {
+                        this.formData.interests.push({
+                            id: newValue[i]
+                        })
+                    }
+                    this.handleSaveAnonUser();
+                },
+                deep: true
             },
             email(val) {
                 this.handleSaveAnonUser();
             }
         },
         methods: {
+            // 初始化文章类别
+            initArticleCategorys() {
+                apiArticleCategory.listArticleCategory().then(data => {
+                    if (data) {
+                        data.forEach(item => {
+                            this.articleCategoryList.push(item);
+                        })
+                    }
+                });
+            },
             // 保存匿名用户信息
             handleSaveAnonUser() {
                 this.$cookies.set(SETTINGS, this.formData);

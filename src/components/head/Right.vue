@@ -10,7 +10,7 @@
                            :destroy-on-close="true"
                            :close-on-click-modal="false"
                            :close-on-press-escape="false">
-                    <Settings @handleSettingsSaved="handleSettingsSaved"/>
+                    <Settings/>
                 </el-dialog>
             </li>
             <li>
@@ -34,6 +34,7 @@
 
 <script>
     import apiArticle from '@/assets/api/api.article'
+    import apiAuthor from '@/assets/api/api.author';
     import ArticleUpload from './Upload'
     import Settings from "./Settings";
 
@@ -55,12 +56,12 @@
             }
         },
         methods: {
-            // 保存设置
-            handleSettingsSaved() {
-                this.dialogSettingsVisible = false;
-            },
             // 关闭系统设置
             handleCloseSettings(done) {
+                let settings = this.$cookies.get("settings");
+                if (settings) {
+                    apiAuthor.synchronizationAuthor(settings);
+                }
                 done();
             },
             // 关闭对话框

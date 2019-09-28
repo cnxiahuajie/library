@@ -20,9 +20,10 @@ service.interceptors.request.use((config) => {
 
 service.interceptors.response.use(
     function (response) {
-        console.log(response);
-        if (response.config.method === 'patch' && response.status === 200) {
-            Message.success({message: '修改成功！'});
+        if ((response.config.method === 'post' ||  response.config.method === 'patch') && response.status === 200) {
+            if (response.data.code === 200 || response.data.code === 201) {
+                Message.success({message: '保存成功！'});
+            }
         }
         // 将响应的数据内容字符串反序列化为数据对象,请求正常则返回
         return Promise.resolve(response.data.data)
