@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    import ArticleListBox from "./ArticleListBox";
-    import ArticlePreviewBox from "./ArticlePreviewBox";
+    import ArticleListBox from "./article/ArticleListBox";
+    import ArticlePreviewBox from "./article/ArticlePreviewBox";
 
     // 触发分页的滑动次数
     const PAGE_TRIGGER_COUNT = 2;
@@ -80,8 +80,8 @@
 <style lang="scss" scoped>
 
     .body-left, .body-right {
-        height: calc(100vh - 1px - 60px);
-        max-height: calc(100vh - 1px - 60px);
+        height: calc(100vh - 1px - 30px);
+        max-height: calc(100vh - 1px - 30px);
     }
 
     .root .body-left {

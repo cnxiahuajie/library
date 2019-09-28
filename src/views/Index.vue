@@ -27,6 +27,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .root {
+        height: 30px;
+        line-height: 30px;
+    }
     .area-line {
         border-bottom: 1px #ccc solid;
     }

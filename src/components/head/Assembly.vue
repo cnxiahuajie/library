@@ -2,10 +2,12 @@
     <div class="root">
         <div class="search-box-container">
             <div class="head-left">
-                <SearchBox @handleSearch="handleSearch"/>
+                <Left @handleSearch="handleSearch"/>
+                <div class="clearfix"></div>
             </div>
             <div class="head-right">
-                <UploadArticle/>
+                <Right/>
+                <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -13,11 +15,11 @@
 </template>
 
 <script>
-    import SearchBox from "./SearchBox";
-    import UploadArticle from "./UploadArticle";
+    import Left from "./Left";
+    import Right from "./Right";
     export default {
         name: "Assembly",
-        components: {UploadArticle, SearchBox},
+        components: {Right, Left},
         methods: {
             // 更新搜搜关键字
             handleSearch(query) {
@@ -29,11 +31,7 @@
 
 <style lang="scss" scoped>
     .root {
-        height: calc(60px);
-    }
-
-    .root .search-box-container {
-        line-height: 60px;
+        height: calc(100%);
     }
 
     .root .search-box-container .head-left {

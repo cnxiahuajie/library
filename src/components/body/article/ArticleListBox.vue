@@ -1,10 +1,10 @@
 <template>
     <div class="root">
         <div class="tip" v-show="articles.length === 0 && !articleLoading && searchStatus === '0'">
-            <p style="font-size: 14px; color: #999;">在左上角进行文章搜索，或者点击右上角的&nbsp;<i class="el-icon-document-add"></i>&nbsp;按钮进行文章上传。</p>
+            <p>在左上角进行文章搜索，或者点击右上角的&nbsp;<i class="el-icon-document-add"></i>&nbsp;按钮进行文章上传。</p>
         </div>
         <div class="tip" v-show="articles.length === 0 && searchStatus === '2'">
-            <p style="font-size: 14px; color: #999;">没有找到任何关于[{{query}}]的内容。</p>
+            <p>没有找到任何关于[{{query}}]的内容。</p>
         </div>
         <transition-group name="el-fade-in">
             <div  v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id" :id="idGenerator(article.id)">
@@ -109,7 +109,7 @@
 
     .root .articles .article-item .button-group a {
         text-decoration: none;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .root .articles .article-item .button-group a:not(:first-child) {
@@ -117,13 +117,13 @@
     }
 
     .root .articles .article-item h1 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .root .articles .article-item p {
         max-height: 100px;
         overflow: hidden;
-        font-size: 14px;
+        font-size: 12px;
         text-indent: 2em;
     }
 
@@ -134,5 +134,10 @@
 
     .root .tip {
         margin-top: calc(50vh - 47px); text-align: center;
+
+        p {
+            font-size: 12px;
+            color: #999;
+        }
     }
 </style>
