@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="left">
         <input type="text" class="search-input" placeholder="搜点什么" v-model="query" @keyup.enter="handleSearch" />
     </div>
 </template>
@@ -29,7 +29,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .search-input {
+    #left .search-input {
         font-size: 12px;
         width: calc(100%);
         outline: none;

@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="head-assembly">
         <div class="search-box-container">
             <div class="head-left">
                 <Left @handleSearch="handleSearch"/>
@@ -30,16 +30,16 @@
 </script>
 
 <style lang="scss" scoped>
-    .root {
+    #head-assembly {
         height: calc(100%);
     }
 
-    .root .search-box-container .head-left {
+    #head-assembly .search-box-container .head-left {
         float: left;
         width: calc(50%);
     }
 
-    .root .search-box-container .head-right {
+    #head-assembly .search-box-container .head-right {
         float: right;
         width: calc(50%);
     }

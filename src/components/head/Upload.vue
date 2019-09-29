@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="upload">
         <transition name="el-zoom-in-center">
             <div v-show="uploadSuccess">
                 <img src="@/assets/images/upload_success.png"/>
@@ -53,11 +53,11 @@
 </script>
 
 <style lang="scss" scoped>
-    .root {
+    #upload {
         text-align: center;
     }
 
-    .upload-success-tip {
+    #upload .upload-success-tip {
         margin-top: 0px;
         color: #409EFF;
     }

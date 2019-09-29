@@ -1,20 +1,10 @@
 <template>
-    <div class="root">
-        <div class="tip" v-show="articles.length === 0 && !articleLoading && searchStatus === '0'">
-            <p>在左上角进行文章搜索，或者点击右上角的&nbsp;<i class="el-icon-document-add"></i>&nbsp;按钮进行文章上传。</p>
-        </div>
-        <div class="tip" v-show="articles.length === 0 && searchStatus === '2'">
-            <p>没有找到任何关于[{{query}}]的内容。</p>
-        </div>
+    <div id="article-list-box">
         <transition-group name="el-fade-in">
-            <div  v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id" :id="idGenerator(article.id)">
-                <div class="article-item">
+            <div  v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id">
+                <div class="article-item" draggable="true" @dragstart="dragstart" @drag='draging' @dragend="dragend(article.id)" :id="article.id">
                     <h1 v-text="article.title"></h1>
                     <p v-html="article.content"></p>
-                    <div class="button-group">
-                        <a href="#" @click="previewArticle(article.id)">预览</a>
-                        <a href="#" @click="markArticle(article.id)">标记</a>
-                    </div>
                 </div>
             </div>
         </transition-group>
@@ -24,16 +14,37 @@
                 <i v-show="articleLoading" class="el-icon-loading"></i>
             </el-divider>
         </div>
+
+        <el-dialog
+                class="article-help-dialog"
+                :visible.sync="helpDialogVisible"
+                :close-on-click-modal="false"
+                :before-close="handleCloseHelpDialog"
+                width="30%"
+                center>
+            <span slot="title">
+                <i class="el-icon-more"></i>
+            </span>
+            <div>
+                <em>
+                    <img src="@/assets/images/trash.png"/>
+                </em>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     import apiArticle from '@/assets/api/api.article'
 
+    let clickDelay = 0
+    let SENSITIVITY = 20;
+
     export default {
         name: "ArticleListBox",
         data() {
             return {
+                helpDialogVisible: false,
                 page: 0,
                 scroll: 0,
                 query: '',
@@ -45,6 +56,26 @@
             }
         },
         methods: {
+            handleResetClickDelay() {
+                clickDelay = 0;
+            },
+            handleCloseHelpDialog(done) {
+                done();
+            },
+            dragend(e) {
+                this.handleResetClickDelay();
+            },
+            draging(e) {
+                if (clickDelay < SENSITIVITY) {
+                    clickDelay++;
+                    if (clickDelay == SENSITIVITY) {
+                        this.helpDialogVisible = true;
+                    }
+                }
+            },
+            dragstart(e) {
+                this.$store.commit('ARTICLE_ID', e.target.id);
+            },
             // 清除文章列表
             handleCleanArticles () {
                 this.articles = [];
@@ -92,52 +123,51 @@
                 } else {
                     element.classList.add('mark');
                 }
-            },
-            // 文章节点ID生成器
-            idGenerator(dataId) {
-                return 'article_' + dataId;
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .root .articles .article-item {
+    #article-list-box .articles .article-item {
         padding: 10px;
         border-bottom: 1px #ccc dashed;
     }
 
-    .root .articles .article-item .button-group a {
+    #article-list-box .articles .article-item .button-group a {
         text-decoration: none;
         font-size: 12px;
     }
 
-    .root .articles .article-item .button-group a:not(:first-child) {
+    #article-list-box .articles .article-item .button-group a:not(:first-child) {
         margin-left: 10px;
     }
 
-    .root .articles .article-item h1 {
+    #article-list-box .articles .article-item h1 {
         font-size: 16px;
     }
 
-    .root .articles .article-item p {
+    #article-list-box .articles .article-item p {
         max-height: 100px;
         overflow: hidden;
         font-size: 12px;
         text-indent: 2em;
     }
 
-    .mark {
-        background-color: #409EFF;
-        color: #fff;
+    #article-list-box .article-help-dialog div {
+        text-align: center;
     }
 
-    .root .tip {
-        margin-top: calc(50vh - 47px); text-align: center;
-
-        p {
-            font-size: 12px;
-            color: #999;
-        }
+    #article-list-box .article-help-dialog div img {
+        border: 1px solid #999;
+        padding: 10px;
+        border-radius: 10%;
+        transition: box-shadow 500ms;
+        -webkit-transition: box-shadow 500ms; /* Safari */
     }
+
+    #article-list-box .article-help-dialog div img:hover {
+        box-shadow: 0px 0px 5px #ccc;
+    }
+
 </style>

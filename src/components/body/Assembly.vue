@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="body-assembly">
         <div class="body-left" @scroll="scrollPage($event)">
             <ArticleListBox ref="articleListBox" @previewArticle="previewArticle"/>
         </div>
@@ -79,12 +79,12 @@
 
 <style lang="scss" scoped>
 
-    .body-left, .body-right {
+    #body-assembly .body-left, .body-right {
         height: calc(100vh - 1px - 30px);
         max-height: calc(100vh - 1px - 30px);
     }
 
-    .root .body-left {
+    #body-assembly .body-left {
         float: left;
         width: calc(50%);
         background-color: white;
@@ -92,7 +92,7 @@
         border-right: 1px solid #ccc;
     }
 
-    .root .body-right {
+    #body-assembly .body-right {
         float: right;
         width: calc(50% - 1px);
         overflow-y: scroll;

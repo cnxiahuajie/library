@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="right">
         <ul>
             <li>
                 <el-tooltip class="item" effect="dark" content="系统设置" placement="bottom-end">
@@ -74,25 +74,21 @@
 </script>
 
 <style scoped>
-    .root ul {
+    #right ul {
         margin: 0;
     }
 
-    .root ul li a {
+    #right ul li a {
         text-decoration: none;
     }
 
-    .root ul li {
+    #right ul li {
         margin-right: 10px;
     }
 
-    .root ul li {
+    #right ul li {
         float: right;
         list-style-type: none;
-    }
-
-    .donation-article-dialog .container p:not(:first-child), .remind-dialog .container p:not(:first-child) {
-        margin-top: 36px;
     }
 
 </style>

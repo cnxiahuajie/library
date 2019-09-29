@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="settings">
         <el-form ref="form" :model="formData" label-width="80px">
             <el-form-item label="你的名称">
                 <el-input v-model="formData.name"></el-input>
@@ -98,7 +98,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .root {
+    #settings {
         width: calc(80%);
         margin: auto;
     }
