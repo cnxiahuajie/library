@@ -2,7 +2,7 @@
     <div id="article-list-box">
         <transition-group name="el-fade-in">
             <div  v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id">
-                <div class="article-item" draggable="true" @dragstart="dragstart" @drag='draging' @dragend="dragend(article.id)" :id="article.id">
+                <div class="article-item" :id="article.id" draggable="true" @dragstart="dragstart" @drag='draging' @dragend="dragend(article.id)" @mousedown="handleArticleItemMousedown" @mouseup="handleArticleItemMousedup" @mouseleave="handleArticleItemMousedLeave" >
                     <h1 v-text="article.title"></h1>
                     <p v-html="article.content"></p>
                 </div>
@@ -37,13 +37,13 @@
 <script>
     import apiArticle from '@/assets/api/api.article'
 
-    let clickDelay = 0
-    let SENSITIVITY = 20;
+    let helpTimeout;
 
     export default {
         name: "ArticleListBox",
         data() {
             return {
+                isStopOpenHelp: false,
                 helpDialogVisible: false,
                 page: 0,
                 scroll: 0,
@@ -56,23 +56,29 @@
             }
         },
         methods: {
-            handleResetClickDelay() {
-                clickDelay = 0;
+            handleArticleItemMousedLeave(e) {
+                this.isStopOpenHelp = true;
+            },
+            handleArticleItemMousedup(e) {
+                this.isStopOpenHelp = true;
+            },
+            handleArticleItemMousedown(e) {
+                this.isStopOpenHelp = false;
+                let that = this;
+                helpTimeout = setTimeout(function () {
+                    if (!that.isStopOpenHelp) {
+                        that.helpDialogVisible = true;
+                    } else {
+                        this.isStopOpenHelp = false;
+                    }
+                    clearTimeout(helpTimeout);
+                }, 1000);
             },
             handleCloseHelpDialog(done) {
                 done();
             },
-            dragend(e) {
-                this.handleResetClickDelay();
-            },
-            draging(e) {
-                if (clickDelay < SENSITIVITY) {
-                    clickDelay++;
-                    if (clickDelay == SENSITIVITY) {
-                        this.helpDialogVisible = true;
-                    }
-                }
-            },
+            dragend(e) {},
+            draging(e) {},
             dragstart(e) {
                 this.$store.commit('ARTICLE_ID', e.target.id);
             },

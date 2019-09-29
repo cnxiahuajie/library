@@ -9,7 +9,6 @@ import {
     Input, Card, CheckboxGroup, Checkbox
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/base.css';
-import '@/assets/style/themes/github.css'
 import VueCookies from 'vue-cookies'
 
 Vue.config.productionTip = false
