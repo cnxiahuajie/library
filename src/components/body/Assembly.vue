@@ -1,7 +1,7 @@
 <template>
     <div id="body-assembly">
         <div class="body-left" @scroll="scrollPage($event)">
-            <ArticleListBox ref="articleListBox" @previewArticle="previewArticle"/>
+            <ArticleListBox ref="articleListBox" @previewArticle="previewArticle" @handleCleanArticle="handleCleanArticle"/>
         </div>
         <div class="body-right">
             <ArticlePreviewBox ref="articlePreviewBox" v-bind:content="article.content"/>
@@ -72,6 +72,10 @@
             // 预览文章
             previewArticle(id) {
                 this.$refs.articlePreviewBox.handlePreviewArticle(id);
+            },
+            // 清除文章内容
+            handleCleanArticle() {
+                this.$refs.articlePreviewBox.handleCleanArticle()
             }
         }
     }

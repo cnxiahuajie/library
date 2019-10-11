@@ -10,7 +10,8 @@ export default new Vuex.Store({
             status: '',
             statusText: ''
         },
-        articleId: ''
+        articleId: '',
+        lock: true
     },
     mutations: {
         ON_HTTP_ERROR(state, httpError) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
         },
         ARTICLE_ID(state, articleId) {
             state.articleId = articleId
+        },
+        LOCK(state, lock) {
+            state.lock = lock
         }
     },
     actions: {
@@ -26,6 +30,9 @@ export default new Vuex.Store({
         },
         ARTICLE_ID(context) {
             context.commit('ARTICLE_ID')
+        },
+        LOCK(context) {
+            context.commit('LOCK')
         }
     }
 })

@@ -28,6 +28,14 @@ export default {
             data: data,
             method: 'patch'
         })
+    },
+
+    // 删除文章
+    removeArticle(id) {
+        return request({
+            url: `/api/v1/article/${id}`,
+            method: 'delete'
+        })
     }
 
 }

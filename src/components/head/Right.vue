@@ -2,10 +2,26 @@
     <div id="right">
         <ul>
             <li>
+                <el-tooltip v-show="$store.state.lock" class="item" effect="dark" content="解锁" placement="bottom-end">
+                    <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
+                </el-tooltip>
+                <el-tooltip v-show="!$store.state.lock" class="item" effect="dark" content="锁定" placement="bottom-end">
+                    <i class="el-icon-unlock" style="cursor: pointer;" @click="handleLock"></i>
+                </el-tooltip>
+                <el-dialog :title="'解锁'" :visible.sync="dialogAuthVisible"
+                           :before-close="handleCloseAuth"
+                           :destroy-on-close="true"
+                           :close-on-click-modal="false"
+                           :close-on-press-escape="false"
+                           width="30%">
+                    <Auth style="margin: auto;"/>
+                </el-dialog>
+            </li>
+            <li>
                 <el-tooltip class="item" effect="dark" content="系统设置" placement="bottom-end">
                     <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
                 </el-tooltip>
-                <el-dialog class="donation-article-dialog" :title="'系统设置'" :visible.sync="dialogSettingsVisible"
+                <el-dialog :title="'系统设置'" :visible.sync="dialogSettingsVisible"
                            :before-close="handleCloseSettings"
                            :destroy-on-close="true"
                            :close-on-click-modal="false"
@@ -17,7 +33,7 @@
                 <el-tooltip class="item" effect="dark" content="上传文章" placement="bottom-end">
                     <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
                 </el-tooltip>
-                <el-dialog class="donation-article-dialog" :title="'上传文章'" :visible.sync="dialogUploadVisible"
+                <el-dialog :title="'上传文章'" :visible.sync="dialogUploadVisible"
                            :before-close="handleCloseUploadArticle"
                            :destroy-on-close="true"
                             :close-on-click-modal="false"
@@ -37,12 +53,15 @@
     import apiAuthor from '@/assets/api/api.author';
     import ArticleUpload from './Upload'
     import Settings from "./Settings";
+    import Auth from "./Auth";
 
     export default {
         name: "Right",
-        components: {Settings, ArticleUpload},
+        components: {Auth, Settings, ArticleUpload},
         data() {
             return {
+                // 认证提示框
+                dialogAuthVisible: false,
                 // 是否打开系统设置提示框
                 dialogSettingsVisible: false,
                 // 上传地址
@@ -56,6 +75,20 @@
             }
         },
         methods: {
+            // 锁定
+            handleLock() {
+                this.$store.commit('LOCK', true);
+            },
+            // 解锁
+            handleUnlock() {
+                this.dialogAuthVisible = true;
+            },
+            // 关闭认证
+            handleCloseAuth(done) {
+                this.$store.commit('LOCK', false);
+                // 关闭
+                done();
+            },
             // 关闭系统设置
             handleCloseSettings(done) {
                 let settings = this.$cookies.get("settings");

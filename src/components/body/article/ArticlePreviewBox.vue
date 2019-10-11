@@ -1,7 +1,9 @@
 <template>
-    <div id="article-preview-box" ref="articlePreviewBox" v-loading="articleLoading" @drop="drop" @dragover.prevent>
+    <div class="text-shadow-support" id="article-preview-box" ref="articlePreviewBox" v-loading="articleLoading" @drop="drop" @dragover.prevent>
         <transition name="el-zoom-in-top">
-            <div v-show="article.content" class="article-view" v-html="article.content"></div>
+            <template>
+                <div v-show="article.content" class="article-view" v-html="article.content"></div>
+            </template>
         </transition>
     </div>
 </template>
@@ -34,10 +36,16 @@
             // 预览文章
             handlePreviewArticle(id) {
                 this.articleLoading = true;
+                let ele = document.getElementById("article-preview-box");
                 apiArticle.getArticleById(id).then(data => {
                     this.article = data;
                     this.articleLoading = false;
+                    this.ANIMATION.leftToRightShadow(ele);
                 });
+            },
+            // 清除文章
+            handleCleanArticle() {
+                this.article.content = null;
             }
         }
     }

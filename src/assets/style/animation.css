@@ -1,0 +1,19 @@
+/** 左侧影子 */
+.left-text-shadow {
+    text-shadow: -6px 0 4px #161616;
+}
+
+/** 右侧影子 */
+.right-text-shadow {
+    text-shadow: 6px 0 4px #161616;
+}
+
+/** 中间影子 */
+.text-shadow {
+    text-shadow: 0 0 10px #161616;
+}
+
+.text-shadow-support {
+    transition: text-shadow 500ms;
+    -webkit-transition: text-shadow 500ms; /* Safari */
+}

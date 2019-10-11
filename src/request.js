@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from './store'
+import cookies from 'vue-cookies'
 import {Message} from 'element-ui'
 
 // 创建axios实例
@@ -9,9 +10,13 @@ const service = axios.create({
 
 service.interceptors.request.use((config) => {
     config.data = {
-        clientId: 'library-ui',
+        client: 'library-ui',
         timestamp: new Date().getTime(),
         data: JSON.stringify(config.data)
+    }
+    config.url = `${config.url}?t=${new Date().getTime()}`;
+    if (cookies.get('token')) {
+        config.url = `${config.url}&access_token=${cookies.get('token')}`;
     }
     return config;
 }, (err) => {
@@ -21,7 +26,7 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use(
     function (response) {
         // 将响应的数据内容字符串反序列化为数据对象,请求正常则返回
-        return Promise.resolve(response.data.data)
+        return Promise.resolve(JSON.parse(response.data.data))
     },
     function (error) {
         // 请求错误则向store commit这个状态变化

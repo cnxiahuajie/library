@@ -1,9 +1,10 @@
 <template>
     <div id="article-list-box">
         <transition-group name="el-fade-in">
-            <div  v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id">
-                <div class="article-item" :id="article.id" draggable="true" @dragstart="dragstart" @drag='draging' @dragend="dragend(article.id)" @mousedown="handleArticleItemMousedown" @mouseup="handleArticleItemMousedup" @mouseleave="handleArticleItemMousedLeave" >
-                    <h1 v-text="article.title"></h1>
+            <div v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id">
+                <div class="article-item" :id="article.id" draggable="true" @dragstart="dragstart" @drag='draging'
+                     @dragend="dragend(article.id)" @dblclick="handleDoubleClickArticle(article.id)">
+                    <h3 v-text="article.title"></h3>
                     <p v-html="article.content"></p>
                 </div>
             </div>
@@ -27,7 +28,7 @@
             </span>
             <div>
                 <em>
-                    <img src="@/assets/images/trash.png"/>
+                    <img src="@/assets/images/trash.png" @click="handleRemoveArticle"/>
                 </em>
             </div>
         </el-dialog>
@@ -36,8 +37,6 @@
 
 <script>
     import apiArticle from '@/assets/api/api.article'
-
-    let helpTimeout;
 
     export default {
         name: "ArticleListBox",
@@ -56,34 +55,48 @@
             }
         },
         methods: {
-            handleArticleItemMousedLeave(e) {
-                this.isStopOpenHelp = true;
+            // 双击文章打开更多操作
+            handleDoubleClickArticle(id) {
+                if (!this.$store.state.lock) {
+                    this.$store.commit('ARTICLE_ID', id);
+                    this.helpDialogVisible = true
+                }
             },
-            handleArticleItemMousedup(e) {
-                this.isStopOpenHelp = true;
-            },
-            handleArticleItemMousedown(e) {
-                this.isStopOpenHelp = false;
+            // 删除文章
+            handleRemoveArticle() {
                 let that = this;
-                helpTimeout = setTimeout(function () {
-                    if (!that.isStopOpenHelp) {
-                        that.helpDialogVisible = true;
-                    } else {
-                        this.isStopOpenHelp = false;
-                    }
-                    clearTimeout(helpTimeout);
-                }, 1000);
+                this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    apiArticle.removeArticle(that.$store.state.articleId).then(res => {
+                        that.helpDialogVisible = false;
+                        that.$emit('handleCleanArticle');
+                        if (that.articles) {
+                            that.articles.forEach((item, i) => {
+                                if (item.id === that.$store.state.articleId) {
+                                    that.articles.splice(i, 1);
+                                }
+                            })
+                        }
+                    });
+                }).catch(() => {
+                });
+
             },
             handleCloseHelpDialog(done) {
                 done();
             },
-            dragend(e) {},
-            draging(e) {},
+            dragend(e) {
+            },
+            draging(e) {
+            },
             dragstart(e) {
                 this.$store.commit('ARTICLE_ID', e.target.id);
             },
             // 清除文章列表
-            handleCleanArticles () {
+            handleCleanArticles() {
                 this.articles = [];
                 this.page = 0;
                 this.isLastPage = false;
@@ -113,22 +126,14 @@
                     }
                     this.articleLoading = false;
                     this.searchStatus = '2';
-                }, err => { this.articleLoading = false; this.searchStatus = '2'; });
+                }, err => {
+                    this.articleLoading = false;
+                    this.searchStatus = '2';
+                });
             },
             // 预览文章
             previewArticle(id) {
                 this.$emit('previewArticle', id);
-
-            },
-            // 标记文章
-            markArticle(dataId) {
-                let articleElementId = 'article_' + dataId;
-                let element = document.getElementById(articleElementId);
-                if (element.classList.contains('mark')) {
-                    element.classList.remove('mark')
-                } else {
-                    element.classList.add('mark');
-                }
             }
         }
     }
@@ -138,6 +143,14 @@
     #article-list-box .articles .article-item {
         padding: 10px;
         border-bottom: 1px #ccc dashed;
+        transition: box-shadow 500ms;
+        -moz-transition: box-shadow 500ms; /* Firefox 4 */
+        -webkit-transition: box-shadow 500ms; /* Safari 和 Chrome */
+        -o-transition: box-shadow 500ms; /* Opera */
+    }
+
+    #article-list-box .articles .article-item:hover {
+        box-shadow: 0 0 5px #ccc;
     }
 
     #article-list-box .articles .article-item .button-group a {
@@ -149,7 +162,7 @@
         margin-left: 10px;
     }
 
-    #article-list-box .articles .article-item h1 {
+    #article-list-box .articles .article-item h3 {
         font-size: 16px;
     }
 
