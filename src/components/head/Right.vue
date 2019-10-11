@@ -81,11 +81,17 @@
             },
             // 解锁
             handleUnlock() {
-                this.dialogAuthVisible = true;
+                if (this.$cookies.get('settings') && this.$cookies.get('settings').email) {
+                    this.dialogAuthVisible = true;
+                } else {
+                    this.$message({
+                        message: '请先在系统设置中完成邮箱设置。',
+                        type: 'warning'
+                    });
+                }
             },
             // 关闭认证
             handleCloseAuth(done) {
-                this.$store.commit('LOCK', false);
                 // 关闭
                 done();
             },

@@ -26,7 +26,7 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use(
     function (response) {
         // 将响应的数据内容字符串反序列化为数据对象,请求正常则返回
-        return Promise.resolve(JSON.parse(response.data.data))
+        return Promise.resolve(response.data.data)
     },
     function (error) {
         // 请求错误则向store commit这个状态变化
@@ -40,6 +40,8 @@ service.interceptors.response.use(
             Message.error({message: '服务器被吃了⊙﹏⊙∥'});
         } else if (403 === httpError.status) {
             Message.error({message: '权限不足，请联系管理员！'});
+        } else if (401 === httpError.status) {
+            Message.error({message: "认证失败。"});
         } else {
             Message.error({message: '未知错误'});
         }

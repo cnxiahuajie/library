@@ -1,16 +1,16 @@
 /** 左侧影子 */
 .left-text-shadow {
-    text-shadow: -6px 0 4px #161616;
+    text-shadow: -6px 0 4px #303133;
 }
 
 /** 右侧影子 */
 .right-text-shadow {
-    text-shadow: 6px 0 4px #161616;
+    text-shadow: 6px 0 4px #303133;
 }
 
 /** 中间影子 */
 .text-shadow {
-    text-shadow: 0 0 10px #161616;
+    text-shadow: 0 0 10px #303133;
 }
 
 .text-shadow-support {
