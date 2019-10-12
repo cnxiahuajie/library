@@ -65,7 +65,7 @@
         methods: {
             // 双击文章打开更多操作
             handleDoubleClickArticle(id) {
-                if (!this.$cookies.get('_lock')) {
+                if (this.$store.state.unlock == 1) {
                     this.$store.commit('ARTICLE_ID', id);
                     this.helpDialogVisible = true
                 }
@@ -91,7 +91,6 @@
                     });
                 }).catch(() => {
                 });
-
             },
             handleCloseHelpDialog(done) {
                 done();
