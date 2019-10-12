@@ -6,6 +6,17 @@
                      @dragend="dragend(article.id)" @dblclick="handleDoubleClickArticle(article.id)">
                     <h3 v-text="article.title"></h3>
                     <p v-html="article.content"></p>
+                    <div class="box-justify-content" v-show="article.articleCategories">
+                        <div class="box author-info">
+                            <span v-text="article.authorVO.name"></span>
+                            <span v-text="article.authorVO.email"></span>
+                        </div>
+                        <div class="box-row-reverse tag-container">
+                            <el-tooltip class="item" effect="dark" :content="category.name" placement="top" v-for="category in article.articleCategories" v-bind:key="category.id">
+                                <div class="tag-point" :style="'background-color:' + category.colorCode"></div>
+                            </el-tooltip>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div v-show="articleNotFound" class="tip" key="articleNotFound">
@@ -78,7 +89,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    apiArticle.removeArticle(that.$store.state.articleId).then(res => {
+                    apiArticle.removeArticle(that.$store.state.articleId).then(data => {
                         that.helpDialogVisible = false;
                         that.$emit('handleCleanArticle');
                         if (that.articles) {
@@ -211,6 +222,18 @@
         p {
             margin-top: calc(50% - 14px);
         }
+    }
+
+    .author-info {
+        color: #409EFF;
+        align-items: center;
+        span {
+            margin-left: 10px;
+        }
+    }
+
+    .tag-container {
+        align-items: center;
     }
 
 </style>

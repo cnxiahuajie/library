@@ -41,7 +41,7 @@
             // token
             let token = this.$cookies.get('_token');
             if (token == undefined || token == null) {
-                this.$store.commit("UNLOCK", 0);
+                this.$store.commit("TOKEN", '');
             } else {
                 this.$store.commit("TOKEN", token);
             }

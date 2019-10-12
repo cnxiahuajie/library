@@ -15,6 +15,7 @@ Vue.use(VueCookies)
 Vue.use(ElementUI);
 import '@/assets/style/themes/github.css'
 import '@/assets/style/animation.css'
+import '@/assets/style/tag.css'
 import animation from '@/assets/js/animation.js'
 
 Vue.prototype.$ELEMENT = {size: 'small', zIndex: 3000};

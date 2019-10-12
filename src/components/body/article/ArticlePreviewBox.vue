@@ -40,7 +40,7 @@
                 apiArticle.getArticleById(id).then(data => {
                     this.article = data;
                     this.articleLoading = false;
-                    this.ANIMATION.leftToRightShadow(ele);
+                    this.ANIMATION.centerShadow(ele);
                 });
             },
             // 清除文章

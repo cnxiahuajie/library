@@ -3,7 +3,7 @@ import request from '@/request'
 export default {
 
     // 上传服务路径
-    UPLOAD_URL: '/api/v1/article/upload',
+    UPLOAD_URL: `/api/v1/article/upload`,
 
     // 搜索文章
     listArticleByQuery(q = '-', page) {

@@ -34,13 +34,14 @@
                 <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="上传文章" placement="bottom-end">
                     <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
                 </el-tooltip>
-                <el-dialog :title="'上传文章'" :visible.sync="dialogUploadVisible"
+                <el-dialog :title="uploadArticleDialogTitle" :visible.sync="dialogUploadVisible"
                            :before-close="handleCloseUploadArticle"
                            :destroy-on-close="true"
                             :close-on-click-modal="false"
-                            :close-on-press-escape="false">
+                            :close-on-press-escape="false"
+                            center>
                     <ArticleUpload ref="articleUpload" v-bind:dialogTitle="'上传文章'" v-bind:uploadUrl="uploadUrl"
-                                   v-bind:dialogUploadVisible="dialogUploadVisible"/>
+                                   v-bind:dialogUploadVisible="dialogUploadVisible" @handleChangeUploadArticleDialogTitle="handleChangeUploadArticleDialogTitle"/>
                 </el-dialog>
             </li>
 
@@ -61,6 +62,8 @@
         components: {Auth, Settings, ArticleUpload},
         data() {
             return {
+                // 上传文章对话框标题
+                uploadArticleDialogTitle: '选择文章所属分类',
                 // 认证提示框
                 dialogAuthVisible: false,
                 // 是否打开系统设置提示框
@@ -76,6 +79,10 @@
             }
         },
         methods: {
+            // 更新上传文件对话框标题
+            handleChangeUploadArticleDialogTitle(newTitle) {
+                this.uploadArticleDialogTitle = newTitle;
+            },
             // 锁定
             handleLock() {
                 let success = this.$cookies.remove("_token");

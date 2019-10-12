@@ -1,6 +1,5 @@
 import axios from 'axios'
 import store from './store'
-import cookies from 'vue-cookies'
 import {Message} from 'element-ui'
 
 // 创建axios实例
@@ -15,8 +14,8 @@ service.interceptors.request.use((config) => {
         data: JSON.stringify(config.data)
     }
     config.url = `${config.url}?t=${new Date().getTime()}`;
-    if (cookies.get('token')) {
-        config.url = `${config.url}&access_token=${cookies.get('token')}`;
+    if (store.state.token) {
+        config.url = `${config.url}&access_token=${store.state.token}`;
     }
     return config;
 }, (err) => {

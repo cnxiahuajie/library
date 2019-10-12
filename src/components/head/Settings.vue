@@ -1,7 +1,7 @@
 <template>
     <div id="settings">
         <el-form ref="form" :model="formData" label-width="80px">
-            <el-form-item label="你的名称">
+            <el-form-item label="你的昵称">
                 <el-input v-model="formData.name"></el-input>
             </el-form-item>
             <el-form-item label="你的兴趣">
@@ -37,6 +37,7 @@
             }
         },
         mounted() {
+            // 初始化文章分类
             this.initArticleCategorys();
             let settings = this.$cookies.get(SETTINGS);
             if (settings) {

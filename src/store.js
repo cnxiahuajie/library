@@ -42,8 +42,12 @@ export default new Vuex.Store({
             state.emailSending = emailSending
         },
         TOKEN(state, token) {
-            state.token = token
-            VueCookies.set("_token", token);
+            state.token = token;
+            if (token) {
+                VueCookies.set("_token", token);
+            } else {
+                VueCookies.remove("_token");
+            }
         }
     },
     actions: {
