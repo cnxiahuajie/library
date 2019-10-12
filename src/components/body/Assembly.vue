@@ -49,7 +49,7 @@
                 if(scrollTop >= maxScroll || scrollTop <= 0){
                     this.triggerCount++;
                     var that = this;
-                    if (this.triggerCount === PAGE_TRIGGER_COUNT) {
+                    if (this.triggerCount == PAGE_TRIGGER_COUNT) {
                         if (!this.paging) {
                             this.paging = true;
                             setTimeout(function (){

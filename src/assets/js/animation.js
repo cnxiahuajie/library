@@ -14,7 +14,7 @@ export default {
                         ele.classList.remove('text-shadow');
                     }, 0);
                 }, 400);
-            }, 400);
+            }, 200);
         }, 0);
     }
 }

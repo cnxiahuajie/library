@@ -8,6 +8,12 @@
                     <p v-html="article.content"></p>
                 </div>
             </div>
+            <div v-show="articleNotFound" class="tip" key="articleNotFound">
+                <p>什么都没找到。</p>
+            </div>
+            <div v-show="doSomething" class="tip" key="doSomething">
+                <p>当你迷茫的时候，不妨搜一下[<strong>帮助中心</strong>]</p>
+            </div>
         </transition-group>
         <div v-show="articles.length > 0">
             <el-divider>
@@ -42,6 +48,8 @@
         name: "ArticleListBox",
         data() {
             return {
+                doSomething: true,
+                articleNotFound: false,
                 isStopOpenHelp: false,
                 helpDialogVisible: false,
                 page: 0,
@@ -57,7 +65,7 @@
         methods: {
             // 双击文章打开更多操作
             handleDoubleClickArticle(id) {
-                if (!this.$store.state.lock) {
+                if (!this.$cookies.get('_lock')) {
                     this.$store.commit('ARTICLE_ID', id);
                     this.helpDialogVisible = true
                 }
@@ -75,7 +83,7 @@
                         that.$emit('handleCleanArticle');
                         if (that.articles) {
                             that.articles.forEach((item, i) => {
-                                if (item.id === that.$store.state.articleId) {
+                                if (item.id == that.$store.state.articleId) {
                                     that.articles.splice(i, 1);
                                 }
                             })
@@ -112,8 +120,9 @@
             },
             // 搜索文章
             handleSearchArticle(query) {
+                this.doSomething = false;
                 this.articleLoading = true;
-                if (!(this.query === query)) {
+                if (!(this.query == query)) {
                     this.handleCleanArticles();
                 }
                 this.query = query;
@@ -123,6 +132,13 @@
                         for (let i = 0, len = data.content.length; i < len; i++) {
                             this.articles.push(data.content[i]);
                         }
+                        if (data.content.length > 0) {
+                            this.articleNotFound = false;
+                        } else {
+                            this.articleNotFound = true;
+                        }
+                    } else {
+                        this.articleNotFound = true;
                     }
                     this.articleLoading = false;
                     this.searchStatus = '2';
@@ -187,6 +203,15 @@
 
     #article-list-box .article-help-dialog div img:hover {
         box-shadow: 0px 0px 5px #ccc;
+    }
+
+    .tip {
+        text-align: center;
+        font-size: 14px;
+        color: #ccc;
+        p {
+            margin-top: calc(50% - 14px);
+        }
     }
 
 </style>

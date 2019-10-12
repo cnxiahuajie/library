@@ -2,23 +2,7 @@
     <div id="right">
         <ul>
             <li>
-                <el-tooltip v-show="$store.state.lock" class="item" effect="dark" content="解锁" placement="bottom-end">
-                    <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
-                </el-tooltip>
-                <el-tooltip v-show="!$store.state.lock" class="item" effect="dark" content="锁定" placement="bottom-end">
-                    <i class="el-icon-unlock" style="cursor: pointer;" @click="handleLock"></i>
-                </el-tooltip>
-                <el-dialog :title="'解锁'" :visible.sync="dialogAuthVisible"
-                           :before-close="handleCloseAuth"
-                           :destroy-on-close="true"
-                           :close-on-click-modal="false"
-                           :close-on-press-escape="false"
-                           width="30%">
-                    <Auth style="margin: auto;"/>
-                </el-dialog>
-            </li>
-            <li>
-                <el-tooltip class="item" effect="dark" content="系统设置" placement="bottom-end">
+                <el-tooltip class="item" effect="dark" content="系统设置" placement="top-end">
                     <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
                 </el-tooltip>
                 <el-dialog :title="'系统设置'" :visible.sync="dialogSettingsVisible"
@@ -29,8 +13,25 @@
                     <Settings/>
                 </el-dialog>
             </li>
+            <li v-show="$store.state.emailFlag == 1">
+                <el-tooltip v-show="$store.state.unlock == 0" class="item" effect="dark" content="解锁" placement="top-end">
+                    <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
+                </el-tooltip>
+                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="锁定" placement="top-end">
+                    <i class="el-icon-unlock" style="cursor: pointer;" @click="handleLock"></i>
+                </el-tooltip>
+                <el-dialog :title="'认证'" :visible.sync="dialogAuthVisible"
+                           :before-close="handleCloseAuth"
+                           :destroy-on-close="true"
+                           :close-on-click-modal="false"
+                           :close-on-press-escape="false"
+                           center
+                           width="20%">
+                    <Auth style="margin: auto;"/>
+                </el-dialog>
+            </li>
             <li>
-                <el-tooltip class="item" effect="dark" content="上传文章" placement="bottom-end">
+                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="上传文章" placement="bottom-end">
                     <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
                 </el-tooltip>
                 <el-dialog :title="'上传文章'" :visible.sync="dialogUploadVisible"
@@ -77,11 +78,14 @@
         methods: {
             // 锁定
             handleLock() {
-                this.$store.commit('LOCK', true);
+                let success = this.$cookies.remove("_token");
+                if (success) {
+                    this.$store.commit("UNLOCK", 0);
+                }
             },
             // 解锁
             handleUnlock() {
-                if (this.$cookies.get('settings') && this.$cookies.get('settings').email) {
+                if (this.$cookies.get('_settings') && this.$cookies.get('_settings').email) {
                     this.dialogAuthVisible = true;
                 } else {
                     this.$message({
@@ -97,9 +101,11 @@
             },
             // 关闭系统设置
             handleCloseSettings(done) {
-                let settings = this.$cookies.get("settings");
-                if (settings) {
-                    apiAuthor.synchronizationAuthor(settings);
+                let settings = this.$cookies.get("_settings");
+                if (settings && settings.email) {
+                    apiAuthor.synchronizationAuthor(settings).then(data => {
+                        this.$store.commit("EMAIL_FLAG", 1);
+                    });
                 }
                 done();
             },

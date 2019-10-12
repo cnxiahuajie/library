@@ -1,12 +1,7 @@
 <template>
     <div id="upload">
         <transition name="el-zoom-in-center">
-            <div v-show="uploadSuccess">
-                <img src="@/assets/images/upload_success.png"/>
-                <p class="upload-success-tip">
-                    上传成功
-                </p>
-            </div>
+            <Success v-show="uploadSuccess" :tip="'上传成功'"/>
         </transition>
         <el-upload
                 class="upload-component"
@@ -26,8 +21,10 @@
 </template>
 
 <script>
+    import Success from "../Success";
     export default {
         name: "Upload",
+        components: {Success},
         props: {
             dialogTitle: String,
             uploadUrl: String

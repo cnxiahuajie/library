@@ -1,6 +1,6 @@
 <template>
     <div class="text-shadow-support" id="article-preview-box" ref="articlePreviewBox" v-loading="articleLoading" @drop="drop" @dragover.prevent>
-        <transition name="el-zoom-in-top">
+        <transition name="el-fade-in-linear">
             <template>
                 <div v-show="article.content" class="article-view" v-html="article.content"></div>
             </template>
@@ -10,7 +10,7 @@
 
 <script>
 
-    import apiArticle from '@/assets/api/api.article'
+    import apiArticle from '@/assets/api/api.article';
 
     export default {
         name: "ArticlePreviewBox",

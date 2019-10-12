@@ -21,7 +21,7 @@
 <script>
     import apiArticleCategory from '@/assets/api/api.articleCategory'
 
-    const SETTINGS = "settings";
+    const SETTINGS = "_settings";
 
     export default {
         name: "Settings",

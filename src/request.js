@@ -36,11 +36,11 @@ service.interceptors.response.use(
             statusText: error.response.statusText
         }
 
-        if (404 === httpError.status) {
+        if (404 == httpError.status) {
             Message.error({message: '服务器被吃了⊙﹏⊙∥'});
-        } else if (403 === httpError.status) {
+        } else if (403 == httpError.status) {
             Message.error({message: '权限不足，请联系管理员！'});
-        } else if (401 === httpError.status) {
+        } else if (401 == httpError.status) {
             Message.error({message: "认证失败。"});
         } else {
             Message.error({message: '未知错误'});
