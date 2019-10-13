@@ -1,6 +1,9 @@
 <template>
     <div id="settings">
         <el-form ref="form" :model="formData" label-width="80px">
+            <el-form-item label="你的ID">
+                <span><strong>{{formData.email}}</strong></span>
+            </el-form-item>
             <el-form-item label="你的昵称">
                 <el-input v-model="formData.name"></el-input>
             </el-form-item>
@@ -11,9 +14,6 @@
                     </el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="邮箱">
-                <el-input v-model="formData.email"></el-input>
-            </el-form-item>
         </el-form>
     </div>
 </template>
@@ -21,7 +21,7 @@
 <script>
     import apiArticleCategory from '@/assets/api/api.articleCategory'
 
-    const SETTINGS = "_settings";
+    const SETTINGS = "_authorinfo";
 
     export default {
         name: "Settings",
@@ -30,38 +30,24 @@
                 interestSelected: [],
                 articleCategoryList: [],
                 formData: {
+                    email: this.$cookies.get('_authorinfo').email,
                     name: '路人',
-                    interests: [],
-                    email: ''
+                    interests: []
                 }
             }
         },
         mounted() {
             // 初始化文章分类
             this.initArticleCategorys();
-            let settings = this.$cookies.get(SETTINGS);
-            if (settings) {
-                this.formData = settings;
-                if (this.formData.interests) {
-                    this.formData.interests.forEach(item => {
-                        this.interestSelected.push(item.id);
-                    })
-                } else {
-                    this.interestSelected = [];
-                }
-            }
         },
         computed: {
             name() {
                 return this.formData.name;
-            },
-            email() {
-                return this.formData.email;
             }
         },
         watch: {
             name(val) {
-                this.handleSaveAnonUser();
+                this.handleSaveUser();
             },
             interestSelected: {
                 handler(newValue, oldValue) {
@@ -71,27 +57,40 @@
                             id: newValue[i]
                         })
                     }
-                    this.handleSaveAnonUser();
+                    this.handleSaveUser();
                 },
                 deep: true
-            },
-            email(val) {
-                this.handleSaveAnonUser();
             }
         },
         methods: {
+            // 加载作者信息
+            loadAuthorInfo() {
+                let settings = this.$cookies.get(SETTINGS);
+                if (settings) {
+                    this.formData = settings;
+                    if (this.formData.interests) {
+                        this.formData.interests.forEach(item => {
+                            this.interestSelected.push(item.id);
+                        })
+                    } else {
+                        this.interestSelected = [];
+                    }
+                }
+            },
             // 初始化文章类别
             initArticleCategorys() {
                 apiArticleCategory.listArticleCategory().then(data => {
                     if (data) {
                         data.forEach(item => {
                             this.articleCategoryList.push(item);
-                        })
+                        });
+                        // 加载作者信息
+                        this.loadAuthorInfo();
                     }
                 });
             },
             // 保存匿名用户信息
-            handleSaveAnonUser() {
+            handleSaveUser() {
                 this.$cookies.set(SETTINGS, this.formData);
             }
         }

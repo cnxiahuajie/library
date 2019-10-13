@@ -16,8 +16,6 @@ export default new Vuex.Store({
         articleId: '',
         // 是否解锁（认证成功解锁，否则锁定）
         unlock: 0,
-        // 是否登记邮箱
-        emailFlag: 0,
         // 邮件发送中
         emailSending: 0,
         // token
@@ -33,17 +31,17 @@ export default new Vuex.Store({
         UNLOCK(state, unlock) {
             state.unlock = unlock
             VueCookies.set("_unlock", unlock);
-        },
-        EMAIL_FLAG(state, emailFlag) {
-            state.emailFlag = emailFlag
-            VueCookies.set("_email_flag", emailFlag);
+            if (unlock == 0) {
+                VueCookies.remove("_token");
+                VueCookies.remove("_authorinfo");
+            }
         },
         EMAIL_SENDING(state, emailSending) {
             state.emailSending = emailSending
         },
         TOKEN(state, token) {
             state.token = token;
-            if (token) {
+            if (token != null && token != '' && token.length > 0) {
                 VueCookies.set("_token", token);
             } else {
                 VueCookies.remove("_token");
@@ -59,9 +57,6 @@ export default new Vuex.Store({
         },
         UNLOCK(context) {
             context.commit('UNLOCK')
-        },
-        EMAIL_FLAG(context) {
-            context.commit('EMAIL_FLAG')
         },
         EMAIL_SENDING(context) {
             context.commit('EMAIL_SENDING')

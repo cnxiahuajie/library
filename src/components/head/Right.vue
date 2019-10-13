@@ -1,7 +1,12 @@
 <template>
     <div id="right">
         <ul>
-            <li>
+            <li v-show="uploadingSettings">
+                <el-tooltip class="item" effect="dark" content="正在上传系统设置" placement="top-end">
+                    <i class="el-icon-loading" style="cursor: pointer;"></i>
+                </el-tooltip>
+            </li>
+            <li v-show="$store.state.unlock == 1">
                 <el-tooltip class="item" effect="dark" content="系统设置" placement="top-end">
                     <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
                 </el-tooltip>
@@ -13,11 +18,13 @@
                     <Settings/>
                 </el-dialog>
             </li>
-            <li v-show="$store.state.emailFlag == 1">
-                <el-tooltip v-show="$store.state.unlock == 0" class="item" effect="dark" content="解锁" placement="top-end">
+            <li>
+                <el-tooltip v-show="$store.state.unlock == 0" class="item" effect="dark" content="解锁"
+                            placement="top-end">
                     <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
                 </el-tooltip>
-                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="锁定" placement="top-end">
+                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="锁定"
+                            placement="top-end">
                     <i class="el-icon-unlock" style="cursor: pointer;" @click="handleLock"></i>
                 </el-tooltip>
                 <el-dialog :title="'认证'" :visible.sync="dialogAuthVisible"
@@ -31,17 +38,19 @@
                 </el-dialog>
             </li>
             <li>
-                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="上传文章" placement="bottom-end">
+                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="上传文章"
+                            placement="bottom-end">
                     <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
                 </el-tooltip>
                 <el-dialog :title="uploadArticleDialogTitle" :visible.sync="dialogUploadVisible"
                            :before-close="handleCloseUploadArticle"
                            :destroy-on-close="true"
-                            :close-on-click-modal="false"
-                            :close-on-press-escape="false"
-                            center>
+                           :close-on-click-modal="false"
+                           :close-on-press-escape="false"
+                           center>
                     <ArticleUpload ref="articleUpload" v-bind:dialogTitle="'上传文章'" v-bind:uploadUrl="uploadUrl"
-                                   v-bind:dialogUploadVisible="dialogUploadVisible" @handleChangeUploadArticleDialogTitle="handleChangeUploadArticleDialogTitle"/>
+                                   v-bind:dialogUploadVisible="dialogUploadVisible"
+                                   @handleChangeUploadArticleDialogTitle="handleChangeUploadArticleDialogTitle"/>
                 </el-dialog>
             </li>
 
@@ -51,8 +60,9 @@
 </template>
 
 <script>
-    import apiArticle from '@/assets/api/api.article'
+    import apiArticle from '@/assets/api/api.article';
     import apiAuthor from '@/assets/api/api.author';
+    import apiSecurity from '@/assets/api/api.security';
     import ArticleUpload from './Upload'
     import Settings from "./Settings";
     import Auth from "./Auth";
@@ -62,6 +72,7 @@
         components: {Auth, Settings, ArticleUpload},
         data() {
             return {
+                uploadingSettings: false,
                 // 上传文章对话框标题
                 uploadArticleDialogTitle: '选择文章所属分类',
                 // 认证提示框
@@ -85,21 +96,14 @@
             },
             // 锁定
             handleLock() {
-                let success = this.$cookies.remove("_token");
-                if (success) {
+                apiSecurity.logout().then(data => {
+                    this.$cookies.remove("_token");
                     this.$store.commit("UNLOCK", 0);
-                }
+                });
             },
             // 解锁
             handleUnlock() {
-                if (this.$cookies.get('_settings') && this.$cookies.get('_settings').email) {
-                    this.dialogAuthVisible = true;
-                } else {
-                    this.$message({
-                        message: '请先在系统设置中完成邮箱设置。',
-                        type: 'warning'
-                    });
-                }
+                this.dialogAuthVisible = true;
             },
             // 关闭认证
             handleCloseAuth(done) {
@@ -108,16 +112,14 @@
             },
             // 关闭系统设置
             handleCloseSettings(done) {
-                let settings = this.$cookies.get("_settings");
-                if (settings && settings.email) {
-                    apiAuthor.synchronizationAuthor(settings).then(data => {
-                        this.$store.commit("EMAIL_FLAG", 1);
-                    });
-                }
+                this.uploadingSettings = true;
+                apiAuthor.synchronizationAuthor(this.$cookies.get("_authorinfo")).then(data => {
+                    this.uploadingSettings = false;
+                })
                 done();
             },
             // 关闭对话框
-            handleCloseUploadArticle (done) {
+            handleCloseUploadArticle(done) {
                 // 关闭
                 done();
             }

@@ -1,10 +1,16 @@
 <template>
-    <el-container>
+    <div class="auth-container">
         <el-form v-show="$store.state.unlock == 0" :model="formData">
             <el-form-item>
-                <el-input type="password" v-model="formData.password" prefix-icon="el-icon-key" @input="handlePasswordChange" placeholder="请输入口令">
+                <el-input type="email" v-model="formData.username" autofocus prefix-icon="el-icon-key"
+                          @input="handleEmailChange" placeholder="请输入邮箱"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-input type="password" v-model="formData.password" prefix-icon="el-icon-key"
+                          @input="handlePasswordChange" placeholder="请输入口令">
                     <el-tooltip slot="append" class="item" effect="dark" content="获取口令" placement="bottom-end">
-                        <el-button :icon="$store.state.emailSending == 1 ? 'el-icon-check' : 'el-icon-message'" @click="handleSendEmailCode"></el-button>
+                        <el-button :icon="$store.state.emailSending == 1 ? 'el-icon-check' : 'el-icon-message'"
+                                   @click="handleSendEmailCode" :disabled="!validEmail"></el-button>
                     </el-tooltip>
                 </el-input>
             </el-form-item>
@@ -12,24 +18,26 @@
         <transition name="el-zoom-in-center">
             <Success v-show="$store.state.unlock == 1" :tip="'认证成功'"/>
         </transition>
-    </el-container>
+    </div>
 </template>
 
 <script>
     import apiAuth from '@/assets/api/api.security';
+    import apiAuthor from '@/assets/api/api.author';
     import apiCommon from '@/assets/api/api.common';
     import Success from "../Success";
 
     export default {
         name: "Auth",
         components: {Success},
-        data () {
+        data() {
             return {
+                validEmail: false,
                 countDown: 0,
                 // 提交中
                 processing: false,
                 formData: {
-                    username: this.$cookies.get('_settings').email,
+                    username: '',
                     password: ''
                 }
             }
@@ -38,6 +46,16 @@
 
         },
         methods: {
+            handleSaveAuthorInfo() {
+                apiAuthor.getMe().then(authorData => {
+                    this.$cookies.set('_authorinfo', authorData.author);
+                })
+            },
+            handleEmailChange(val) {
+                if (val) {
+                    this.validEmail = true;
+                }
+            },
             timeDown(time) {
                 let that = this;
                 let interval = time == 60 ? 0 : 1000;
@@ -81,14 +99,20 @@
                     this.$store.commit("TOKEN", data.token);
                     this.$store.commit("UNLOCK", 1);
                     this.$store.commit("EMAIL_SENDING", 0);
+                    this.handleSaveAuthorInfo();
                 }, err => {
                     this.processing = false;
-                })
+                });
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+    }
 </style>

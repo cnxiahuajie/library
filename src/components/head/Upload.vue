@@ -3,7 +3,7 @@
         <transition name="el-zoom-in-center">
             <Success v-show="uploadSuccess" :tip="'上传成功'"/>
         </transition>
-        <transition name="el-fade-in-linear">
+        <transition name="el-zoom-in-top">
             <p v-show="step == 1" class="article-category">
                 <el-checkbox-group v-model="interestSelected">
                     <el-checkbox :label="category.id" v-for="category in articleCategoryList" v-bind:key="category.id">
@@ -12,7 +12,7 @@
                 </el-checkbox-group>
             </p>
         </transition>
-        <transition name="el-fade-in-linear">
+        <transition name="el-zoom-in-bottom">
             <el-upload
                     class="upload-component"
                     ref="upload"
@@ -31,15 +31,17 @@
         </transition>
 
         <el-button-group v-show="step != 3">
-            <el-button type="primary" icon="el-icon-arrow-left" :disabled="step <= 1" @click="handleChangeStep(-1)">上一步</el-button>
-            <el-button type="primary" :disabled="step >= 2" @click="handleChangeStep(1)">下一步<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+            <el-button type="primary" icon="el-icon-arrow-left" :disabled="step <= 1" @click="handleChangeStep(-1)">
+                上一步
+            </el-button>
+            <el-button type="primary" :disabled="step >= 2" @click="handleChangeStep(1)">下一步<i
+                    class="el-icon-arrow-right el-icon--right"></i></el-button>
         </el-button-group>
     </div>
 </template>
 
 <script>
     import apiArticleCategory from '@/assets/api/api.articleCategory';
-    import apiArticle from '@/assets/api/api.article';
     import Success from "../Success";
 
     export default {
@@ -108,8 +110,6 @@
             handleSuccess(response, file, fileList) {
                 this.uploading = false;
                 this.uploadSuccess = true;
-                //
-                apiArticle.updateArticle
             }
         }
     }
@@ -118,6 +118,11 @@
 <style lang="scss" scoped>
     #upload {
         text-align: center;
+        display: flex;
+        height: 300px;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
 
     #upload .upload-success-tip {

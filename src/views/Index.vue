@@ -28,16 +28,6 @@
                 this.$store.commit("UNLOCK", 0);
             }
 
-            // 邮箱登记标记
-            let emailFlag = this.$cookies.get('_email_flag');
-            if (emailFlag == undefined || emailFlag == null) {
-                this.$store.commit("EMAIL_FLAG", 0);
-            } else if (emailFlag == 1) {
-                this.$store.commit("EMAIL_FLAG", 1);
-            } else if (emailFlag == 0) {
-                this.$store.commit("EMAIL_FLAG", 0);
-            }
-
             // token
             let token = this.$cookies.get('_token');
             if (token == undefined || token == null) {

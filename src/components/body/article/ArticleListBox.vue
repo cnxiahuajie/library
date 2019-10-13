@@ -3,12 +3,14 @@
         <transition-group name="el-fade-in">
             <div v-show="articles.length > 0" class="articles" v-for="article in articles" :key="article.id">
                 <div class="article-item" :id="article.id" draggable="true" @dragstart="dragstart" @drag='draging'
-                     @dragend="dragend(article.id)" @dblclick="handleDoubleClickArticle(article.id)">
+                     @dragend="dragend(article.id)" @dblclick="handleDoubleClickArticle(article.id, article.authorVO.email)">
                     <h3 v-text="article.title"></h3>
                     <p v-html="article.content"></p>
                     <div class="box-justify-content" v-show="article.articleCategories">
                         <div class="box author-info">
+                            <span><i class="el-icon-s-custom"></i></span>
                             <span v-text="article.authorVO.name"></span>
+                            <span><i class="el-icon-message"></i></span>
                             <span v-text="article.authorVO.email"></span>
                         </div>
                         <div class="box-row-reverse tag-container">
@@ -75,8 +77,8 @@
         },
         methods: {
             // 双击文章打开更多操作
-            handleDoubleClickArticle(id) {
-                if (this.$store.state.unlock == 1) {
+            handleDoubleClickArticle(id, email) {
+                if (this.$store.state.unlock == 1 && this.$cookies.get('_authorinfo').email == email) {
                     this.$store.commit('ARTICLE_ID', id);
                     this.helpDialogVisible = true
                 }
@@ -225,7 +227,7 @@
     }
 
     .author-info {
-        color: #409EFF;
+        /*color: #409EFF;*/
         align-items: center;
         span {
             margin-left: 10px;
