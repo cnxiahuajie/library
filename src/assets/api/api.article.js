@@ -8,7 +8,7 @@ export default {
     // 搜索文章
     listArticleByQuery(q = '-', page) {
         return request({
-            url: `/api/v1/article/search/${q}/${page}`,
+            url: `/api/v1/anon/article/search/${q}/${page}`,
             method: 'get'
         })
     },
@@ -16,7 +16,7 @@ export default {
     // 查看文章
     getArticleById(id) {
         return request({
-            url: `/api/v1/article/${id}`,
+            url: `/api/v1/anon/article/${id}`,
             method: 'get'
         })
     },
