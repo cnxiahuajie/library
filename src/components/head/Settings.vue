@@ -31,7 +31,7 @@
                 articleCategoryList: [],
                 formData: {
                     email: this.$cookies.get('_authorinfo').email,
-                    name: '路人',
+                    name: '',
                     interests: []
                 }
             }

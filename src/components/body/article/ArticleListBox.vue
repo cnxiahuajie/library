@@ -24,9 +24,6 @@
             <div v-show="articleNotFound" class="tip" key="articleNotFound">
                 <p>什么都没找到。</p>
             </div>
-            <div v-show="doSomething" class="tip" key="doSomething">
-                <p>当你迷茫的时候，不妨搜一下[<strong>帮助中心</strong>]</p>
-            </div>
         </transition-group>
         <div v-show="articles.length > 0">
             <el-divider>
@@ -61,7 +58,6 @@
         name: "ArticleListBox",
         data() {
             return {
-                doSomething: true,
                 articleNotFound: false,
                 isStopOpenHelp: false,
                 helpDialogVisible: false,
@@ -132,7 +128,6 @@
             },
             // 搜索文章
             handleSearchArticle(query) {
-                this.doSomething = false;
                 this.articleLoading = true;
                 if (!(this.query == query)) {
                     this.handleCleanArticles();

@@ -1,36 +1,40 @@
 <template>
     <div id="upload">
-        <transition name="el-zoom-in-center">
-            <Success v-show="uploadSuccess" :tip="'上传成功'"/>
-        </transition>
-        <transition name="el-zoom-in-top">
-            <p v-show="step == 1" class="article-category">
-                <el-checkbox-group v-model="interestSelected">
-                    <el-checkbox :label="category.id" v-for="category in articleCategoryList" v-bind:key="category.id">
-                        {{category.name}}
-                    </el-checkbox>
-                </el-checkbox-group>
-            </p>
-        </transition>
-        <transition name="el-zoom-in-bottom">
-            <el-upload
-                    class="upload-component"
-                    ref="upload"
-                    drag
-                    v-show="step == 2 && !uploadSuccess"
-                    v-loading="uploading"
-                    :action="`${uploadUrl}?access_token=${$store.state.token}`"
-                    :accept="'.html'"
-                    :data="{'categories': interestSelected}"
-                    :show-file-list="false"
-                    :before-upload="handleBeforeUpload"
-                    :on-success="handleSuccess">
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将.html文件拖到此处，或<em>点击上传</em></div>
-            </el-upload>
-        </transition>
+        <div class="upload-container">
+            <div>
+                <transition name="el-zoom-in-center">
+                    <Success v-show="uploadSuccess" :tip="'上传成功'"/>
+                </transition>
+            </div>
+            <div>
+                <p v-show="step == 1" class="article-category">
+                    <el-checkbox-group v-model="interestSelected">
+                        <el-checkbox :label="category.id" v-for="category in articleCategoryList" v-bind:key="category.id">
+                            {{category.name}}
+                        </el-checkbox>
+                    </el-checkbox-group>
+                </p>
+            </div>
+            <div>
+                <el-upload
+                        class="upload-component"
+                        ref="upload"
+                        drag
+                        v-show="step == 2 && !uploadSuccess"
+                        v-loading="uploading"
+                        :action="`${uploadUrl}?access_token=${$store.state.token}`"
+                        :accept="'.html'"
+                        :data="{'categories': interestSelected}"
+                        :show-file-list="false"
+                        :before-upload="handleBeforeUpload"
+                        :on-success="handleSuccess">
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将.html文件拖到此处，或<em>点击上传</em></div>
+                </el-upload>
+            </div>
+        </div>
 
-        <div v-show="step != 3">
+        <div class="step-button-container" v-show="step != 3">
             <i v-show="step <= 1" class="el-icon-right step-button" @click="handleChangeStep(1)"></i>
             <i v-show="step >= 2" class="el-icon-back step-button" @click="handleChangeStep(-1)"></i>
         </div>
@@ -125,6 +129,19 @@
     #upload .upload-success-tip {
         margin-top: 0px;
         color: #409EFF;
+    }
+
+    .upload-container {
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .step-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .step-button {
