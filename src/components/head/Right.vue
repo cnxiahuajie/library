@@ -6,6 +6,20 @@
                     <i class="el-icon-loading" style="cursor: pointer;"></i>
                 </el-tooltip>
             </li>
+            <li>
+                <el-tooltip class="item" effect="dark" content="反馈问题" placement="top-end">
+                    <i class="el-icon-question" style="cursor: pointer;" @click="handleFeedback"></i>
+                </el-tooltip>
+                <el-dialog :title="'问题反馈'" :visible.sync="dialogFeedbackVisible"
+                           :destroy-on-close="true"
+                           :close-on-click-modal="false"
+                           :close-on-press-escape="false">
+                    <Feedback ref="feedback"/>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button type="primary" @click="handleCloseFeedback">确 定</el-button>
+                    </span>
+                </el-dialog>
+            </li>
             <li v-show="$store.state.unlock == 1">
                 <el-tooltip class="item" effect="dark" content="系统设置" placement="top-end">
                     <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
@@ -19,11 +33,11 @@
                 </el-dialog>
             </li>
             <li>
-                <el-tooltip v-show="$store.state.unlock == 0" class="item" effect="dark" content="解锁"
+                <el-tooltip v-show="$store.state.unlock == 0" class="item" effect="dark" content="认证"
                             placement="top-end">
                     <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
                 </el-tooltip>
-                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="锁定"
+                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="退出"
                             placement="top-end">
                     <i class="el-icon-unlock" style="cursor: pointer;" @click="handleLock"></i>
                 </el-tooltip>
@@ -66,12 +80,14 @@
     import ArticleUpload from './Upload'
     import Settings from "./Settings";
     import Auth from "./Auth";
+    import Feedback from "./Feedback";
 
     export default {
         name: "Right",
-        components: {Auth, Settings, ArticleUpload},
+        components: {Feedback, Auth, Settings, ArticleUpload},
         data() {
             return {
+                dialogFeedbackVisible: false,
                 uploadingSettings: false,
                 // 上传文章对话框标题
                 uploadArticleDialogTitle: '选择文章所属分类',
@@ -90,6 +106,13 @@
             }
         },
         methods: {
+            handleCloseFeedback() {
+                this.$refs.feedback.handleSubmitFeedback();
+                this.dialogFeedbackVisible = false;
+            },
+            handleFeedback() {
+                this.dialogFeedbackVisible = true;
+            },
             // 更新上传文件对话框标题
             handleChangeUploadArticleDialogTitle(newTitle) {
                 this.uploadArticleDialogTitle = newTitle;

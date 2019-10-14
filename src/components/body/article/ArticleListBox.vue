@@ -24,6 +24,9 @@
             <div v-show="articleNotFound" class="tip" key="articleNotFound">
                 <p>什么都没找到。</p>
             </div>
+            <div v-show="reminder" class="tip" key="reminder">
+                <p>小窍门：搜索到文章后，将文章单击拖拽到右侧区域或者双击文章查看内容。</p>
+            </div>
         </transition-group>
         <div v-show="articles.length > 0">
             <el-divider>
@@ -58,8 +61,8 @@
         name: "ArticleListBox",
         data() {
             return {
+                reminder: true,
                 articleNotFound: false,
-                isStopOpenHelp: false,
                 helpDialogVisible: false,
                 page: 0,
                 scroll: 0,
@@ -77,6 +80,8 @@
                 if (this.$store.state.unlock == 1 && this.$cookies.get('_authorinfo').email == email) {
                     this.$store.commit('ARTICLE_ID', id);
                     this.helpDialogVisible = true
+                } else {
+                    this.$message('拖拽文章到右侧区域即可查看，认证通过后可解锁更多功能。');
                 }
             },
             // 删除文章
@@ -129,6 +134,7 @@
             // 搜索文章
             handleSearchArticle(query) {
                 this.articleLoading = true;
+                this.reminder = false;
                 if (!(this.query == query)) {
                     this.handleCleanArticles();
                 }
