@@ -178,7 +178,7 @@
     }
 
     #article-list-box .articles .article-item:hover {
-        box-shadow: 0 0 5px #ccc;
+        box-shadow: 0 0 5px #161616;
     }
 
     #article-list-box .articles .article-item .button-group a {
@@ -206,15 +206,16 @@
     }
 
     #article-list-box .article-help-dialog div img {
-        border: 1px solid #999;
+        border: 1px solid #ccc;
         padding: 10px;
         border-radius: 10%;
-        transition: box-shadow 500ms;
-        -webkit-transition: box-shadow 500ms; /* Safari */
+        transition: box-shadow 500ms, border-color 500ms;
+        -webkit-transition: box-shadow 500ms, border-color 500ms; /* Safari */
     }
 
     #article-list-box .article-help-dialog div img:hover {
-        box-shadow: 0px 0px 5px #ccc;
+        border-color: #161616;
+        box-shadow: 0px 0px 5px #161616;
     }
 
     .tip {

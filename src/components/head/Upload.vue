@@ -30,13 +30,10 @@
             </el-upload>
         </transition>
 
-        <el-button-group v-show="step != 3">
-            <el-button type="primary" icon="el-icon-arrow-left" :disabled="step <= 1" @click="handleChangeStep(-1)">
-                上一步
-            </el-button>
-            <el-button type="primary" :disabled="step >= 2" @click="handleChangeStep(1)">下一步<i
-                    class="el-icon-arrow-right el-icon--right"></i></el-button>
-        </el-button-group>
+        <div v-show="step != 3">
+            <i v-show="step <= 1" class="el-icon-right step-button" @click="handleChangeStep(1)"></i>
+            <i v-show="step >= 2" class="el-icon-back step-button" @click="handleChangeStep(-1)"></i>
+        </div>
     </div>
 </template>
 
@@ -128,5 +125,20 @@
     #upload .upload-success-tip {
         margin-top: 0px;
         color: #409EFF;
+    }
+
+    .step-button {
+        padding: 10px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        transition: box-shadow 500ms, border-color 500ms;
+        -moz-transition: box-shadow 500ms, border-color 500ms; /* Firefox 4 */
+        -webkit-transition: box-shadow 500ms, border-color 500ms; /* Safari 和 Chrome */
+        -o-transition: box-shadow 500ms, border-color 500ms; /* Opera */
+    }
+
+    .step-button:hover {
+        border-color: #161616;
+        box-shadow: 0px 0px 5px #161616;
     }
 </style>
