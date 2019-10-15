@@ -1,12 +1,12 @@
 <template>
     <div id="right">
         <ul>
-            <li v-show="uploadingSettings">
+            <li class="uploading-settings-container" v-show="uploadingSettings">
                 <el-tooltip class="item" effect="dark" content="正在上传系统设置" placement="top-end">
                     <i class="el-icon-loading" style="cursor: pointer;"></i>
                 </el-tooltip>
             </li>
-            <li>
+            <li class="feedback-container">
                 <el-tooltip class="item" effect="dark" content="反馈问题" placement="top-end">
                     <i class="el-icon-question" style="cursor: pointer;" @click="handleFeedback"></i>
                 </el-tooltip>
@@ -20,7 +20,7 @@
                     </span>
                 </el-dialog>
             </li>
-            <li v-show="$store.state.unlock == 1">
+            <li class="system-settings" v-show="$store.state.unlock == 1">
                 <el-tooltip class="item" effect="dark" content="系统设置" placement="top-end">
                     <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
                 </el-tooltip>
@@ -32,7 +32,7 @@
                     <Settings/>
                 </el-dialog>
             </li>
-            <li>
+            <li class="auth-container">
                 <el-tooltip v-show="$store.state.unlock == 0" class="item" effect="dark" content="认证"
                             placement="top-end">
                     <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
@@ -51,7 +51,7 @@
                     <Auth style="margin: auto;"/>
                 </el-dialog>
             </li>
-            <li>
+            <li class="upload-article-container">
                 <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="上传文章"
                             placement="bottom-end">
                     <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
@@ -67,8 +67,6 @@
                                    @handleChangeUploadArticleDialogTitle="handleChangeUploadArticleDialogTitle"/>
                 </el-dialog>
             </li>
-
-            <div class="clearfix"></div>
         </ul>
     </div>
 </template>
@@ -151,12 +149,16 @@
 </script>
 
 <style scoped>
-    #right ul {
-        margin: 0;
+    #right {
+        height: 30px;
+        display: flex;
+        justify-content: flex-end;
+
     }
 
-    #right ul li a {
-        text-decoration: none;
+    #right ul {
+        display: flex;
+        align-items: center;
     }
 
     #right ul li {
@@ -164,8 +166,31 @@
     }
 
     #right ul li {
-        float: right;
         list-style-type: none;
+    }
+
+    .uploading-settings-container {
+        order: 6;
+    }
+
+    .feedback-container {
+        order: 5;
+    }
+
+    .system-settings {
+        order: 4;
+    }
+
+    .auth-container {
+        order: 3;
+    }
+
+    .auth-container {
+        order: 2;
+    }
+
+    .upload-article-container {
+        order: 1;
     }
 
 </style>

@@ -5,7 +5,7 @@
                 <div class="article-item" :id="article.id" draggable="true" @dragstart="dragstart" @drag='draging'
                      @dragend="dragend(article.id)" @dblclick="handleDoubleClickArticle(article.id, article.authorVO.email, article.authorId)">
                     <h3 v-text="article.title"></h3>
-                    <p v-html="article.content"></p>
+                    <p class="article-content" v-html="article.content"></p>
                     <div class="box-justify-content" v-show="article.articleCategories">
                         <div class="box author-info">
                             <span><i class="el-icon-s-custom"></i></span>
@@ -135,9 +135,7 @@
             handleSearchArticle(query) {
                 this.articleLoading = true;
                 this.reminder = false;
-                if (!(this.query == query)) {
-                    this.handleCleanArticles();
-                }
+                this.handleCleanArticles();
                 this.query = query;
                 apiArticle.listArticleByQuery(query, this.page).then(data => {
                     if (data.content) {
@@ -155,14 +153,20 @@
                     }
                     this.articleLoading = false;
                     this.searchStatus = '2';
+                    this.handleStopSearch();
                 }, err => {
                     this.articleLoading = false;
                     this.searchStatus = '2';
+                    this.handleStopSearch();
                 });
             },
             // 预览文章
             previewArticle(id) {
                 this.$emit('previewArticle', id);
+            },
+            // 停止搜索
+            handleStopSearch() {
+                this.$emit('handleStopSearch');
             }
         }
     }
@@ -171,11 +175,18 @@
 <style lang="scss" scoped>
     #article-list-box .articles .article-item {
         padding: 10px;
+        font-size: 12px;
+        font-weight: 600;
         border-bottom: 1px #ccc dashed;
         transition: box-shadow 500ms;
         -moz-transition: box-shadow 500ms; /* Firefox 4 */
         -webkit-transition: box-shadow 500ms; /* Safari 和 Chrome */
         -o-transition: box-shadow 500ms; /* Opera */
+
+        .article-content {
+            line-height: 24px;
+            word-break: break-all;
+        }
     }
 
     #article-list-box .articles .article-item:hover {

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from './store'
+import VueCookies from 'vue-cookies'
 import {Message} from 'element-ui'
 
 // 创建axios实例
@@ -36,11 +37,10 @@ service.interceptors.response.use(
         }
 
         if (404 == httpError.status) {
-            Message.error({message: '服务器被吃了⊙﹏⊙∥'});
-        } else if (403 == httpError.status) {
-            Message.error({message: '权限不足，请联系管理员！'});
+            Message.error({message: '服务被吃了⊙﹏⊙∥'});
         } else if (401 == httpError.status) {
-            Message.error({message: "认证失败。"});
+
+            Message.error({message: hasError.statusText});
         } else {
             Message.error({message: '未知错误'});
         }

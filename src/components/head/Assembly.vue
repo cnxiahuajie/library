@@ -2,7 +2,7 @@
     <div id="head-assembly">
         <div class="search-box-container">
             <div class="head-left">
-                <Left @handleSearch="handleSearch"/>
+                <Left ref="left" @handleSearch="handleSearch"/>
                 <div class="clearfix"></div>
             </div>
             <div class="head-right">
@@ -24,6 +24,10 @@
             // 更新搜搜关键字
             handleSearch(query) {
                 this.$emit('handleSearch', query)
+            },
+            // 停止搜索
+            handleStopSearch() {
+                this.$refs.left.handleStopSearch();
             }
         }
     }
@@ -31,7 +35,8 @@
 
 <style lang="scss" scoped>
     #head-assembly {
-        height: calc(100%);
+        height: 30px;
+        border-top: 1px solid #ccc;
     }
 
     #head-assembly .search-box-container .head-left {
