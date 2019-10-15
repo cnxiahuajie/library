@@ -17,23 +17,6 @@
             }
         },
         mounted() {
-            // 是否认证
-            let unlock = this.$cookies.get('_unlock');
-            if (unlock == undefined || unlock == null) {
-                this.$store.commit("UNLOCK", 0);
-            } else if(unlock == 1) {
-                this.$store.commit("UNLOCK", 1);
-            } else if (unlock == 0) {
-                this.$store.commit("UNLOCK", 0);
-            }
-
-            // token
-            let token = this.$cookies.get('_token');
-            if (token == undefined || token == null) {
-                this.$store.commit("TOKEN", '');
-            } else {
-                this.$store.commit("TOKEN", token);
-            }
         },
         methods: {
             // 停止搜索

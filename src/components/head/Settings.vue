@@ -30,7 +30,7 @@
                 interestSelected: [],
                 articleCategoryList: [],
                 formData: {
-                    email: this.$cookies.get('_authorinfo').email,
+                    email: this.LOCAL_STORAGE_PROXY.getItem('settings').email,
                     name: '',
                     interests: []
                 }
@@ -65,7 +65,8 @@
         methods: {
             // 加载作者信息
             loadAuthorInfo() {
-                let settings = this.$cookies.get(SETTINGS);
+                let settings = this.LOCAL_STORAGE_PROXY.getItem('settings');
+                console.error(settings)
                 if (settings) {
                     this.formData = settings;
                     if (this.formData.interests) {
@@ -91,7 +92,7 @@
             },
             // 保存匿名用户信息
             handleSaveUser() {
-                this.$cookies.set(SETTINGS, this.formData);
+                this.LOCAL_STORAGE_PROXY.setItem('settings', this.formData);
             }
         }
     }

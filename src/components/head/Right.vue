@@ -20,7 +20,7 @@
                     </span>
                 </el-dialog>
             </li>
-            <li class="system-settings" v-show="$store.state.unlock == 1">
+            <li class="system-settings" v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') == 1">
                 <el-tooltip class="item" effect="dark" content="系统设置" placement="top-end">
                     <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
                 </el-tooltip>
@@ -33,11 +33,11 @@
                 </el-dialog>
             </li>
             <li class="auth-container">
-                <el-tooltip v-show="$store.state.unlock == 0" class="item" effect="dark" content="认证"
+                <el-tooltip v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') != 1" class="item" effect="dark" content="认证"
                             placement="top-end">
                     <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
                 </el-tooltip>
-                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="退出"
+                <el-tooltip v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') == 1" class="item" effect="dark" content="退出"
                             placement="top-end">
                     <i class="el-icon-unlock" style="cursor: pointer;" @click="handleLock"></i>
                 </el-tooltip>
@@ -52,7 +52,7 @@
                 </el-dialog>
             </li>
             <li class="upload-article-container">
-                <el-tooltip v-show="$store.state.unlock == 1" class="item" effect="dark" content="上传文章"
+                <el-tooltip v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') == 1" class="item" effect="dark" content="上传文章"
                             placement="bottom-end">
                     <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
                 </el-tooltip>
@@ -118,8 +118,7 @@
             // 锁定
             handleLock() {
                 apiSecurity.logout().then(data => {
-                    this.$cookies.remove("_token");
-                    this.$store.commit("UNLOCK", 0);
+                    this.$store.commit("TOKEN", null);
                 });
             },
             // 解锁
@@ -134,7 +133,7 @@
             // 关闭系统设置
             handleCloseSettings(done) {
                 this.uploadingSettings = true;
-                apiAuthor.synchronizationAuthor(this.$cookies.get("_authorinfo")).then(data => {
+                apiAuthor.synchronizationAuthor(this.LOCAL_STORAGE_PROXY.getItem('settings')).then(data => {
                     this.uploadingSettings = false;
                 })
                 done();

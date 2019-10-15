@@ -1,6 +1,6 @@
 <template>
     <div class="auth-container">
-        <el-form v-show="$store.state.unlock == 0" :model="formData">
+        <el-form v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') != 1" :model="formData">
             <el-form-item>
                 <el-input type="email" v-model="formData.username" autofocus prefix-icon="el-icon-key"
                           @input="handleEmailChange" placeholder="请输入邮箱"></el-input>
@@ -9,14 +9,14 @@
                 <el-input type="password" v-model="formData.password" prefix-icon="el-icon-key"
                           @input="handlePasswordChange" placeholder="请输入口令">
                     <el-tooltip slot="append" class="item" effect="dark" content="获取口令" placement="bottom-end">
-                        <el-button :icon="$store.state.emailSending == 1 ? 'el-icon-check' : 'el-icon-message'"
+                        <el-button :icon="countDown > 0 ? 'el-icon-check' : 'el-icon-message'"
                                    @click="handleSendEmailCode" :disabled="!validEmail"></el-button>
                     </el-tooltip>
                 </el-input>
             </el-form-item>
         </el-form>
         <transition name="el-zoom-in-center">
-            <Success v-show="$store.state.unlock == 1" :tip="'认证成功'"/>
+            <Success v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') == 1" :tip="'认证成功'"/>
         </transition>
     </div>
 </template>
@@ -48,7 +48,7 @@
         methods: {
             handleSaveAuthorInfo() {
                 apiAuthor.getMe().then(authorData => {
-                    this.$cookies.set('_authorinfo', authorData.author);
+                    this.LOCAL_STORAGE_PROXY.setItem("settings", authorData.author)
                 })
             },
             handleEmailChange(val) {
@@ -64,8 +64,6 @@
                         that.countDown = --time;
                         that.timeDown(time);
                     }, interval);
-                } else {
-                    this.$store.commit("EMAIL_SENDING", 0);
                 }
             },
             // 处理密码改变事件
@@ -83,7 +81,6 @@
                             type: 'info'
                         });
                         this.timeDown(60);
-                        this.$store.commit("EMAIL_SENDING", 1);
                     });
                 } else {
                     this.$message({
@@ -97,8 +94,6 @@
                 this.processing = true;
                 apiAuth.login(this.formData).then(data => {
                     this.$store.commit("TOKEN", data.token);
-                    this.$store.commit("UNLOCK", 1);
-                    this.$store.commit("EMAIL_SENDING", 0);
                     this.handleSaveAuthorInfo();
                 }, err => {
                     this.processing = false;
