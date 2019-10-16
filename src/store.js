@@ -35,6 +35,9 @@ export default new Vuex.Store({
                 state.isLogin = 0
                 localStorage.setItem("isLogin", 0);
             }
+        },
+        IS_LOGIN(state, isLogin) {
+            state.isLogin = isLogin;
         }
     },
     actions: {
@@ -46,6 +49,9 @@ export default new Vuex.Store({
         },
         TOKEN(context) {
             context.commit('TOKEN')
+        },
+        IS_LOGIN(context) {
+            context.commit('IS_LOGIN')
         }
     }
 })

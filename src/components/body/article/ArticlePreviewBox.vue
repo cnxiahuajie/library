@@ -51,7 +51,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     #article-preview-box {
         height: calc(100% - 1px - 30px);
         .tip {
@@ -60,6 +60,12 @@
             p {
                 color: #999;
             }
+        }
+    }
+
+    #article-preview-box .article-view {
+        p, h1, h2, h3, h4, h5, h6, span, a {
+            z-index: 1001;
         }
     }
 </style>

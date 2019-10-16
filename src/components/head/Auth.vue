@@ -16,7 +16,7 @@
             </el-form-item>
         </el-form>
         <transition name="el-zoom-in-center">
-            <Success v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') == 1" :tip="'认证成功'"/>
+            <Success v-show="$store.state.isLogin" :tip="'认证成功'"/>
         </transition>
     </div>
 </template>
@@ -48,7 +48,7 @@
         methods: {
             handleSaveAuthorInfo() {
                 apiAuthor.getMe().then(authorData => {
-                    this.LOCAL_STORAGE_PROXY.setItem("settings", authorData.author)
+                    this.LOCAL_STORAGE_PROXY.setItem('settings', authorData.author)
                 })
             },
             handleEmailChange(val) {

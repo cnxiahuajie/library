@@ -1,22 +1,25 @@
 <template>
     <div class="root">
         <BodyAssembly ref="bodyAssembly" @handleStopSearch="handleStopSearch"/>
-        <HeadAssembly ref="headAssembly" @handleSearch="handleSearch" />
+        <HeadAssembly ref="headAssembly" @handleSearch="handleSearch"/>
+        <WebSocket :serviceUrl="'/ws/anon/notification'"/>
     </div>
 </template>
 
 <script>
     import HeadAssembly from "@/components/head/Assembly";
     import BodyAssembly from '@/components/body/Assembly';
+    import WebSocket from "@/components/websocket/WebSocket";
 
     export default {
         name: "Index",
-        components: {HeadAssembly, BodyAssembly},
-        data () {
-            return {
-            }
+        components: {WebSocket, HeadAssembly, BodyAssembly},
+        data() {
+            return {}
         },
         mounted() {
+            this.$store.commit('IS_LOGIN', this.LOCAL_STORAGE_PROXY.getItem('isLogin'))
+            this.$store.commit('TOKEN', this.LOCAL_STORAGE_PROXY.getItem('access_token'))
         },
         methods: {
             // 停止搜索

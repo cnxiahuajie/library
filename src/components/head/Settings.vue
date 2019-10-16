@@ -66,7 +66,6 @@
             // 加载作者信息
             loadAuthorInfo() {
                 let settings = this.LOCAL_STORAGE_PROXY.getItem('settings');
-                console.error(settings)
                 if (settings) {
                     this.formData = settings;
                     if (this.formData.interests) {

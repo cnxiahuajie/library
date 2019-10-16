@@ -16,11 +16,11 @@
                            :close-on-press-escape="false">
                     <Feedback ref="feedback"/>
                     <span slot="footer" class="dialog-footer">
-                        <el-button type="primary" @click="handleCloseFeedback">确 定</el-button>
+                        <el-button type="primary" @click="handleCloseFeedback">确定</el-button>
                     </span>
                 </el-dialog>
             </li>
-            <li class="system-settings" v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') == 1">
+            <li class="system-settings" v-show="$store.state.isLogin">
                 <el-tooltip class="item" effect="dark" content="系统设置" placement="top-end">
                     <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
                 </el-tooltip>
@@ -37,7 +37,7 @@
                             placement="top-end">
                     <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
                 </el-tooltip>
-                <el-tooltip v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') == 1" class="item" effect="dark" content="退出"
+                <el-tooltip v-show="$store.state.isLogin" class="item" effect="dark" content="退出"
                             placement="top-end">
                     <i class="el-icon-unlock" style="cursor: pointer;" @click="handleLock"></i>
                 </el-tooltip>
@@ -52,7 +52,7 @@
                 </el-dialog>
             </li>
             <li class="upload-article-container">
-                <el-tooltip v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') == 1" class="item" effect="dark" content="上传文章"
+                <el-tooltip v-show="$store.state.isLogin" class="item" effect="dark" content="上传文章"
                             placement="bottom-end">
                     <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
                 </el-tooltip>

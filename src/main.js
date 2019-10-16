@@ -22,7 +22,6 @@ Vue.use(ElementUI);
 Vue.prototype.$ELEMENT = {size: 'small', zIndex: 3000};
 Vue.prototype.ANIMATION = animation
 Vue.prototype.LOCAL_STORAGE_PROXY = localStorageProxy
-Vue.prototype.COOKIES_KEY_SESSIONID = "library-service_session_id"
 
 new Vue({
     router,
