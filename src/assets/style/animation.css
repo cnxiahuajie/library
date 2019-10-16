@@ -15,5 +15,7 @@
 
 .text-shadow-support {
     transition: text-shadow 500ms;
+    -moz-transition: text-shadow 500ms;
+    -o-transition: text-shadow 500ms;
     -webkit-transition: text-shadow 500ms; /* Safari */
 }

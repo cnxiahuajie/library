@@ -223,6 +223,8 @@
         border-radius: 10%;
         transition: box-shadow 500ms, border-color 500ms;
         -webkit-transition: box-shadow 500ms, border-color 500ms; /* Safari */
+        -moz-transition: box-shadow 500ms, border-color 500ms; /* Safari */
+        -o-transition: box-shadow 500ms, border-color 500ms; /* Safari */
     }
 
     #article-list-box .article-help-dialog div img:hover {
