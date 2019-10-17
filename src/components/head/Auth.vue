@@ -1,12 +1,12 @@
 <template>
     <div class="auth-container">
-        <el-form v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') != 1" :model="formData">
+        <el-form v-show="!$store.state.isLogin" :model="formData">
             <el-form-item>
                 <el-input type="email" v-model="formData.username" autofocus prefix-icon="el-icon-key"
                           @input="handleEmailChange" placeholder="请输入邮箱"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-input type="password" v-model="formData.password" prefix-icon="el-icon-key"
+                <el-input type="text" v-model="formData.password" prefix-icon="el-icon-key"
                           @input="handlePasswordChange" placeholder="请输入口令">
                     <el-tooltip slot="append" class="item" effect="dark" content="获取口令" placement="bottom-end">
                         <el-button :icon="countDown > 0 ? 'el-icon-check' : 'el-icon-message'"

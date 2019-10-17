@@ -77,7 +77,10 @@
         methods: {
             // 双击文章打开更多操作
             handleDoubleClickArticle(id, email, authorId) {
-                if (this.this.LOCAL_STORAGE_PROXY.getItem('isLogin') == 1 && this.LOCAL_STORAGE_PROXY.getItem('settings').email == email && this.LOCAL_STORAGE_PROXY.getItem('settings').id == authorId) {
+                console.error(this.LOCAL_STORAGE_PROXY.getItem('isLogin') == 1)
+                console.error(this.LOCAL_STORAGE_PROXY.getItem('settings').email, email)
+                console.error(this.LOCAL_STORAGE_PROXY.getItem('settings').id, authorId)
+                if (this.LOCAL_STORAGE_PROXY.getItem('isLogin') == 1 && this.LOCAL_STORAGE_PROXY.getItem('settings').email == email && this.LOCAL_STORAGE_PROXY.getItem('settings').id == authorId) {
                     this.$store.commit('ARTICLE_ID', id);
                     this.helpDialogVisible = true
                 } else {

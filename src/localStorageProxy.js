@@ -3,11 +3,12 @@ export default {
     getItem(key) {
         if (window.localStorage.hasOwnProperty(key)) {
             try {
-                var obj = JSON.parse(str);
+                let settingsStr = window.localStorage.getItem(key);
+                let obj = JSON.parse(settingsStr);
                 if (typeof obj == 'object' && obj) {
                     return JSON.parse(localStorage.getItem(key))
                 } else {
-                    return localStorage.getItem(key);
+                    return null;
                 }
             } catch (e) {
                 return localStorage.getItem(key)

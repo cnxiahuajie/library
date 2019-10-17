@@ -33,7 +33,7 @@
                 </el-dialog>
             </li>
             <li class="auth-container">
-                <el-tooltip v-show="LOCAL_STORAGE_PROXY.getItem('isLogin') != 1" class="item" effect="dark" content="认证"
+                <el-tooltip v-show="!$store.state.isLogin" class="item" effect="dark" content="认证"
                             placement="top-end">
                     <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
                 </el-tooltip>

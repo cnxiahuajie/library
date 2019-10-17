@@ -21,6 +21,11 @@ export default new Vuex.Store({
     mutations: {
         ON_HTTP_ERROR(state, httpError) {
             state.httpError = httpError
+            if (httpError.status === 401) {
+                state.isLogin = 0
+                localStorage.removeItem("access_token");
+                localStorage.setItem("isLogin", 0);
+            }
         },
         ARTICLE_ID(state, articleId) {
             state.articleId = articleId
@@ -33,6 +38,7 @@ export default new Vuex.Store({
                 localStorage.setItem("isLogin", 1);
             } else {
                 state.isLogin = 0
+                localStorage.removeItem("access_token");
                 localStorage.setItem("isLogin", 0);
             }
         },

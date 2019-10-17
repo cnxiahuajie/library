@@ -2,7 +2,7 @@
     <div class="root">
         <BodyAssembly ref="bodyAssembly" @handleStopSearch="handleStopSearch"/>
         <HeadAssembly ref="headAssembly" @handleSearch="handleSearch"/>
-        <WebSocket :serviceUrl="'/ws/anon/notification'"/>
+        <WebSocket/>
     </div>
 </template>
 

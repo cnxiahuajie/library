@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from './store'
-import VueCookies from 'vue-cookies'
+import localStorageProxy from './localStorageProxy'
 import {Message} from 'element-ui'
 
 // 创建axios实例
@@ -15,8 +15,8 @@ service.interceptors.request.use((config) => {
         data: JSON.stringify(config.data)
     }
     config.url = `${config.url}?t=${new Date().getTime()}`;
-    if (localStorage.getItem("access_token")) {
-        config.url = `${config.url}&access_token=${localStorage.getItem("access_token")}`;
+    if (localStorageProxy.getItem("access_token")) {
+        config.url = `${config.url}&access_token=${localStorageProxy.getItem("access_token")}`;
     }
     return config;
 }, (err) => {
@@ -39,9 +39,7 @@ service.interceptors.response.use(
         if (404 == httpError.status) {
             Message.error({message: '服务被吃了⊙﹏⊙∥'});
         } else if (401 == httpError.status) {
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('is_login');
-            Message.error({message: hasError.statusText});
+            Message.error({message: httpError.statusText});
         } else {
             Message.error({message: '未知错误'});
         }

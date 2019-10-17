@@ -13,12 +13,21 @@
     const DISABLE = '0';
     // 弹幕文字大小
     const TEXT_SIZE = 24;
-    const COLORS= ['#3300FF', '#00FF00', '#660099', '#FF0000', '#FF33FF'];
+    // 秒
+    const SECOND = 1000;
+    // 命令集
+    const PING = "ping";
+    const PONG = "pong";
+    const LOGOUT = "logout";
 
     export default {
         name: "Barrage",
+        props: {
+            uri: String
+        },
         data() {
             return {
+                websocket: null,
                 barragePool: [],
                 channels: [],
                 channel: {
@@ -27,10 +36,72 @@
             }
         },
         mounted() {
+            // 初始化弹幕链接
+            this.initWebSocket();
+            // 初始化弹幕通道
             this.initChannels();
+            // 初始化动画
             this.initKeyframes();
-            let that = this;
-            setInterval(function () {
+            // 定时发送弹幕
+            this.handleShoot();
+        },
+        methods: {
+            // 心跳
+            ping() {
+                let that = this;
+                if (1 === this.getWebSocket().readyState) {
+                    that.getWebSocket().send(PING);
+                }
+                setTimeout(function () {
+                    that.ping();
+                }, 10 * SECOND);
+            },
+            onMessage(e) {
+                let data = JSON.parse(e.data);
+                if (data.message && data.message.length > 0) {
+                    data.message = JSON.parse(data.message);
+                    if (data.type == '1') {
+                        this.handlePushBarragePool(data.message)
+                    } else if (data.type == '2') {
+                        if (data.message.content == PING) {
+                            this.getWebSocket().send(PONG);
+                        }
+                    }
+                }
+            },
+            onOpen() {
+                // 开始心跳
+                this.ping();
+            },
+            onError() {
+                this.websocket = null;
+            },
+            onClose() {
+                this.websocket = null;
+            },
+            // websocket实例代理
+            getWebSocket() {
+                if (null == this.websocket) {
+                    this.initWebSocket();
+                }
+                return this.websocket;
+            },
+            // 初始化弹幕链接
+            initWebSocket() {
+                if (null != this.websocket) {
+                    this.websocket.close();
+                }
+
+                let uri = `ws://${location.host}/websocket${this.uri}`;
+                this.websocket = new WebSocket(uri);
+                this.websocket.onmessage = this.onMessage;
+                this.websocket.onopen = this.onOpen;
+                this.websocket.onerror = this.onError;
+                this.websocket.onclose = this.onClose;
+            },
+            // 定时发送弹幕
+            handleShoot() {
+                let that = this;
                 if (that.barragePool && that.barragePool.length > 0) {
                     let channel = that.getChannel();
                     if (null != channel) {
@@ -38,7 +109,11 @@
                         let dom = document.createElement('span');
                         dom.classList.add('barrage-base')
                         dom.classList.add(`barrage-${channel.index}`);
-                        dom.innerText = data.message
+                        dom.innerText = data.content;
+
+                        if (data.color) {
+                            dom.style.color = data.color;
+                        }
 
                         dom.addEventListener("webkitAnimationEnd", function () {
                             that.channels[channel.index].available = ENABLE;
@@ -52,9 +127,10 @@
                         document.body.appendChild(dom);
                     }
                 }
-            }, 1000);
-        },
-        methods: {
+                setTimeout(function () {
+                    that.handleShoot();
+                }, SECOND);
+            },
             // 初始化弹幕通道
             initChannels() {
                 let calcX = document.body.clientWidth;
@@ -86,7 +162,7 @@
             // 初始化弹幕滚动特效
             initKeyframes() {
                 // 每个弹幕通道的间距
-                let indent = window.innerHeight / (MAX_CHANNEL * 2);
+                let indent = window.innerHeight / (MAX_CHANNEL);
                 for (let i = 0; i < MAX_CHANNEL; i++) {
                     let style = document.createElement('style');
                     document.head.appendChild(style);
@@ -98,8 +174,8 @@
                 }
             },
             // 执行弹幕
-            handleBarrage(data) {
-                this.barragePool.push(data);
+            handlePushBarragePool(message) {
+                this.barragePool.push(message);
             }
         }
     }
@@ -110,8 +186,7 @@
         font-size: 24px;
         font-weight: bold;
         padding: 0 10px;
-        color: white;
-        text-shadow: 0 0 8px #161616;
+        color: black;
         z-index: 1000;
     }
 
