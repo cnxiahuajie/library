@@ -53,11 +53,6 @@
                     }
                 }
             }, 1000);
-            for (let i = 0; i < 100; i++) {
-                this.barragePool.push({
-                    message: '春春女神，我爱你 x' + i
-                })
-            }
         },
         methods: {
             // 初始化弹幕通道
