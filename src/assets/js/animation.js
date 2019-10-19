@@ -1,5 +1,17 @@
 export default {
 
+    // 滚动条回到顶部
+    backTop(ele) {
+        let that = this;
+        setTimeout(function () {
+            let pos = ele.scrollTop;
+            if (pos > 0) {
+                ele.scrollTop = pos - 20;
+                that.backTop(ele);
+            }
+        }, 2);
+    },
+
     // 左至右阴影
     leftToRightShadow(ele) {
         setTimeout(function () {

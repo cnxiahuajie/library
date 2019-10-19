@@ -1,28 +1,23 @@
 <template>
-    <div id="body-assembly">
-        <div class="body-left" @scroll="scrollPage($event)">
-            <ArticleListBox ref="articleListBox" @previewArticle="previewArticle" @handleCleanArticle="handleCleanArticle" @handleStopSearch="handleStopSearch"/>
-        </div>
-        <div class="body-right">
-            <ArticlePreviewBox ref="articlePreviewBox" v-bind:content="article.content"/>
-        </div>
-        <div class="clearfix"></div>
+    <div id="body-left">
+        <ArticleListBox ref="articleListBox" :query="query" @scroll="scrollPage($event)" @previewArticle="previewArticle" @handleCleanArticle="handleCleanArticle" @handleSearched="handleSearched"/>
     </div>
 </template>
 
 <script>
-    import ArticleListBox from "./article/ArticleListBox";
-    import ArticlePreviewBox from "./article/ArticlePreviewBox";
+    import ArticleListBox from "./articles/ArticleListBox";
 
     // 触发分页的滑动次数
     const PAGE_TRIGGER_COUNT = 2;
-
     // 当没有触发分页时的滑动次数还原时间
     const PAGE_TRIGGER_RESET_TIME = 2000;
 
     export default {
-        name: "Assembly",
-        components: {ArticlePreviewBox, ArticleListBox},
+        name: "BodyLeft",
+        props: {
+            query: String
+        },
+        components: {ArticleListBox},
         data () {
             return {
                 // 是否正在执行分页
@@ -77,33 +72,18 @@
             handleCleanArticle() {
                 this.$refs.articlePreviewBox.handleCleanArticle()
             },
-            // 停止搜索
-            handleStopSearch() {
-                this.$emit('handleStopSearch');
+            // 搜索完成
+            handleSearched() {
+                this.$emit('handleSearched');
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-
-    #body-assembly .body-left, .body-right {
-        height: calc(100vh - 1px - 30px);
-        max-height: calc(100vh - 1px - 30px);
+    #body-left {
+        max-height: calc(100vh - (30px * 2 + 1px * 2));
+        min-height: calc(100vh - (30px * 2 + 1px * 2));
+        display: flex;
     }
-
-    #body-assembly .body-left {
-        float: left;
-        width: calc(50%);
-        background-color: white;
-        overflow-y: scroll;
-        border-right: 1px solid #ccc;
-    }
-
-    #body-assembly .body-right {
-        float: right;
-        width: calc(50% - 1px);
-        overflow-y: scroll;
-    }
-
 </style>

@@ -43,7 +43,7 @@
 
 <script>
     import apiArticleCategory from '@/assets/api/api.articleCategory';
-    import Success from "../Success";
+    import Success from "../../Success";
 
     export default {
         name: "Upload",

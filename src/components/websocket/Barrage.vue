@@ -18,7 +18,6 @@
     // 命令集
     const PING = "ping";
     const PONG = "pong";
-    const LOGOUT = "logout";
 
     export default {
         name: "Barrage",

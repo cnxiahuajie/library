@@ -25,7 +25,7 @@
     import apiAuth from '@/assets/api/api.security';
     import apiAuthor from '@/assets/api/api.author';
     import apiCommon from '@/assets/api/api.common';
-    import Success from "../Success";
+    import Success from "../../Success";
 
     export default {
         name: "Auth",
