@@ -2,12 +2,12 @@
     <div id="foot-left">
         <div class="item uploading-settings-container" v-show="uploadingSettings">
             <el-tooltip class="item" effect="dark" content="正在上传系统设置" placement="top-end">
-                <i class="el-icon-loading" style="cursor: pointer;"></i>
+                <i class="el-icon-loading"></i>
             </el-tooltip>
         </div>
         <div class="item feedback-container">
             <el-tooltip class="item" effect="dark" content="反馈问题" placement="top-end">
-                <i class="el-icon-question" style="cursor: pointer;" @click="handleFeedback"></i>
+                <i class="el-icon-question" @click="handleFeedback"></i>
             </el-tooltip>
             <el-dialog :title="'问题反馈'" :visible.sync="dialogFeedbackVisible"
                        :destroy-on-close="true"
@@ -21,7 +21,7 @@
         </div>
         <div class="item system-settings" v-show="$store.state.isLogin">
             <el-tooltip class="item" effect="dark" content="系统设置" placement="top-end">
-                <i class="el-icon-setting" style="cursor: pointer;" @click="dialogSettingsVisible = true"></i>
+                <i class="el-icon-setting" @click="dialogSettingsVisible = true"></i>
             </el-tooltip>
             <el-dialog :title="'系统设置'" :visible.sync="dialogSettingsVisible"
                        :before-close="handleCloseSettings"
@@ -34,11 +34,11 @@
         <div class="item auth-container">
             <el-tooltip v-show="!$store.state.isLogin" class="item" effect="dark" content="认证"
                         placement="top-end">
-                <i class="el-icon-lock" style="cursor: pointer;" @click="handleUnlock"></i>
+                <i class="el-icon-lock" @click="handleUnlock"></i>
             </el-tooltip>
             <el-tooltip v-show="$store.state.isLogin" class="item" effect="dark" content="退出"
                         placement="top-end">
-                <i class="el-icon-unlock" style="cursor: pointer;" @click="handleLock"></i>
+                <i class="el-icon-unlock" @click="handleLock"></i>
             </el-tooltip>
             <el-dialog :title="'认证'" :visible.sync="dialogAuthVisible"
                        :before-close="handleCloseAuth"
@@ -53,7 +53,7 @@
         <div class="item upload-article-container">
             <el-tooltip v-show="$store.state.isLogin" class="item" effect="dark" content="上传文章"
                         placement="bottom-end">
-                <i class="el-icon-document-add" @click="dialogUploadVisible = true" style="cursor: pointer;"></i>
+                <i class="el-icon-document-add" @click="dialogUploadVisible = true"></i>
             </el-tooltip>
             <el-dialog :title="uploadArticleDialogTitle" :visible.sync="dialogUploadVisible"
                        :before-close="handleCloseUploadArticle"
@@ -154,6 +154,10 @@
 
         .item {
             margin-left: 5px;
+
+            i{
+                cursor: pointer;
+            }
         }
     }
 

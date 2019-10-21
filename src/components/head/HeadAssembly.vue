@@ -1,16 +1,16 @@
 <template>
     <div id="head-assembly">
-        <div class="head-left">
-            <HeadLeft ref="headLeft" @handleProxySearch="handleProxySearch"/>
-        </div>
+        <HeadLeft class="left" ref="headLeft" @handleProxySearch="handleProxySearch"/>
+        <HeadRight/>
     </div>
 </template>
 
 <script>
     import HeadLeft from "./HeadLeft";
+    import HeadRight from "./HeadRight";
     export default {
         name: "HeadAssembly",
-        components: {HeadLeft},
+        components: {HeadRight, HeadLeft},
         methods: {
             // 更新搜搜关键字
             handleProxySearch(query) {
@@ -30,12 +30,12 @@
         display: flex;
     }
 
-    #head-assembly .head-left {
+    #head-assembly .left {
         width: calc(40%);
         border-right: 1px solid #ccc;
     }
 
-    #head-assembly .head-right {
+    #head-assembly .right {
         width: calc(60%);
     }
 </style>
