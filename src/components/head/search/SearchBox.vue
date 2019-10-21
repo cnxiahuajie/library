@@ -3,7 +3,7 @@
         <span class="search-prefix-icon" v-show="normalSearch"><i
                 :class="startSearch ? 'el-icon-loading' : 'el-icon-search'"></i></span>
         <input v-show="normalSearch" id="normalSearch" ref="normalSearch" type="text" class="search-input" placeholder="搜点什么"
-               v-model="query" @input="handleSearch"/>
+               v-model="query" @input="handleSearch" @keyup.enter="handleSearch"/>
     </div>
 </template>
 
