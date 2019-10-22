@@ -1,5 +1,18 @@
 export default {
 
+    // 滚动条回到底部
+    backToBottom(ele) {
+        let that = this;
+        setTimeout(function () {
+            let pos = ele.scrollHeight;
+            let dest = ele.scrollTop;
+            if (dest < pos) {
+                ele.scrollTop += 1;
+                that.backToBottom(ele);
+            }
+        }, 100);
+    },
+
     // 滚动条回到顶部
     backTop(ele) {
         let that = this;
@@ -9,7 +22,7 @@ export default {
                 ele.scrollTop = pos - 20;
                 that.backTop(ele);
             }
-        }, 2);
+        }, 1);
     },
 
     // 左至右阴影

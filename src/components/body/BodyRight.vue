@@ -13,9 +13,8 @@
             // 加载文章
             handleLoading(value) {
                 if (false === value) {
-                    this.ANIMATION.backTop(document.getElementById('body-right'))
+                    document.getElementById('body-right').scrollTop = 0;
                 }
-                this.$emit('handleLoading', value);
             }
         }
     }

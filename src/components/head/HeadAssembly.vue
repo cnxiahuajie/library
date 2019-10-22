@@ -1,7 +1,7 @@
 <template>
     <div id="head-assembly">
         <HeadLeft class="left" ref="headLeft" @handleProxySearch="handleProxySearch"/>
-        <HeadRight/>
+        <HeadRight class="right"/>
     </div>
 </template>
 
@@ -28,14 +28,15 @@
     #head-assembly {
         height: 30px;
         display: flex;
-    }
 
-    #head-assembly .left {
-        width: calc(40%);
-        border-right: 1px solid #ccc;
-    }
+        .left {
+            display: flex;
+            width: calc(40%);
+            border-right: 1px solid #ccc;
+        }
 
-    #head-assembly .right {
-        width: calc(60%);
+        .right {
+            width: calc(60%);
+        }
     }
 </style>

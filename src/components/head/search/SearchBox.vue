@@ -50,7 +50,7 @@
 
         .search-prefix-icon {
             color: #999;
-            padding-left: 10px;
+            padding-left: 5px;
         }
         .search-input {
             font-size: 12px;
@@ -58,7 +58,7 @@
             outline: none;
             border: 0;
             background-color: rgba(0, 0, 0, 0);
-            text-indent: 10px;
+            text-indent: 5px;
         }
     }
 

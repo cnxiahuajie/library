@@ -49,7 +49,6 @@
                 apiArticle.getArticleById(id).then(data => {
                     this.article = data;
                     this.handleLoading(false);
-                    this.ANIMATION.centerShadow(ele);
                 }, err => {
                     this.handleLoading(false);
                 });
@@ -70,8 +69,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: calc(100vh - 1px * 1 - 30px * 2);
-            max-height: calc(100vh - 1px * 1 - 30px * 2);
+            min-height: calc(100vh - 1px * 2 - 30px * 2);
+            max-height: calc(100vh - 1px * 2 - 30px * 2);
             width: calc(100%);
 
             .drag-box {

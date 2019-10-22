@@ -1,7 +1,7 @@
 <template>
-    <div id="index" v-loading.fullscreen.lock="fullscreenLoading">
+    <div id="index">
         <HeadAssembly class="header" ref="headAssembly" @handleProxySearch="handleProxySearch"/>
-        <BodyAssembly class="main" :query="query" @handleSearched="handleSearched" @handleLoading="handleLoading"/>
+        <BodyAssembly class="main" :query="query" @handleSearched="handleSearched"/>
         <FootAssembly class="footer" ref="footAssembly" />
         <WebSocket/>
     </div>
@@ -34,10 +34,6 @@
             // 搜索
             handleProxySearch(query) {
                 this.query = query;
-            },
-            // 加载文章
-            handleLoading(value) {
-                this.fullscreenLoading = value
             }
         }
     }

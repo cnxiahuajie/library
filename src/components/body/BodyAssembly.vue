@@ -1,7 +1,7 @@
 <template>
     <div id="body-assembly">
         <BodyLeft class="left" :query="query" @handleSearched="handleSearched"/>
-        <BodyRight class="right" ref="articlePreviewBox" @handleLoading="handleLoading"/>
+        <BodyRight class="right" ref="articlePreviewBox"/>
     </div>
 </template>
 
@@ -43,10 +43,6 @@
             // 搜索完成
             handleSearched() {
                 this.$emit('handleSearched');
-            },
-            // 加载文章
-            handleLoading(value) {
-                this.$emit('handleLoading', value);
             }
         }
     }
@@ -56,21 +52,19 @@
 
     #body-assembly {
         display: flex;
-    }
 
-    #body-assembly .left {
-        width: calc(40%);
-        height: calc(100vh - (1px * 2) - (30px * 2));
-        max-height: calc(100vh - (1px * 2) - (30px * 2));
-        background-color: white;
-        overflow-y: scroll;
-        border-right: 1px solid #ccc;
-        display: flex;
-    }
+        .left {
+            width: calc(40%);
+            height: calc(100vh - (1px * 2) - (30px * 2));
+            max-height: calc(100vh - (1px * 2) - (30px * 2));
+            border-right: 1px solid #ccc;
+            display: flex;
+        }
 
-    #body-assembly .right {
-        width: calc(60%);
-        overflow-y: scroll;
+        .right {
+            width: calc(60%);
+            overflow-y: scroll;
+        }
     }
 
 </style>
