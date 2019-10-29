@@ -1,11 +1,11 @@
 <template>
     <div id="head-right">
-        <el-tooltip class="item" content="下载PDF文档" placement="top">
-            <span class="item pdf">P</span>
-        </el-tooltip>
-        <el-tooltip class="item" content="下载Word文档" placement="top">
-            <span class="item word">W</span>
-        </el-tooltip>
+        <!--<el-tooltip class="item" content="下载PDF文档" placement="top">-->
+            <!--<span class="item pdf">P</span>-->
+        <!--</el-tooltip>-->
+        <!--<el-tooltip class="item" content="下载Word文档" placement="top">-->
+            <!--<span class="item word">W</span>-->
+        <!--</el-tooltip>-->
     </div>
 </template>
 

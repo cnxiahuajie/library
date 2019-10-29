@@ -230,7 +230,7 @@
                     font-weight: 500;
 
                     .author-info {
-                        .item:nth-child(even) {
+                        .item:nth-child(odd) {
                             margin-left: 10px;
                         }
                     }

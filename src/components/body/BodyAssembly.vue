@@ -59,6 +59,7 @@
             max-height: calc(100vh - (1px * 2) - (30px * 2));
             border-right: 1px solid #ccc;
             display: flex;
+            overflow-y: scroll;
         }
 
         .right {

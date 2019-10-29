@@ -19,6 +19,18 @@
                     </span>
             </el-dialog>
         </div>
+        <div class="item feedback-container">
+            <el-tooltip class="item" effect="dark" content="AES工具" placement="top-end">
+                <i class="el-icon-key" @click="handleAESUtils"></i>
+            </el-tooltip>
+            <el-dialog :title="'AES工具'" :visible.sync="dialogAESVisible"
+                       :destroy-on-close="true"
+                       :close-on-click-modal="false"
+                       :close-on-press-escape="false"
+                       center>
+                <Aes ref="aes"/>
+            </el-dialog>
+        </div>
         <div class="item system-settings" v-show="$store.state.isLogin">
             <el-tooltip class="item" effect="dark" content="系统设置" placement="top-end">
                 <i class="el-icon-setting" @click="dialogSettingsVisible = true"></i>
@@ -77,12 +89,14 @@
     import Settings from "./toolbar/Settings";
     import Auth from "./toolbar/Auth";
     import Feedback from "./toolbar/Feedback";
+    import Aes from "./toolbar/Aes";
 
     export default {
         name: "FootLeft",
-        components: {Feedback, Auth, Settings, ArticleUpload},
+        components: {Aes, Feedback, Auth, Settings, ArticleUpload},
         data() {
             return {
+                dialogAESVisible: false,
                 dialogFeedbackVisible: false,
                 uploadingSettings: false,
                 // 上传文章对话框标题
@@ -102,6 +116,9 @@
             }
         },
         methods: {
+            handleAESUtils() {
+                this.dialogAESVisible = true;
+            },
             handleCloseFeedback() {
                 this.$refs.feedback.handleSubmitFeedback();
                 this.dialogFeedbackVisible = false;
