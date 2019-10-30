@@ -12,12 +12,14 @@ import '@/assets/style/themes/github.css'
 import '@/assets/style/animation.css'
 import '@/assets/style/tag.css'
 import animation from '@/assets/js/animation.js'
+import JsonViewer from 'vue-json-viewer';
 
 Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
 Vue.use(VueCookies)
 Vue.use(ElementUI);
+Vue.use(JsonViewer)
 
 Vue.prototype.$ELEMENT = {size: 'small', zIndex: 3000};
 Vue.prototype.ANIMATION = animation

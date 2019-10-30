@@ -18,12 +18,16 @@
                         inactive-color="#67C23A">
                 </el-switch>
             </div>
+            <div class="item">
+                <el-radio v-model="viewMode" label="Text">Text</el-radio>
+                <el-radio v-model="viewMode" label="Json">Json</el-radio>
+            </div>
         </div>
         <div class="encodearea">
             <div class="item">
                 <el-input
                         type="textarea"
-                        :rows="10"
+                        :rows="16"
                         placeholder="请输入原报文"
                         v-model="srcContent"
                         resize="none"
@@ -31,9 +35,11 @@
                 </el-input>
             </div>
             <div class="item">
+                <json-viewer v-show="viewMode === 'Json'" :value="destContentData" style="max-height: 300px; overflow-y: scroll;"></json-viewer>
                 <el-input
+                        v-show="viewMode === 'Text'"
                         type="textarea"
-                        :rows="10"
+                        :rows="16"
                         placeholder="展示处理后的报文"
                         v-model="destContent"
                         resize="none"
@@ -50,6 +56,7 @@
     const KEY = 'library_aesutils_key';
     const IV = 'library_aesutils_iv';
     const MODE = 'library_aesutils_mode';
+    const VIEW_MODE = 'library_aesutils_view_mode';
     const PLUS = '+';
     const MINUS = '-';
 
@@ -57,7 +64,9 @@
         name: "Aes",
         data() {
             return {
+                viewMode: this.$cookies.get(VIEW_MODE) || '1',
                 srcContent: '',
+                destContentData: {},
                 destContent: '',
                 key: this.$cookies.get(KEY),
                 iv: this.$cookies.get(IV),
@@ -67,6 +76,9 @@
             }
         },
         watch: {
+            viewMode(newVal) {
+                this.$cookies.set(VIEW_MODE, newVal);
+            },
             mode(newVal) {
                 this.$cookies.set(MODE, newVal);
                 this.doAes();
@@ -87,13 +99,31 @@
             }
         },
         methods: {
+            // 判断是否是json对象
+            isJSON(src) {
+                try {
+                    var obj = JSON.parse(src);
+                    if(typeof obj == 'object' && obj ){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                } catch(e) {
+                    return false;
+                }
+            },
             // aes
             doAes() {
                 if (this.srcContent.length > 0 && this.key.length > 0 && this.iv.length > 0) {
                     if (this.mode === this.MODE_PLUS) {
                         this.destContent = Encrypt(this.srcContent, this.key, this.iv);
                     } else if (this.mode === this.MODE_MINUS) {
-                        this.destContent = Decrypt(this.srcContent, this.key, this.iv)
+                        this.destContent = Decrypt(this.srcContent, this.key, this.iv);
+                        if (this.isJSON(this.destContent)) {
+                            this.destContentData = JSON.parse(this.destContent)
+                        } else {
+                            this.destContentData = {};
+                        }
                     }
                 }
             }

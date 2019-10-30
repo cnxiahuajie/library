@@ -27,7 +27,8 @@
                        :destroy-on-close="true"
                        :close-on-click-modal="false"
                        :close-on-press-escape="false"
-                       center>
+                       center
+                       width="80%">
                 <Aes ref="aes"/>
             </el-dialog>
         </div>
