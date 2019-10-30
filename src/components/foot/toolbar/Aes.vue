@@ -12,8 +12,10 @@
                         v-model="mode"
                         active-text="加密模式"
                         inactive-text="解密模式"
-                        active-value="+"
-                        inactive-value="-">
+                        :active-value="MODE_PLUS"
+                        :inactive-value="MODE_MINUS"
+                        active-color="#409EFF"
+                        inactive-color="#67C23A">
                 </el-switch>
             </div>
         </div>
@@ -44,10 +46,12 @@
 </template>
 
 <script>
-    import aesUtils from '@/assets/api/api.aes';
+    import {Encrypt, Decrypt} from '@/assets/js/crypto';
     const KEY = 'library_aesutils_key';
     const IV = 'library_aesutils_iv';
     const MODE = 'library_aesutils_mode';
+    const PLUS = '+';
+    const MINUS = '-';
 
     export default {
         name: "Aes",
@@ -57,7 +61,9 @@
                 destContent: '',
                 key: this.$cookies.get(KEY),
                 iv: this.$cookies.get(IV),
-                mode: this.$cookies.get(MODE)
+                mode: this.$cookies.get(MODE),
+                MODE_PLUS: PLUS,
+                MODE_MINUS: MINUS
             }
         },
         watch: {
@@ -84,15 +90,11 @@
             // aes
             doAes() {
                 if (this.srcContent.length > 0 && this.key.length > 0 && this.iv.length > 0) {
-                    let formData = {
-                        'content': this.srcContent,
-                        'key': this.key,
-                        'iv': this.iv,
-                        'mode': this.mode
+                    if (this.mode === this.MODE_PLUS) {
+                        this.destContent = Encrypt(this.srcContent, this.key, this.iv);
+                    } else if (this.mode === this.MODE_MINUS) {
+                        this.destContent = Decrypt(this.srcContent, this.key, this.iv)
                     }
-                    aesUtils.aes(formData).then(data => {
-                        this.destContent = data.result;
-                    })
                 }
             }
         }
