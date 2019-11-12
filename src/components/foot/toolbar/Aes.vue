@@ -64,23 +64,23 @@
         name: "Aes",
         data() {
             return {
-                viewMode: this.$cookies.get(VIEW_MODE) || '1',
+                viewMode: this.LOCAL_STORAGE_PROXY.getItem(VIEW_MODE) || '1',
                 srcContent: '',
                 destContentData: {},
                 destContent: '',
-                key: this.$cookies.get(KEY),
-                iv: this.$cookies.get(IV),
-                mode: this.$cookies.get(MODE),
+                key: this.LOCAL_STORAGE_PROXY.getItem(KEY),
+                iv: this.LOCAL_STORAGE_PROXY.getItem(IV),
+                mode: this.LOCAL_STORAGE_PROXY.getItem(MODE),
                 MODE_PLUS: PLUS,
                 MODE_MINUS: MINUS
             }
         },
         watch: {
             viewMode(newVal) {
-                this.$cookies.set(VIEW_MODE, newVal);
+                this.LOCAL_STORAGE_PROXY.setItem(VIEW_MODE, newVal);
             },
             mode(newVal) {
-                this.$cookies.set(MODE, newVal);
+                this.LOCAL_STORAGE_PROXY.setItem(MODE, newVal);
                 this.doAes();
             },
             srcContent(newVal) {
@@ -90,11 +90,11 @@
                 this.doAes();
             },
             key(newVal) {
-                this.$cookies.set(KEY, newVal);
+                this.LOCAL_STORAGE_PROXY.setItem(KEY, newVal);
                 this.doAes();
             },
             iv(newVal) {
-                this.$cookies.set(IV, newVal);
+                this.LOCAL_STORAGE_PROXY.setItem(IV, newVal);
                 this.doAes();
             }
         },
