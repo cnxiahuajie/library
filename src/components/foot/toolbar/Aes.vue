@@ -20,7 +20,7 @@
             </div>
             <div class="item">
                 <el-radio v-model="viewMode" label="Text">Text</el-radio>
-                <el-radio v-model="viewMode" label="Json">Json</el-radio>
+                <el-radio v-model="viewMode" label="Json" :disabled="mode === MODE_PLUS">Json</el-radio>
             </div>
         </div>
         <div class="encodearea">
@@ -81,6 +81,7 @@
             },
             mode(newVal) {
                 localStorage.setItem(MODE, newVal);
+                this.viewMode = 'Text';
                 this.doAes();
             },
             srcContent(newVal) {
