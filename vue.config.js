@@ -20,12 +20,6 @@ module.exports = {
                 pathRewrite: {
                     '^/api': '/'
                 }
-            },
-            '/websocket': {
-                target: 'ws://192.168.229.141:8080', // 设置你调用的接口域名和端口号
-                pathRewrite: {
-                    '^/websocket': '/'
-                }
             }
         }
     },

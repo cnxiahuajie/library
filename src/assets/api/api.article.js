@@ -1,41 +1,13 @@
-import request from '@/request'
+import service from './request'
 
 export default {
 
-    // 上传服务路径
-    UPLOAD_URL: `/api/v1/article/upload`,
-
-    // 搜索文章
-    listArticleByQuery(q = '-', page) {
-        return request({
-            url: `/api/v1/anon/article/search/${q}/${page}`,
-            method: 'get'
-        })
+    postArticle(data) {
+        return service.request('post', '/library/v1/articles', data);
     },
 
-    // 查看文章
-    getArticleById(id) {
-        return request({
-            url: `/api/v1/anon/article/${id}`,
-            method: 'get'
-        })
-    },
-
-    // 更新文章
-    updateArticle(data) {
-        return request({
-            url: '/api/v1/article',
-            data: data,
-            method: 'patch'
-        })
-    },
-
-    // 删除文章
-    removeArticle(id) {
-        return request({
-            url: `/api/v1/article/${id}`,
-            method: 'delete'
-        })
+    putArticle(data) {
+        return service.request('put', '/library/v1/articles', data);
     }
 
 }

@@ -1,0 +1,77 @@
+/*弹性盒子*/
+.box {
+    display: flex;
+}
+
+.mouse {
+    cursor: pointer;
+}
+
+.height-transition {
+    transition: text-shadow 200ms;
+    -moz-transition: text-shadow 200ms;	/* Firefox 4 */
+    -webkit-transition: text-shadow 200ms;	/* Safari 和 Chrome */
+    -o-transition: text-shadow 200ms;	/* Opera */
+}
+
+.color-transition {
+    transition: color 200ms;
+    -moz-transition: color 200ms;	/* Firefox 4 */
+    -webkit-transition: color 200ms;	/* Safari 和 Chrome */
+    -o-transition: color 200ms;	/* Opera */
+}
+
+.background-color-transition {
+    transition: background-color 200ms;
+    -moz-transition: background-color 200ms;	/* Firefox 4 */
+    -webkit-transition: background-color 200ms;	/* Safari 和 Chrome */
+    -o-transition: background-color 200ms;	/* Opera */
+}
+
+.border-color-transition {
+    transition: border-top-color 200ms, border-right-color 200ms, border-bottom-color 200ms, border-left-color 200ms;
+    -moz-transition: border-top-color 200ms, border-right-color 200ms, border-bottom-color 200ms, border-left-color 200ms;	/* Firefox 4 */
+    -webkit-transition: border-top-color 200ms, border-right-color 200ms, border-bottom-color 200ms, border-left-color 200ms;	/* Safari 和 Chrome */
+    -o-transition: border-top-color 200ms, border-right-color 200ms, border-bottom-color 200ms, border-left-color 200ms;	/* Opera */
+}
+
+.width-transition {
+    transition: width 200ms;
+    -moz-transition: width 200ms;	/* Firefox 4 */
+    -webkit-transition: width 200ms;	/* Safari 和 Chrome */
+    -o-transition: width 200ms;	/* Opera */
+}
+
+.tag-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.frontend {
+    background-color: #0080ff;
+}
+
+.backend {
+    background-color: #cc8500;
+}
+
+.default-input-border:focus {
+    border-color: #93B5B3;
+}
+
+/** 滚动条 */
+::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background-color: #93B5B3;
+}
+
+::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
