@@ -39,7 +39,8 @@
             </div>
             <div class="status-box">
                 <span class="item mouse color-transition" @click="toAbout">关于</span>
-                <span class="item mouse color-transition" @click="toSignIn">登录</span>
+                <span v-show="!$store.state.login" class="item mouse color-transition" @click="toSignIn">登录</span>
+                <span v-show="$store.state.login" class="item mouse color-transition" @click="handleSignOut">注销</span>
                 <span class="item mouse color-transition" @click="toUserCenter">个人中心</span>
                 <span class="item mouse color-transition" @click="toArticleCenter">我的文章</span>
                 <span class="item mouse color-transition hide-left">&lt;&lt;</span>
@@ -66,6 +67,9 @@
             },
             toSignIn() {
                 window.location.href = process.env.VUE_APP_SECURITY_SIGN_IN_URL
+            },
+            handleSignOut() {
+                this.$router.push({name:'Logout'});
             },
             toSearchResult(keyword) {
                 this.$router.push({name:'ArticleSearchResult', query: {keyword: keyword}});

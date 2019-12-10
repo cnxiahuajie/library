@@ -8,6 +8,8 @@ import ArticleView from "@/views/ArticleView";
 import ArticleEdit from "@/views/ArticleEdit";
 import ArticleCenter from "@/views/ArticleCenter";
 import Saying from "@/views/Saying";
+import LoginCallback from "@/views/LoginCallback";
+import Logout from "@/views/Logout";
 
 Vue.use(VueRouter);
 
@@ -51,6 +53,16 @@ const routes = [
     path: "/Saying",
     name: "Saying",
     component: Saying
+  },
+  {
+    path: "/LoginCallback",
+    name: "LoginCallback",
+    component: LoginCallback
+  },
+  {
+    path: "/Logout",
+    name: "Logout",
+    component: Logout
   }
 ];
 

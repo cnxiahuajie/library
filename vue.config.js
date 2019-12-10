@@ -14,11 +14,11 @@ module.exports = {
         https: false,
         hotOnly: false,
         proxy: {
-            '/api': {
-                target: 'http://192.168.229.141:8080', // 设置你调用的接口域名和端口号
+            '/library': {
+                target: 'http://192.168.229.112:8080', // 设置你调用的接口域名和端口号
                 changeOrigin: true, // 跨域
                 pathRewrite: {
-                    '^/api': '/'
+                    '^/library': '/library'
                 }
             }
         }

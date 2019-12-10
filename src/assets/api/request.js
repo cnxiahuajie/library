@@ -15,7 +15,7 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
     function (response) {
         // 将响应的数据内容字符串反序列化为数据对象,请求正常则返回
-        return Promise.resolve(response.data.data)
+        return Promise.resolve(response.data)
     },
     function (error) {
         // 请求错误则向store commit这个状态变化
@@ -45,11 +45,20 @@ export default {
                 if (method.toLocaleLowerCase() === 'get') {
                     data = undefined
                 }
+                let existParams = url.indexOf("?") > -1;
                 let accessToken = localStorage.getItem('Authorization')
                 if (accessToken) {
-                    url = `${process.env.VUE_APP_API_BASE_URL}${url}?access_token=${accessToken}&t=${new Date().getTime()}`
+                    if (existParams) {
+                        url = `${url}&access_token=${accessToken}&t=${new Date().getTime()}`
+                    } else {
+                        url = `${url}?access_token=${accessToken}&t=${new Date().getTime()}`
+                    }
                 } else {
-                    url = `${process.env.VUE_APP_API_BASE_URL}${url}?t=${new Date().getTime()}`
+                    if (existParams) {
+                        url = `${url}&t=${new Date().getTime()}`
+                    } else {
+                        url = `${url}?t=${new Date().getTime()}`
+                    }
                 }
                 axios({
                     'url': url,
