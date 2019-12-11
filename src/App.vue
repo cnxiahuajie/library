@@ -5,45 +5,19 @@
                 <input type="text" class="search-input color-transition" placeholder="搜索">
             </div>
             <div class="search-item-box">
-                <div class="search-item mouse">
-                    <h1>产品设计</h1>
-                </div>
-                <div class="search-item mouse">
-                    <h1>美工交互设计</h1>
-                </div>
-                <div class="search-item mouse">
-                    <h1>产品测试</h1>
-                </div>
-                <div class="search-item mouse">
-                    <h1>前端开发</h1>
-                </div>
-                <div class="search-item mouse">
-                    <h1 class="height-transition">后端开发</h1>
-                    <div class="child-search-item">
-                        <h3 class="height-transition" @click="toSearchResult('Springboot2')">Springboot2</h3>
-                        <h3 class="height-transition" @click="toSearchResult('Vtarm框架之基础')">Vtarm框架之基础</h3>
-                        <h3 class="height-transition" @click="toSearchResult('Vtarm框架之初级应用')">Vtarm框架之初级应用</h3>
-                        <h3 class="height-transition" @click="toSearchResult('Vtarm框架之中级应用')">Vtarm框架之中级应用</h3>
-                        <h3 class="height-transition" @click="toSearchResult('Vtarm框架之高级应用')">Vtarm框架之高级应用</h3>
+                <div class="search-item mouse" v-for="category in categories" :key="category.id">
+                    <h1 @click="toSearchResult(category.id, '')" class="item-title">{{category.name}}</h1>
+                    <div class="child-search-item max-height-transition">
+                        <h3 @click="toSearchResult('', column.id)" v-for="column in category.columns" :key="column.id">{{column.name}}</h3>
                     </div>
-                </div>
-                <div class="search-item mouse">
-                    <h1>运维部署</h1>
-                </div>
-                <div class="search-item mouse">
-                    <h1>服务器</h1>
-                </div>
-                <div class="search-item mouse">
-                    <h1>数据库管理</h1>
                 </div>
             </div>
             <div class="status-box">
                 <span class="item mouse color-transition" @click="toAbout">关于</span>
                 <span v-show="!$store.state.login" class="item mouse color-transition" @click="toSignIn">登录</span>
                 <span v-show="$store.state.login" class="item mouse color-transition" @click="handleSignOut">注销</span>
-                <span class="item mouse color-transition" @click="toUserCenter">个人中心</span>
-                <span class="item mouse color-transition" @click="toArticleCenter">我的文章</span>
-                <span class="item mouse color-transition hide-left">&lt;&lt;</span>
+                <span v-show="$store.state.login" class="item mouse color-transition" @click="toUserCenter">个人中心</span>
+                <span v-show="$store.state.login" class="item mouse color-transition" @click="toArticleCenter">我的文章</span>
             </div>
         </div>
         <div class="right">
@@ -56,26 +30,50 @@
 
 <script>
 
+    import apiCategory from '@/assets/api/library/api.category';
+
     export default {
         name: "App",
+        data() {
+            return {
+                categories: []
+            }
+        },
+        created() {
+            // 设置登录状态
+            if (localStorage.getItem('access_token')) {
+                this.$store.commit('login', true);
+            }
+            // 查询文章目录列表
+            apiCategory.categories().then(data => {
+                this.categories = data;
+            })
+        },
         methods: {
             toAbout() {
-                this.$router.push({name:'About'});
+                this.$router.push({name: 'About'});
             },
             toUserCenter() {
-                this.$router.push({name:'UserCenter'});
+                this.$router.push({name: 'UserCenter'});
             },
             toSignIn() {
                 window.location.href = process.env.VUE_APP_SECURITY_SIGN_IN_URL
             },
             handleSignOut() {
-                this.$router.push({name:'Logout'});
+                this.$router.push({name: 'Logout'});
             },
-            toSearchResult(keyword) {
-                this.$router.push({name:'ArticleSearchResult', query: {keyword: keyword}});
+            toSearchResult(category, column) {
+                let query = {};
+                if ('' !== category) {
+                    query["category"] = category;
+                }
+                if ('' !== column) {
+                    query["column"] = column;
+                }
+                this.$router.push({name: 'ArticleSearchResult', query: query});
             },
             toArticleCenter() {
-                this.$router.push({name:'ArticleCenter'});
+                this.$router.push({name: 'ArticleCenter'});
             }
         }
     }
@@ -98,7 +96,7 @@
         z-index: 1;
     }
 
-    #app .left{
+    #app .left {
         background-color: #93B5B3;
         width: 30%;
         display: flex;
@@ -106,7 +104,8 @@
         position: relative;
         box-shadow: 0 0 10px #93B5B3;
     }
-    #app .right{
+
+    #app .right {
         display: flex;
         width: 70%;
         background-color: #F2F6F5;
@@ -122,14 +121,15 @@
         align-items: center;
     }
 
-    #app .left .search-box{
+    #app .left .search-box {
         display: flex;
         height: 5%;
         padding: 10px;
         border-bottom: 2px solid rgba(200, 218, 211, 1);
+        flex-shrink: 0;
     }
 
-    #app .left .status-box{
+    #app .left .status-box {
         display: flex;
         width: calc(100% - 20px);
         height: 60px;
@@ -137,30 +137,30 @@
         bottom: 0;
         background-color: rgba(99, 112, 126, 1);
         align-items: center;
-        color: #C8DAD3;
         padding: 0 10px;
         font-size: 13px;
-        overflow: hidden;
+        flex-shrink: 0;
     }
 
-    #app .left .status-box .item{
+    #app .left .status-box .item {
         color: rgba(200, 218, 211, 1);
         margin: 0 10px;
     }
 
-    #app .left .status-box .item:hover{
-        color: rgba(200, 218, 211, 0.5);
+    #app .left .status-box .item:hover {
+        text-shadow: 0 0 20px rgba(200, 218, 211, 1);
     }
 
     #app .left .status-box .hide-left {
         margin-left: auto;
     }
 
-    #app .left .search-item-box{
+    #app .left .search-item-box {
         display: flex;
         flex-direction: column;
-        height: 95%;
+        height: 100%;
         padding: 5px 20px;
+        overflow-y: scroll;
     }
 
     #app .left .search-item-box .search-item {
@@ -168,31 +168,33 @@
         flex-direction: column;
     }
 
-    #app .left .search-item-box .search-item h1{
-        font-size: 16px;
-        margin: 10px;
-        color: #F2F6F5;
-    }
-
-    #app .left .search-item-box .search-item h3{
-        font-size: 13px;
-        margin: 5px;
-        height: 20px;
-        color: #F2F6F5;
-
-    }
-
-    #app .left .search-item-box .search-item .child-search-item {
-        transition: height 600ms;
-        display: flex;
-        height: 0px;
-        flex-direction: column;
+    #app .left .search-item-box .child-search-item {
+        margin-left: 10px;
         overflow: hidden;
-        padding: 0 20px;
+        max-height: 0;
     }
 
     #app .left .search-item-box .search-item:hover .child-search-item {
-        height: 150px;
+        margin-left: 10px;
+        max-height: inherit;
+    }
+
+    #app .left .search-item-box .search-item h1 {
+        font-size: 16px;
+        color: #FFFFFF;
+    }
+
+    #app .left .search-item-box .search-item h3 {
+        font-size: 13px;
+        color: #FFFFFF;
+    }
+
+    #app .left .search-item-box .search-item h1:hover {
+        text-shadow: 0 0 20px #FFFFFF;
+    }
+
+    #app .left .search-item-box .search-item h3:hover {
+        text-shadow: 0 0 20px #FFFFFF;
     }
 
     .search-input {
@@ -207,18 +209,6 @@
 
     .search-input:focus {
         color: rgba(99, 112, 126, 1);
-    }
-
-    input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        color: rgba(99, 112, 126, 0.5);
-    }
-
-    input:focus::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        color: rgba(99, 112, 126, 1);
-    }
-
-    .mouse {
-        cursor: pointer;
     }
 
 </style>

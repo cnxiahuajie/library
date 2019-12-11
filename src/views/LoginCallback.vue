@@ -1,11 +1,11 @@
 <template>
     <div id="login-callback-container">
-        <p>登录中...</p>
+        <p>登录中，请稍后...</p>
     </div>
 </template>
 
 <script>
-    import oauth2 from '@/assets/api/library/api.oauth2';
+    import oauth2 from '@/assets/api/oauth2/api.oauth2';
 
     export default {
         name: "LoginCallback",

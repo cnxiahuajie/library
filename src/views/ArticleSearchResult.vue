@@ -7,34 +7,48 @@
 </template>
 
 <script>
-    import ArticleSearchItem from "../components/ArticleSearchItem";
+    import ArticleSearchItem from "@/components/ArticleSearchItem";
+    import apiArticle from '@/assets/api/library/api.article';
 
     export default {
         name: "ArticleSearchResult",
         components: {ArticleSearchItem},
         data() {
             return {
-                keyword: '',
-                articles: [
-                    {
-                        id: '111111111111',
-                        title: '文件标题',
-                        fragment: '<em>高亮块</em>',
-                        viewCount: 100,
-                        articleType: '前端',
-                        publishTime: '2019-02-20 12:22:32'
-                    }
-                ]
+                page: 1,
+                articles: []
             }
         },
         beforeRouteUpdate (to, from, next) {
+            this.articles = [];
             this.handleSearch(to);
             next() // 一定要有next
         },
         methods: {
             // 执行搜索
             handleSearch(to) {
-                this.keyword = to.query.keyword
+                let q = '';
+                let category = '';
+                let column = '';
+
+                if (to.query["q"]) {
+                    q = to.query.q;
+                }
+                if (to.query["category"]) {
+                    category = to.query.category;
+                }
+                if (to.query["column"]) {
+                    column = to.query.column;
+                }
+
+                apiArticle.list(q, this.page, category, column).then(data => {
+                    if (null !== data && data.length > 0) {
+                        this.articles = data;
+                        this.articles.forEach(item => {
+                            item["visible"] = true;
+                        })
+                    }
+                });
             },
             // 前往文章详情页面
             toArticleView(id) {

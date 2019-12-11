@@ -3,17 +3,17 @@
         <h1 class="title mouse color-transition" @click="toArticleView">{{article.title}}</h1>
         <p class="fragment" v-html="article.fragment"></p>
         <div class="article-info">
-            <p class="item">
-                <strong>阅读量</strong><span>{{article.viewCount}}</span>
-            </p>
-            <p v-show="article.articleType === '1'" class="item">
-                <label class="tag-point backend"></label>
-                <span>前端</span>
-            </p>
-            <p class="item">
-                <strong>最后更新于</strong>
-                <span>{{article.lastModTime}}</span>
-            </p>
+            <div class="item">
+                <div class="tag-point" :style="{backgroundColor: article.category.color}"></div>
+                <div>{{article.category.name}}</div>
+            </div>
+            <div class="item">
+                <div>{{article.column.name}}</div>
+            </div>
+            <div class="item">
+                <label>最后更新于</label>
+                <strong>{{article.lastModTime}}</strong>
+            </div>
         </div>
     </div>
 </template>
@@ -21,16 +21,7 @@
 <script>
     export default {
         name: "ArticleSearchItem",
-        props: {
-            article: {
-                id: '',
-                title: '文件标题',
-                fragment: '<em>高亮块</em>',
-                viewCount: 100,
-                articleType: '前端',
-                lastModTime: '2019-02-20 12:22:32'
-            }
-        },
+        props: ["article"],
         methods: {
             // 前往文章详情页面
             toArticleView() {

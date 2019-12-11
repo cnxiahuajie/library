@@ -1,13 +1,16 @@
 <template>
-    <div class="select-container">
+    <div class="select-container" @mouseleave="openSelectOptions = false">
         <span class="selected" @click="openSelectOptions = !openSelectOptions">
-            <div class="selected-label">{{selected.label}}</div>
-            <div class="selected-icon">
+            <div class="selected-label">{{selected.key}}</div>
+            <div v-show="clear" class="selected-icon clear-icon mouse" @click="handleClean">
+                <p>X</p>
+            </div>
+            <div class="selected-icon mouse">
                 <p class="arrow-up" :class="openSelectOptions ? 'icon-down' : 'icon-up'"></p>
             </div>
         </span>
         <div class="options-container" v-show="openSelectOptions">
-            <div class="option mouse" :data-key="'option1'" @click="handleSelected(item.key, item)" v-for="item in model" :key="item.key">{{item.label}}</div>
+            <div class="option mouse" @click="handleSelected(item[origin], item)" v-for="item in data" :key="item[origin]">{{item[label]}}</div>
         </div>
     </div>
 </template>
@@ -16,43 +19,60 @@
     export default {
         name: "Select",
         props: {
-            placeholder: String
+            placeholder: String,
+            data: Array,
+            label: String,
+            origin: String,
+            clear: {
+                type: Boolean,
+                default: false
+            }
         },
         data () {
             return {
                 openSelectOptions: false,
                 selected: {
-                    key: '-',
-                    label: this.placeholder
+                    key: this.placeholder,
+                    value: ''
                 },
-                model: [
-                    {
-                        key: 'op1',
-                        label: '选项一'
-                    },
-                    {
-                        key: 'op2',
-                        label: '选项二'
-                    },
-                    {
-                        key: 'op3',
-                        label: '选项三'
-                    },
-                    {
-                        key: 'op4',
-                        label: '选项四'
-                    },
-                    {
-                        key: 'op5',
-                        label: '选项五'
+                inputValue: ''
+            }
+        },
+        watch: {
+            selected(newVal) {
+                this.inputValue = newVal.value;
+            },
+            inputValue(newVal) {
+                this.$emit('input', newVal);
+            },
+            data: {
+                handler(newValue, oldValue) {
+                    if (null === newValue || 0 === newValue.length) {
+                        this.selected = {
+                            key: this.placeholder,
+                                value: ''
+                        }
                     }
-                ]
+                },
+                deep: true
             }
         },
         methods: {
+            // 清除时间
+            handleClean(e) {
+                this.inputValue = '';
+                this.selected = {
+                    key: this.placeholder,
+                    value: ''
+                };
+                e.stopPropagation();
+            },
             // 选中事件
             handleSelected(key, obj) {
-                this.selected = obj;
+                this.selected = {
+                    key: obj[this.label],
+                    value: obj[this.origin]
+                };
                 this.openSelectOptions = false;
             }
         }
@@ -146,6 +166,18 @@
 
     .select-container .options-container .option:hover {
         background-color: #E4E7ED;
+    }
+
+    .select-container .selected .clear-icon {
+        width: 12px;
+        font-size: 12px;
+        color: #cccccc;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        flex-shrink: 0;
     }
 
 </style>

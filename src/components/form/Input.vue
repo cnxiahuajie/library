@@ -47,8 +47,4 @@
         font-size: 12px;
     }
 
-    ::-webkit-input-placeholder {
-        color: #606266;
-    }
-
 </style>

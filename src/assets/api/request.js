@@ -28,7 +28,9 @@ axios.interceptors.response.use(
         if (404 === httpError.status) {
             console.error({message: '服务器被吃了⊙﹏⊙∥'});
         } else if (403 === httpError.status) {
-            console.error({message: '权限不足，请联系管理员！'});
+            console.error({message: '权限不足！'});
+        } else if (401 === httpError.status) {
+            store.commit('login', false);
         } else {
             console.error({message: '未知错误'});
         }
@@ -46,7 +48,7 @@ export default {
                     data = undefined
                 }
                 let existParams = url.indexOf("?") > -1;
-                let accessToken = localStorage.getItem('Authorization')
+                let accessToken = localStorage.getItem('access_token')
                 if (accessToken) {
                     if (existParams) {
                         url = `${url}&access_token=${accessToken}&t=${new Date().getTime()}`

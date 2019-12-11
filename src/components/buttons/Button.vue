@@ -1,5 +1,5 @@
 <template>
-    <div class="button mouse background-color-transition" v-text="text" :class="type" @click="$emit('clickButton')"></div>
+    <div class="button mouse background-color-transition" v-text="text" :class="type" ></div>
 </template>
 
 <script>
@@ -36,7 +36,6 @@
 
     .default:hover {
         background-color: rgba(96, 169, 166, 0.8);
-        border: 2px solid rgba(96, 169, 166, 1);
     }
 
     .error {
@@ -48,7 +47,6 @@
 
     .error:hover {
         background-color: rgba(255, 0, 0, 0.8);
-        border: 2px solid rgba(255, 0, 0, 1);
     }
 
     .warning {
@@ -60,6 +58,5 @@
 
     .warning:hover {
         background-color: rgba(255, 165, 0, 0.8);
-        border: 2px solid rgba(255, 165, 0, 1);
     }
 </style>

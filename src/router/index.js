@@ -17,52 +17,62 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {login: false}
   },
   {
     path: "/About",
     name: "About",
-    component: About
+    component: About,
+    meta: {login: false}
   },
   {
     path: "/UserCenter",
     name: "UserCenter",
-    component: UserCenter
+    component: UserCenter,
+    meta: {login: true}
   },
   {
     path: "/ArticleSearchResult",
     name: "ArticleSearchResult",
-    component: ArticleSearchResult
+    component: ArticleSearchResult,
+    meta: {login: false}
   },
   {
     path: "/ArticleView",
     name: "ArticleView",
-    component: ArticleView
+    component: ArticleView,
+    meta: {login: false}
   },
   {
     path: "/ArticleEdit",
     name: "ArticleEdit",
-    component: ArticleEdit
+    component: ArticleEdit,
+    meta: {login: true}
   },
   {
     path: "/ArticleCenter",
     name: "ArticleCenter",
-    component: ArticleCenter
+    component: ArticleCenter,
+    meta: {login: true}
   },
   {
     path: "/Saying",
     name: "Saying",
-    component: Saying
+    component: Saying,
+    meta: {login: false}
   },
   {
     path: "/LoginCallback",
     name: "LoginCallback",
-    component: LoginCallback
+    component: LoginCallback,
+    meta: {login: false}
   },
   {
     path: "/Logout",
     name: "Logout",
-    component: Logout
+    component: Logout,
+    meta: {login: true}
   }
 ];
 
@@ -70,6 +80,17 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('access_token');
+  let needLogin = to.matched.some(item => item.meta.login);
+
+  if (null === token && true === needLogin) {
+    window.location.href = process.env.VUE_APP_SECURITY_SIGN_IN_URL
+  } else {
+    next();
+  }
 });
 
 export default router;

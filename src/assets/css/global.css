@@ -8,6 +8,20 @@
 }
 
 .height-transition {
+    transition: height 200ms;
+    -moz-transition: height 200ms;	/* Firefox 4 */
+    -webkit-transition: height 200ms;	/* Safari 和 Chrome */
+    -o-transition: height 200ms;	/* Opera */
+}
+
+.max-height-transition {
+    transition: max-height 200ms;
+    -moz-transition: max-height 200ms;	/* Firefox 4 */
+    -webkit-transition: max-height 200ms;	/* Safari 和 Chrome */
+    -o-transition: max-height 200ms;	/* Opera */
+}
+
+.text-shadow-transition {
     transition: text-shadow 200ms;
     -moz-transition: text-shadow 200ms;	/* Firefox 4 */
     -webkit-transition: text-shadow 200ms;	/* Safari 和 Chrome */
@@ -73,5 +87,25 @@
 }
 
 ::-webkit-scrollbar-track {/*滚动条里面轨道*/
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    /*-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);*/
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 200ms;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    transition: color 200ms;
+    color: rgba(99, 112, 126, 0.5);
+}
+
+input:focus::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: rgba(99, 112, 126, 1);
+}
+
+.mouse {
+    cursor: pointer;
 }

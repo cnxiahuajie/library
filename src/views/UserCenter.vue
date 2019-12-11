@@ -6,17 +6,17 @@
                 <div class="public-profile">
                     <div class="item nick-name">
                         <label class="title">昵称</label>
-                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="publicProperty.nickName"/>
+                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="user.nickname"/>
                     </div>
                     <div class="item github">
                         <label class="title">状态</label>
-                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="publicProperty.status"/>
+                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="user.status"/>
                     </div>
                     <div class="item github">
-                        <label class="title">个人网站</label>
-                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="publicProperty.userWebSite"/>
+                        <label class="title">邮箱</label>
+                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="user.email"/>
                     </div>
-                    <Button class="item" :text="'保存'"/>
+                    <Button class="item" :text="'保存'" @click.native="handleSubmit"/>
                 </div>
                 <div class="tooltip">
                     <p>这里的信息将会被公开展示，请注意个人隐私。</p>
@@ -30,48 +30,40 @@
                 <div class="security">
                     <div class="item old-password">
                         <label class="title">旧密码</label>
-                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="securityProperty.oldPassword"/>
+                        <Input class="default-input-border border-color-transition input" :placeholder="''" :type="'password'" v-model="user.oldPassword"/>
                     </div>
                     <div class="item new-password">
                         <label class="title">新密码</label>
-                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="securityProperty.newPassword"/>
+                        <Input class="default-input-border border-color-transition input" :placeholder="''" :type="'password'" v-model="user.newPassword"/>
                     </div>
                     <div class="item confirm-password">
                         <label class="title">确认密码</label>
-                        <Input class="default-input-border border-color-transition input" :placeholder="''" v-model="securityProperty.confirmPassword"/>
+                        <Input class="default-input-border border-color-transition input" :placeholder="''" :type="'password'" v-model="user.confirmPassword"/>
                     </div>
-                    <Button class="item" :text="'确认修改'"/>
+                    <Button class="item" :text="'确认修改'" @click.native="handleSubmit"/>
                 </div>
                 <div class="tooltip">
                     <p>频繁的修改密码会增强您的账号的安全性。</p>
                 </div>
             </div>
         </div>
-
-        <div class="properties-group recent-happenings">
-            <h2 class="title">最近动态</h2>
-            <div class="item" v-for="log in logs" :key="log.id">
-                <p class="info"><span class="time">{{log.time}}</span><span class="action">{{log.action}}</span></p>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
-    import Input from "../components/form/Input";
-    import Button from "../components/buttons/Button";
+    import Input from "@/components/form/Input";
+    import Button from "@/components/buttons/Button";
+    import apiUser from '@/assets/api/library/api.user';
 
     export default {
         name: "UserCenter",
         components: {Button, Input},
         data () {
             return {
-                publicProperty: {
-                    nickName: '',
+                user: {
+                    nickname: '',
                     status: '',
-                    userWebSite: ''
-                },
-                securityProperty: {
+                    email: '',
                     oldPassword: '',
                     newPassword: '',
                     confirmPassword: ''
@@ -93,6 +85,25 @@
                         action: '修改密码'
                     }
                 ]
+            }
+        },
+        created() {
+            // 加载用户信息
+            this.loadUserInfo();
+        },
+        methods: {
+            // 加载用户信息
+            loadUserInfo() {
+                apiUser.get().then(data => {
+                    this.user = data;
+                });
+            },
+            // 处理提交
+            handleSubmit() {
+                apiUser.update(this.user).then(data => {
+                    this.user = data;
+                    alert('保存成功！')
+                });
             }
         }
     }
