@@ -53,7 +53,7 @@
 <script>
     import Input from "@/components/form/Input";
     import Button from "@/components/buttons/Button";
-    import apiUser from '@/assets/api/library/api.user';
+    import apiUser from '@/assets/api/user/api.user';
 
     export default {
         name: "UserCenter",
@@ -102,7 +102,7 @@
             handleSubmit() {
                 apiUser.update(this.user).then(data => {
                     this.user = data;
-                    alert('保存成功！')
+                    alert('保存成功！');
                 });
             }
         }

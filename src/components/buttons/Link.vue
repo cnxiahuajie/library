@@ -1,17 +1,12 @@
 <template>
-    <div class="button" v-text="text" :style="style"></div>
+    <div class="button mouse background-color-transition color-transition" v-text="text"></div>
 </template>
 
 <script>
     export default {
         name: "Link",
         props: {
-            style: Object,
-            width: String,
-            height: String,
-            text: String,
-            type: String,
-            click: Function
+            text: String
         }
     }
 </script>
@@ -21,10 +16,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: rgba(96, 169, 166, 1);
+        color: #0366d6;
+        padding: 0 2px;
+        border-radius: 2px;
     }
 
     .button:hover {
-        color: #F2F6F5;
+        background-color: #0366d6;
+        color: #FFFFFF;
     }
 </style>

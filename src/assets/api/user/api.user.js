@@ -8,7 +8,7 @@ export default {
      * @returns {*|Promise<any>|undefined}
      */
     update(data) {
-        return service.request('patch', `/library/v1/users/id`, data);
+        return service.request('patch', `/gateway/user/v1/users/id`, data);
     },
 
     /**
@@ -17,7 +17,7 @@ export default {
      * @returns {*|Promise<any>|undefined}
      */
     get() {
-        return service.request('get', `/library/v1/users`);
+        return service.request('get', `/gateway/user/v1/users/me`);
     }
 
 }

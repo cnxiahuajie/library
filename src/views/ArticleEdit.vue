@@ -1,18 +1,24 @@
 <template>
     <div id="article-edit-container">
         <div class="button-container">
-            <Button class="button mouse" :text="'立即发布'" @click.native="handleSubmitArticle"/>
+            <Button class="button mouse" :text="'返回'" @click.native="handleBack"/>
+            <Button class="button mouse" :text="'发布'" @click.native="handleSubmitArticle"/>
         </div>
-        <Input class="item default-input-border border-color-transition" :placeholder="'请输入标题'" v-model="article.title"/>
-        <div class="item article-type-column">
-            <Select class="article-type-column-item" :placeholder="'请选择文章类型'" v-model="article.category.id" :data="categories" :label="'name'" :origin="'id'"/>
-            <Select class="article-type-column-item" :placeholder="'可选文章专栏'" v-model="article.column.id" :data="columns" :label="'name'" :origin="'id'"/>
-            <Input class="article-type-column-item default-input-border border-color-transition" :placeholder="'输入自定义专栏'" v-model="article.column.name"/>
+        <Input v-show="false === update" class="item default-input-border border-color-transition"
+               :placeholder="'请输入标题'"
+               v-model="article.title"/>
+        <div v-show="false === update" class="item article-type-column">
+            <Select class="article-type-column-item" :placeholder="'请选择文章类型'" v-model="article.category.id"
+                    :data="categories" :label="'name'" :origin="'id'"/>
+            <Select class="article-type-column-item" :placeholder="'可选文章专栏'" v-model="article.column.id" :data="columns"
+                    :label="'name'" :origin="'id'"/>
+            <Input class="article-type-column-item default-input-border border-color-transition"
+                   :placeholder="'输入自定义专栏'" v-model="article.column.name"/>
         </div>
-        <div class="item article-type-column">
+        <div v-show="false === update" class="item article-type-column">
             <Input class="default-input-border border-color-transition" :placeholder="'引用链接'" v-model="article.link"/>
         </div>
-        <TinymceEditor class="item" ref="editor" v-model="article.content" :disabled="disabled" />
+        <TinymceEditor class="item" ref="editor" v-model="article.content" :disabled="disabled"/>
     </div>
 </template>
 
@@ -29,6 +35,7 @@
         components: {Button, Select, TinymceEditor, Input},
         data() {
             return {
+                update: false,
                 disabled: false,
                 article: {
                     content: '',
@@ -73,19 +80,41 @@
             }
         },
         created() {
+            // 加载文章目录
             this.loadCategories();
+            if (this.$route.query.id) {
+                this.update = true;
+                // 加载文章
+                this.loadArticle();
+            }
         },
         methods: {
+            // 返回上一级
+            handleBack() {
+                this.$router.go(-1);
+            },
+            // 加载文章
+            loadArticle() {
+                apiArticle.details(this.$route.query.id).then(data => {
+                    this.article = data;
+                });
+            },
             // 提交文章
             handleSubmitArticle() {
-                apiArticle.add(this.article).then(data => {
-                   alert(JSON.stringify(data));
-                });
+                if (false === this.update) {
+                    apiArticle.add(this.article).then(data => {
+                        alert('保存成功！');
+                    });
+                } else {
+                    apiArticle.update(this.article).then(data => {
+                        alert('保存成功！');
+                    });
+                }
             },
             // 加载文章目录
             loadCategories() {
                 apiCategory.categories().then(data => {
-                   this.categories = data;
+                    this.categories = data;
                 });
             }
         }

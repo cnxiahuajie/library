@@ -47,7 +47,11 @@
             // 查询文章目录列表
             apiCategory.categories().then(data => {
                 this.categories = data;
-            })
+            });
+            if (null === sessionStorage.getItem('nf')) {
+                sessionStorage.setItem('nf', 'nf');
+                this.toAbout();
+            }
         },
         methods: {
             toAbout() {
@@ -57,7 +61,7 @@
                 this.$router.push({name: 'UserCenter'});
             },
             toSignIn() {
-                window.location.href = process.env.VUE_APP_SECURITY_SIGN_IN_URL
+                window.location.href = process.env.VUE_APP_SECURITY_SIGN_IN_URL;
             },
             handleSignOut() {
                 this.$router.push({name: 'Logout'});

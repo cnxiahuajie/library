@@ -1,7 +1,10 @@
 <template>
     <div id="article-search-result">
         <div class="article" v-for="article in articles" :key="'article-search-result-' + article.id">
-            <ArticleSearchItem :article="article" @toArticleView="toArticleView"/>
+            <ArticleSearchItem :article="article" @toArticleView="toArticleView(article.id)"/>
+        </div>
+        <div v-show="articles.length === 0" class="not-found">
+            <p>无任何结果</p>
         </div>
     </div>
 </template>
@@ -69,6 +72,16 @@
         display: flex;
         border-bottom: 1px solid #E4E7ED;
         padding: 10px 0;
+    }
+
+    .not-found {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
     }
 
 </style>

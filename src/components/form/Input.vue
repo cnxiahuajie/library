@@ -1,5 +1,5 @@
 <template>
-    <input :type="type" :placeholder="placeholder" v-model="inputValue">
+    <input :type="type" :placeholder="placeholderValue" v-model="inputValue">
 </template>
 
 <script>
@@ -28,8 +28,11 @@
         },
         data () {
             return {
-                inputValue: this.value
+                inputValue: this.value,
+                placeholderValue: this.placeholder
             }
+        },
+        methods: {
         }
     }
 </script>

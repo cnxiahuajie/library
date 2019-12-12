@@ -1,8 +1,8 @@
 <template>
     <div id="article-center-container">
         <div class="action-container">
-            <Input class="default-input-border item border-color-transition" :placeholder="'标题过滤'" v-model="titleFilter"/>
-            <Select class="article-type item" :placeholder="'文章类型'" v-model="categoryId" :data="categories" :label="'name'" :origin="'id'" :clear="true"/>
+            <Input class="default-input-border item border-color-transition" ref="articleTitle" :placeholder="'标题过滤'" v-model="titleFilter"/>
+            <Select class="article-type item" ref="articleCategory" :placeholder="'文章类型'" v-model="categoryId" :data="categories" :label="'name'" :origin="'id'" :clear="true"/>
             <Button class="button mouse item" :text="'新建文章'" @click.native="toArticleEdit"/>
         </div>
         <div class="article-list-container">
@@ -48,6 +48,7 @@
         },
         watch: {
             titleFilter(newVal) {
+                this.$refs.articleCategory.handleClean();
                 if (newVal === '') {
                     this.articles.forEach(item => {
                         if (item.visible === false) {
@@ -70,7 +71,7 @@
                         if (item.visible === false) {
                             item.visible = true;
                         }
-                    })
+                    });
                     return;
                 }
                 this.articles.forEach(item => {

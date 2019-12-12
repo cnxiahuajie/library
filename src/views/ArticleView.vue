@@ -1,6 +1,6 @@
 <template>
     <div id="article-view-container">
-        <ArticleDetails :id="id"/>
+        <ArticleDetails :id="this.$route.query.id"/>
     </div>
 </template>
 
@@ -9,9 +9,6 @@
     export default {
         name: "ArticleView",
         components: {ArticleDetails},
-        props: {
-            id: String
-        },
         methods: {}
     }
 </script>

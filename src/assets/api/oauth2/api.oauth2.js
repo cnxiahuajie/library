@@ -9,7 +9,7 @@ export default {
      * @returns {*|Promise|Promise<any>|undefined}
      */
     login(code, redirect_uri) {
-        return service.request('get', `/library/v1/anon/login/?code=${code}&redirect_uri=${redirect_uri}`);
+        return service.request('get', `/gateway/library/v1/anon/login/?code=${code}&redirect_uri=${redirect_uri}`);
     }
 
 }

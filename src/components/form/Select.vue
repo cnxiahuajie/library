@@ -26,6 +26,10 @@
             clear: {
                 type: Boolean,
                 default: false
+            },
+            value: {
+                type: String,
+                default: ''
             }
         },
         data () {
@@ -33,12 +37,23 @@
                 openSelectOptions: false,
                 selected: {
                     key: this.placeholder,
-                    value: ''
+                    value: this.value
                 },
                 inputValue: ''
             }
         },
         watch: {
+            value(newVal) {
+                for (let i = 0, len = this.data.length; i < len; i++) {
+                    if (newVal === this.data[i][this.origin]) {
+                        this.selected = {
+                            key: this.data[i][this.label],
+                            value: this.data[i][this.origin]
+                        };
+                        break;
+                    }
+                }
+            },
             selected(newVal) {
                 this.inputValue = newVal.value;
             },
@@ -58,14 +73,16 @@
             }
         },
         methods: {
-            // 清除时间
+            // 清除事件
             handleClean(e) {
                 this.inputValue = '';
                 this.selected = {
                     key: this.placeholder,
                     value: ''
                 };
-                e.stopPropagation();
+                if (e) {
+                    e.stopPropagation();
+                }
             },
             // 选中事件
             handleSelected(key, obj) {

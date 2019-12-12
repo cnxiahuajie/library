@@ -15,6 +15,10 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
     function (response) {
         // 将响应的数据内容字符串反序列化为数据对象,请求正常则返回
+        if (200 !== response.data.code && 201 !== response.data.code) {
+            alert(response.data.msg);
+            return Promise.reject(response.data.msg);
+        }
         return Promise.resolve(response.data)
     },
     function (error) {
@@ -25,14 +29,15 @@ axios.interceptors.response.use(
             statusText: error.response.statusText
         }
 
-        if (404 === httpError.status) {
-            console.error({message: '服务器被吃了⊙﹏⊙∥'});
+        if (500 === httpError.status) {
+            alert('服务器被吃了⊙﹏⊙∥');
         } else if (403 === httpError.status) {
-            console.error({message: '权限不足！'});
+            alert('权限不足！');
         } else if (401 === httpError.status) {
             store.commit('login', false);
+            window.location.href = process.env.VUE_APP_SECURITY_SIGN_IN_URL;
         } else {
-            console.error({message: '未知错误'});
+            alert('未知错误');
         }
         store.commit('ON_HTTP_ERROR', httpError)
         return Promise.reject(error)
