@@ -7,15 +7,14 @@ import ArticleSearchResult from "@/views/ArticleSearchResult";
 import ArticleView from "@/views/ArticleView";
 import ArticleEdit from "@/views/ArticleEdit";
 import ArticleCenter from "@/views/ArticleCenter";
-import Saying from "@/views/Saying";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "About",
+    component: About,
     meta: {login: false}
   },
   {
@@ -52,12 +51,6 @@ const routes = [
     path: "/ArticleCenter",
     name: "ArticleCenter",
     component: ArticleCenter,
-    meta: {login: false}
-  },
-  {
-    path: "/Saying",
-    name: "Saying",
-    component: Saying,
     meta: {login: false}
   }
 ];

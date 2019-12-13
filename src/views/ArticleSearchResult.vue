@@ -1,10 +1,10 @@
 <template>
-    <div id="article-search-result">
-        <div class="article" v-for="article in articles" :key="'article-search-result-' + article.id">
+    <div id="article-search-result" v-loading="searching">
+        <el-card class="article" shadow="hover" v-for="article in articles" :key="article.id">
             <ArticleSearchItem :article="article" @toArticleView="toArticleView(article.id)"/>
-        </div>
-        <div v-show="articles.length === 0" class="not-found">
-            <p>无任何结果</p>
+        </el-card>
+        <div v-show="noneResult" class="not-found">
+            <p>未搜索到&nbsp;[<strong>{{q}}</strong>]&nbsp;相关的内容</p>
         </div>
     </div>
 </template>
@@ -18,25 +18,37 @@
         components: {ArticleSearchItem},
         data() {
             return {
+                noneResult: false,
+                searching: false,
+                q: '',
                 page: 0,
                 articles: []
             }
         },
         beforeRouteUpdate (to, from, next) {
+            this.searching = true;
             this.articles = [];
-            this.handleSearch(to);
+            this.q = to.query.q;
+            this.handleSearch();
             next() // 一定要有next
+        },
+        created() {
+            this.q = this.$route.query.q;
+            this.handleSearch();
         },
         methods: {
             // 执行搜索
-            handleSearch(to) {
-                apiArticle.list(to.query.q, this.page).then(data => {
+            handleSearch() {
+                apiArticle.list(this.q, this.page).then(data => {
                     if (null !== data && data.length > 0) {
                         this.articles = data;
                         this.articles.forEach(item => {
                             item["visible"] = true;
                         })
+                    } else {
+                        this.noneResult = true;
                     }
+                    this.searching = false;
                 });
             },
             // 前往文章详情页面
@@ -52,22 +64,21 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        height: 100%;
+        overflow-y: auto;
     }
 
     #article-search-result .article {
         display: flex;
-        border-bottom: 1px solid #E4E7ED;
-        padding: 10px 0;
     }
 
     .not-found {
         width: 100%;
         height: 100%;
+        color: #C0C4CC;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        font-size: 18px;
     }
 
 </style>

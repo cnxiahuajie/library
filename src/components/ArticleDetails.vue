@@ -1,26 +1,25 @@
 <template>
     <div :id="'article-details-' + article.id" class="article-details-container">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{name: 'ArticleSearchResult', query: {q: article.category.id}}">{{article.category.name}}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{name: 'ArticleSearchResult', query: {q: article.column.id}}">{{article.column.name}}</el-breadcrumb-item>
+        </el-breadcrumb>
         <h1>{{article.title}}</h1>
         <div class="item-container article-header-info">
             <div class="item">
-                <div class="tag-point child-item" :style="{backgroundColor: article.category.color}"></div>
-                <div class="child-item">{{article.category.name}}</div>
-            </div>
-            <div class="item">
-                <div class="child-item">{{article.column.name}}</div>
+                <div class="tag-point" :style="{backgroundColor: article.category.color}"></div>
             </div>
             <div class="item">
                 <span class="child-item">最后更新于</span>
-                <strong class="child-item">{{article.lastModTime}}</strong>
+                <span class="child-item">{{article.lastModTime}}</span>
             </div>
             <div class="item">
-                <div>共<strong>{{article.modifierCount}}</strong>人参与了修正</div>
+                <div>共<span>{{article.modifierCount}}</span>人参与了修正</div>
             </div>
-        </div>
-        <div class="item-container article-header-info">
             <div class="item">
-                <strong class="child-item">文章内容有误？</strong>
-                <Link :text="'参与编辑'" @click.native="toArticleEdit"/>
+                <span class="child-item">文章内容有误？</span>
+                <el-button type="text" @click="toArticleEdit">编辑</el-button>
             </div>
         </div>
         <div class="item-container dividing-line"></div>
@@ -86,23 +85,14 @@
         margin-left: 10px;
     }
 
-    .article-details-container .item-container {
-        padding: 5px 0;
+    .article-header-info {
+        font-size: 14px;
+        color: #909399;
     }
 
     .article-details-container .item-container .item {
         display: flex;
         align-items: center;
-    }
-
-    .article-content-container {
-        font-size: 13px;
-        width: 100%;
-        letter-spacing: 0.05em;
-        background-color: #FFFFFF;
-        color: #303133;
-        border-radius: 0px;
-        padding: 10px;
     }
 
     .dividing-line {

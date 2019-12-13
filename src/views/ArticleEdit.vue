@@ -1,28 +1,33 @@
 <template>
     <div id="article-edit-container">
         <div class="button-container">
-            <Button class="button mouse" :text="'返回'" @click.native="handleBack"/>
-            <Button class="button mouse" :text="'发布'" @click.native="handleSubmitArticle"/>
+            <el-button @click="handleBack">返回</el-button>
+            <el-button type="primary" @click="handleSubmitArticle">提交</el-button>
         </div>
-        <Input v-show="false === update" class="item default-input-border border-color-transition"
-               :placeholder="'请输入您的邮箱'"
-               v-model="article.creatorId"/>
-        <Input v-show="true === update" class="item default-input-border border-color-transition"
-               :placeholder="'请输入您的邮箱'"
-               v-model="article.modifierId"/>
-        <Input v-show="false === update" class="item default-input-border border-color-transition"
-               :placeholder="'请输入标题'"
-               v-model="article.title"/>
-        <div v-show="false === update" class="item article-type-column">
-            <Select class="article-type-column-item" :placeholder="'请选择文章类型'" v-model="article.category.id"
-                    :data="categories" :label="'name'" :origin="'id'"/>
-            <Select class="article-type-column-item" :placeholder="'可选文章专栏'" v-model="article.column.id" :data="columns"
-                    :label="'name'" :origin="'id'"/>
-            <Input class="article-type-column-item default-input-border border-color-transition"
-                   :placeholder="'输入自定义专栏'" v-model="article.column.name"/>
+        <el-input v-if="update" class="item" v-model="article.modifierId" placeholder="请输入邮箱"></el-input>
+        <el-input v-else class="item" v-model="article.creatorId" placeholder="请输入邮箱"></el-input>
+        <el-input class="item" v-model="article.title" placeholder="请输入标题"></el-input>
+        <div class="item article-type-column">
+            <el-select class="article-type-column-item" v-model="article.category.id" placeholder="请选择文章类型">
+                <el-option
+                        v-for="item in categories"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                </el-option>
+            </el-select>
+            <el-select class="article-type-column-item" v-model="article.column.id" placeholder="可选文章专栏">
+                <el-option
+                        v-for="item in columns"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                </el-option>
+            </el-select>
+            <el-input class="article-type-column-item default-input-border border-color-transition" v-model="article.column.name" placeholder="输入自定义专栏"></el-input>
         </div>
-        <div v-show="false === update" class="item article-type-column">
-            <Input class="default-input-border border-color-transition" :placeholder="'引用链接'" v-model="article.link"/>
+        <div class="item article-type-column">
+            <el-input class="default-input-border border-color-transition" v-model="article.link" placeholder="引用链接"></el-input>
         </div>
         <TinymceEditor class="item" ref="editor" v-model="article.content" :disabled="disabled"/>
     </div>
@@ -30,15 +35,12 @@
 
 <script>
     import TinymceEditor from "../components/TinymceEditor";
-    import Select from "../components/form/Select";
-    import Input from "../components/form/Input";
-    import Button from "../components/buttons/Button";
     import apiCategory from '@/assets/api/library/api.category';
     import apiArticle from '@/assets/api/library/api.article';
 
     export default {
         name: "ArticleEdit",
-        components: {Button, Select, TinymceEditor, Input},
+        components: {TinymceEditor},
         data() {
             return {
                 update: false,
@@ -137,7 +139,7 @@
     }
 
     #article-edit-container .item:not(:first-child) {
-        margin-top: 10px;
+        margin-top: 20px;
     }
 
     #article-edit-container .article-type-column {
@@ -148,13 +150,9 @@
         margin-left: 10px;
     }
 
-    .button-container {
-        padding: 10px;
-        background-color: #FFFFFF;
+    #article-edit-container .button-container {
         display: flex;
+        width: 100%;
     }
 
-    .button-container .button:not(:first-child) {
-        margin-left: 10px;
-    }
 </style>

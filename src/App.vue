@@ -1,12 +1,33 @@
 <template>
     <div id="app">
-        <div class="left">
-            <div class="search-box">
-                <el-input v-model="query" placeholder="搜索" @change="toSearchResult(query)"></el-input>
+        <div class="top">
+            <div class="left">
+                <div class="item logo">
+                    <p @click="toAbout">Vtarm library</p>
+                </div>
+                <div class="item search-box ">
+                    <el-input v-model="query" placeholder="搜索" @change="toSearchResult(query)"></el-input>
+                </div>
             </div>
-            <div class="search-item-box">
-                <el-menu :collapse="isCollapse"
-                        :background-color="'#93B5B3'" :text-color="'#F2F6F5'" :active-text-color="'#FFFFFF'">
+            <div class="right link-box">
+                <div class="item">
+                    <el-link :underline="false">登录</el-link>
+                </div>
+                <div class="item">
+                    <el-dropdown trigger="click"  @command="handleMore">
+                      <span class="el-dropdown-link">
+                        更多<i class="el-icon-arrow-down el-icon--right"></i>
+                      </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item icon="el-icon-plus" command="toAddArticle">文章</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="main-left">
+                <el-menu style="border-right: 0;">
                     <el-submenu :index="category.id"  v-for="category in categories" :key="category.id">
                         <span slot="title" @click="toSearchResult(category.id)">{{category.name}}</span>
                         <el-menu-item-group v-if="category.columns">
@@ -15,15 +36,11 @@
                     </el-submenu>
                 </el-menu>
             </div>
-            <div class="status-box">
-                <span class="item mouse color-transition" @click="isCollapse = !isCollapse">收起</span>
-                <span class="item mouse color-transition" @click="toArticleEdit">新增文章</span>
+            <div class="main-right">
+                <transition name="el-fade-in-linear">
+                    <router-view/>
+                </transition>
             </div>
-        </div>
-        <div class="right">
-            <transition name="el-fade-in-linear">
-                <router-view/>
-            </transition>
         </div>
     </div>
 </template>
@@ -56,6 +73,11 @@
             }
         },
         methods: {
+            handleMore(command) {
+                if ('toAddArticle' === command) {
+                    this.toArticleEdit();
+                }
+            },
             toAbout() {
                 this.$router.push({name: 'About'});
             },
@@ -80,130 +102,70 @@
     body {
         margin: 0;
         overflow: hidden;
-        font-size: 12px;
+        font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
     }
 
     #app {
         display: flex;
-        width: calc(100vw);
-        height: calc(100vh);
-        font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-        display: flex;
-        z-index: 1;
-        font-size: 12px;
+        flex-direction: column;
     }
 
-    #app .left {
-        background-color: #93B5B3;
-        display: flex;
-        flex-direction: column;
-        position: relative;
+    #app .top {
         width: 100%;
-    }
-
-    #app .right {
+        height: 50px;
+        background-color: #161616;
         display: flex;
-        background-color: #F2F6F5;
-        padding: 10px;
-        overflow-y: auto;
-        min-width: 80%;
-    }
-
-    #app .right .tip-box {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: space-between;
     }
 
-    #app .left .search-box {
+    #app .main {
         display: flex;
-        height: 5%;
-        padding: 10px 10px 0 10px;
-        border-bottom: 2px solid rgba(200, 218, 211, 1);
-        flex-shrink: 0;
-    }
-
-    #app .left .status-box {
-        display: flex;
-        /*width: calc(100% - 20px);*/
-        height: 60px;
-        position: absolute;
-        bottom: 0;
-        background-color: rgba(99, 112, 126, 1);
-        align-items: center;
-        padding: 0 10px;
-        font-size: 13px;
-        flex-shrink: 0;
-    }
-
-    #app .left .status-box .item {
-        color: #FFFFFF;
-        margin: 0 10px;
-    }
-
-    #app .left .status-box .item:hover {
-        text-shadow: 0 0 20px #FFFFFF;
-    }
-
-    #app .left .status-box .hide-left {
-        margin-left: auto;
-    }
-
-    #app .left .search-item-box {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        overflow-y: auto;
-    }
-
-    #app .left .search-item-box .search-item {
-        display: flex;
-        flex-direction: column;
-    }
-
-    #app .left .search-item-box .child-search-item {
-        margin-left: 10px;
+        height: calc(100vh - 50px);
         overflow: hidden;
-        max-height: 0;
     }
 
-    #app .left .search-item-box .search-item:hover .child-search-item {
-        margin-left: 10px;
-        max-height: inherit;
+    #app .main .main-left {
+        width: 80%;
+        height: 100%;
+        border-right: 1px solid #DCDFE6;
     }
 
-    #app .left .search-item-box .search-item h1 {
-        font-size: 16px;
-        color: #FFFFFF;
+    #app .main .main-left {
+        width: 20%;
     }
 
-    #app .left .search-item-box .search-item h3 {
-        font-size: 13px;
-        color: #FFFFFF;
+    #app .main .main-right {
+        width: 80%;
+        padding: 10px;
     }
 
-    #app .left .search-item-box .search-item h1:hover {
+    #app .top .left {
+        display: flex;
+        align-items: center;
+        width: 50%;
+    }
+
+    #app .top .left .logo {
+        color: #FFF;
+        display: flex;
+        align-items: center;
+        width: 40%;
+        justify-content: center;
         text-shadow: 0 0 20px #FFFFFF;
     }
 
-    #app .left .search-item-box .search-item h3:hover {
-        text-shadow: 0 0 20px #FFFFFF;
+    #app .search-box {
+        width: 300px;
     }
 
-    .search-input {
-        width: calc(100%);
-        outline: none;
-        height: calc(100%);
-        background-color: #FFFFFF;
-        border: 0;
-        text-indent: 10px;
-        font-size: 13px;
+    #app .link-box {
+        display: flex;
+        align-items: center;
     }
 
-    .search-input:focus {
-        color: rgba(99, 112, 126, 1);
+    #app .link-box .item {
+        margin-right: 10px;
     }
 
 </style>

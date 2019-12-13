@@ -1,7 +1,6 @@
 <template>
     <div :id="article.id">
-        <h1 class="title mouse color-transition" @click="toArticleView">{{article.title}}</h1>
-        <p class="fragment" v-html="article.fragment"></p>
+        <el-link class="title" :underline="false" @click="toArticleView">{{article.title}}</el-link>
         <div class="article-info">
             <div class="item">
                 <div class="tag-point" :style="{backgroundColor: article.category.color}"></div>
@@ -37,21 +36,10 @@
         font-size: 18px;
     }
 
-    .title:hover {
-        color: rgba(48, 49, 51, 1);
-    }
-
-    .fragment {
-        color: #909399;
-        font-size: 12px;
-    }
-
-    .fragment em {
-        color: red;
-    }
-
     .article-info {
         display: flex;
+        font-size: 14px;
+        align-items: center;
     }
 
     .article-info .item:not(:first-child) {
