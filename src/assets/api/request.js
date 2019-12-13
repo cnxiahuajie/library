@@ -35,7 +35,8 @@ axios.interceptors.response.use(
             alert('权限不足！');
         } else if (401 === httpError.status) {
             store.commit('login', false);
-            window.location.href = process.env.VUE_APP_SECURITY_SIGN_IN_URL;
+        } else if (400 === httpError.status) {
+            alert('请求失败！');
         } else {
             alert('未知错误');
         }

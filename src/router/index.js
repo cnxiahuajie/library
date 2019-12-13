@@ -8,8 +8,6 @@ import ArticleView from "@/views/ArticleView";
 import ArticleEdit from "@/views/ArticleEdit";
 import ArticleCenter from "@/views/ArticleCenter";
 import Saying from "@/views/Saying";
-import LoginCallback from "@/views/LoginCallback";
-import Logout from "@/views/Logout";
 
 Vue.use(VueRouter);
 
@@ -30,7 +28,7 @@ const routes = [
     path: "/UserCenter",
     name: "UserCenter",
     component: UserCenter,
-    meta: {login: true}
+    meta: {login: false}
   },
   {
     path: "/ArticleSearchResult",
@@ -48,31 +46,19 @@ const routes = [
     path: "/ArticleEdit",
     name: "ArticleEdit",
     component: ArticleEdit,
-    meta: {login: true}
+    meta: {login: false}
   },
   {
     path: "/ArticleCenter",
     name: "ArticleCenter",
     component: ArticleCenter,
-    meta: {login: true}
+    meta: {login: false}
   },
   {
     path: "/Saying",
     name: "Saying",
     component: Saying,
     meta: {login: false}
-  },
-  {
-    path: "/LoginCallback",
-    name: "LoginCallback",
-    component: LoginCallback,
-    meta: {login: false}
-  },
-  {
-    path: "/Logout",
-    name: "Logout",
-    component: Logout,
-    meta: {login: true}
   }
 ];
 

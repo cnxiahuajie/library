@@ -96,7 +96,7 @@
             },
             // 加载文章列表
             loadArticles() {
-                apiArticle.list(this.q, this.page, '', '').then(data => {
+                apiArticle.list(this.q, this.page).then(data => {
                     if (null !== data && data.length > 0) {
                         this.articles = data;
                         this.articles.forEach(item => {
@@ -136,12 +136,12 @@
         flex-direction: column;
     }
 
-    .article-item {
+    .article-list-container .article-item {
         display: flex;
         width: 100%;
         flex-direction: column;
         border-bottom: 1px solid #E4E7ED;
-        padding: 10px;
+        padding: 10px 0;
     }
 
     .article-item .title {

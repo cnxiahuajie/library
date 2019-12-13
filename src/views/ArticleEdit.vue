@@ -5,6 +5,12 @@
             <Button class="button mouse" :text="'发布'" @click.native="handleSubmitArticle"/>
         </div>
         <Input v-show="false === update" class="item default-input-border border-color-transition"
+               :placeholder="'请输入您的邮箱'"
+               v-model="article.creatorId"/>
+        <Input v-show="true === update" class="item default-input-border border-color-transition"
+               :placeholder="'请输入您的邮箱'"
+               v-model="article.modifierId"/>
+        <Input v-show="false === update" class="item default-input-border border-color-transition"
                :placeholder="'请输入标题'"
                v-model="article.title"/>
         <div v-show="false === update" class="item article-type-column">
@@ -38,6 +44,8 @@
                 update: false,
                 disabled: false,
                 article: {
+                    creatorId: '',
+                    modifierId: '',
                     content: '',
                     category: {
                         id: ''

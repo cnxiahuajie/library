@@ -2,26 +2,26 @@
     <div id="app">
         <div class="left">
             <div class="search-box">
-                <input type="text" class="search-input color-transition" placeholder="搜索">
+                <el-input v-model="query" placeholder="搜索" @change="toSearchResult(query)"></el-input>
             </div>
             <div class="search-item-box">
-                <div class="search-item mouse" v-for="category in categories" :key="category.id">
-                    <h1 @click="toSearchResult(category.id, '')" class="item-title">{{category.name}}</h1>
-                    <div class="child-search-item max-height-transition">
-                        <h3 @click="toSearchResult('', column.id)" v-for="column in category.columns" :key="column.id">{{column.name}}</h3>
-                    </div>
-                </div>
+                <el-menu :collapse="isCollapse"
+                        :background-color="'#93B5B3'" :text-color="'#F2F6F5'" :active-text-color="'#FFFFFF'">
+                    <el-submenu :index="category.id"  v-for="category in categories" :key="category.id">
+                        <span slot="title" @click="toSearchResult(category.id)">{{category.name}}</span>
+                        <el-menu-item-group v-if="category.columns">
+                            <el-menu-item @click="toSearchResult(column.id)" :index="column.id" v-for="column in category.columns" :key="column.id">{{column.name}}</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                </el-menu>
             </div>
             <div class="status-box">
-                <span class="item mouse color-transition" @click="toAbout">关于</span>
-                <span v-show="!$store.state.login" class="item mouse color-transition" @click="toSignIn">登录</span>
-                <span v-show="$store.state.login" class="item mouse color-transition" @click="handleSignOut">注销</span>
-                <span v-show="$store.state.login" class="item mouse color-transition" @click="toUserCenter">个人中心</span>
-                <span v-show="$store.state.login" class="item mouse color-transition" @click="toArticleCenter">我的文章</span>
+                <span class="item mouse color-transition" @click="isCollapse = !isCollapse">收起</span>
+                <span class="item mouse color-transition" @click="toArticleEdit">新增文章</span>
             </div>
         </div>
         <div class="right">
-            <transition name="fade" mode="out-in">
+            <transition name="el-fade-in-linear">
                 <router-view/>
             </transition>
         </div>
@@ -36,6 +36,8 @@
         name: "App",
         data() {
             return {
+                isCollapse: false,
+                query: '',
                 categories: []
             }
         },
@@ -60,21 +62,12 @@
             toUserCenter() {
                 this.$router.push({name: 'UserCenter'});
             },
-            toSignIn() {
-                window.location.href = process.env.VUE_APP_SECURITY_SIGN_IN_URL;
+            toSearchResult(q) {
+                this.$router.push({name: 'ArticleSearchResult', query: {q: q}});
             },
-            handleSignOut() {
-                this.$router.push({name: 'Logout'});
-            },
-            toSearchResult(category, column) {
-                let query = {};
-                if ('' !== category) {
-                    query["category"] = category;
-                }
-                if ('' !== column) {
-                    query["column"] = column;
-                }
-                this.$router.push({name: 'ArticleSearchResult', query: query});
+            // 前往文章编辑页面
+            toArticleEdit() {
+                this.$router.push({name: 'ArticleEdit'});
             },
             toArticleCenter() {
                 this.$router.push({name: 'ArticleCenter'});
@@ -95,26 +88,25 @@
         width: calc(100vw);
         height: calc(100vh);
         font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-        color: #606266;
         display: flex;
         z-index: 1;
+        font-size: 12px;
     }
 
     #app .left {
         background-color: #93B5B3;
-        width: 30%;
         display: flex;
         flex-direction: column;
         position: relative;
-        box-shadow: 0 0 10px #93B5B3;
+        width: 100%;
     }
 
     #app .right {
         display: flex;
-        width: 70%;
         background-color: #F2F6F5;
         padding: 10px;
-        overflow-y: scroll;
+        overflow-y: auto;
+        min-width: 80%;
     }
 
     #app .right .tip-box {
@@ -128,14 +120,14 @@
     #app .left .search-box {
         display: flex;
         height: 5%;
-        padding: 10px;
+        padding: 10px 10px 0 10px;
         border-bottom: 2px solid rgba(200, 218, 211, 1);
         flex-shrink: 0;
     }
 
     #app .left .status-box {
         display: flex;
-        width: calc(100% - 20px);
+        /*width: calc(100% - 20px);*/
         height: 60px;
         position: absolute;
         bottom: 0;
@@ -147,12 +139,12 @@
     }
 
     #app .left .status-box .item {
-        color: rgba(200, 218, 211, 1);
+        color: #FFFFFF;
         margin: 0 10px;
     }
 
     #app .left .status-box .item:hover {
-        text-shadow: 0 0 20px rgba(200, 218, 211, 1);
+        text-shadow: 0 0 20px #FFFFFF;
     }
 
     #app .left .status-box .hide-left {
@@ -163,8 +155,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        padding: 5px 20px;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     #app .left .search-item-box .search-item {

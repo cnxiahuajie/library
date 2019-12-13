@@ -18,7 +18,7 @@
         components: {ArticleSearchItem},
         data() {
             return {
-                page: 1,
+                page: 0,
                 articles: []
             }
         },
@@ -30,21 +30,7 @@
         methods: {
             // 执行搜索
             handleSearch(to) {
-                let q = '';
-                let category = '';
-                let column = '';
-
-                if (to.query["q"]) {
-                    q = to.query.q;
-                }
-                if (to.query["category"]) {
-                    category = to.query.category;
-                }
-                if (to.query["column"]) {
-                    column = to.query.column;
-                }
-
-                apiArticle.list(q, this.page, category, column).then(data => {
+                apiArticle.list(to.query.q, this.page).then(data => {
                     if (null !== data && data.length > 0) {
                         this.articles = data;
                         this.articles.forEach(item => {

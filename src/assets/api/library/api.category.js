@@ -7,7 +7,7 @@ export default {
      * @returns {*|Promise|Promise<any>|undefined}
      */
     categories() {
-        return service.request('get', `/gateway/library/v1/anon/categories`);
+        return service.request('get', `/library/v1/categories`);
     }
 
 }

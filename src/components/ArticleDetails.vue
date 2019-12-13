@@ -97,6 +97,7 @@
 
     .article-content-container {
         font-size: 13px;
+        width: 100%;
         letter-spacing: 0.05em;
         background-color: #FFFFFF;
         color: #303133;
