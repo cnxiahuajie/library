@@ -2,14 +2,14 @@
     <div :id="article.id">
         <el-link class="title" :underline="false" @click="toArticleView">{{article.title}}</el-link>
         <div class="article-info">
-            <div class="item">
+            <div class="article-info-item">
                 <div class="tag-point" :style="{backgroundColor: article.category.color}"></div>
                 <div>{{article.category.name}}</div>
             </div>
-            <div class="item">
+            <div class="article-info-item">
                 <div>{{article.column.name}}</div>
             </div>
-            <div class="item">
+            <div class="article-info-item">
                 <label>最后更新于</label>
                 <strong>{{article.lastModTime}}</strong>
             </div>
@@ -40,13 +40,14 @@
         display: flex;
         font-size: 14px;
         align-items: center;
+        margin-top: 10px;
     }
 
-    .article-info .item:not(:first-child) {
+    .article-info .article-info-item:not(:first-child) {
         margin-left: 10px;
     }
 
-    .article-info .item {
+    .article-info .article-info-item {
         display: flex;
         align-items: center;
     }

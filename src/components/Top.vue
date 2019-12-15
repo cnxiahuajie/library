@@ -20,7 +20,7 @@
         </div>
         <div class="top-item right link-box">
             <div class="item">
-                <el-dropdown trigger="click"  @command="handleMore">
+                <el-dropdown trigger="click"  @command="handleMore" style="color: #FFFFFF;">
                       <span class="el-dropdown-link">
                         更多<i class="el-icon-arrow-down el-icon--right"></i>
                       </span>
@@ -105,13 +105,21 @@
         color: #FFF;
         display: flex;
         align-items: center;
-        text-shadow: 0 0 20px #FFFFFF;
         height: 100%;
+        cursor: pointer;
     }
 
     #top-container .left .logo .logo-container {
         display: flex;
+        height: 100%;
         align-items: center;
+    }
+
+    #top-container .left .logo .logo-container span {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        text-shadow: 0 0 20px #FFFFFF;
     }
 
     #top-container .left .collapse-container {
@@ -131,17 +139,20 @@
     }
 
     #top-container .left .collapse-container .collapse-button:active {
-        background-color: #FFF;
+        background-color: #FFFFFF;
         color: #161616;
     }
 
     #top-container .center {
         display: flex;
+        width: 100%;
         align-items: center;
     }
 
     #top-container .center .search-box {
-        width: 50%;
+        display: flex;
+        align-items: center;
+        width: 100%;
     }
 
     #top-container .link-box {

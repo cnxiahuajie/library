@@ -39,6 +39,7 @@
         methods: {
             // 执行搜索
             handleSearch() {
+                this.noneResult = false;
                 apiArticle.list(this.q, this.page).then(data => {
                     if (null !== data && data.length > 0) {
                         this.articles = data;
@@ -70,6 +71,10 @@
 
     #article-search-result .article {
         display: flex;
+    }
+
+    #article-search-result .article:not(:first-child) {
+        margin-top: 20px;
     }
 
     .not-found {

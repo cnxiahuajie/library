@@ -7,7 +7,7 @@ export default {
      * @returns {*|Promise|Promise<any>|undefined}
      */
     getEmailCode(email) {
-        return service.request('get', `/library/v1/anon/code/${email}`);
+        return service.request('get', `/library/v1/anon/authorize-code/${email}`);
     }
 
 }

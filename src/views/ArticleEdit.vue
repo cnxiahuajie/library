@@ -34,16 +34,15 @@
                 </template>
             </el-input>
         </div>
-        {{article.codeKey}}
         <div class="item button-container">
             <el-button @click="handleBack">返回</el-button>
             <el-button type="success" :loading="submiting" @click="handleSubmitArticle">提交</el-button>
         </div>
 
         <el-dialog title="获取授权码" :visible.sync="openAuthorizeCode" width="30%">
-            <el-input v-model="email" autocomplete="off" placeholder="请输入邮箱"></el-input>
+            <el-input ref="emailInput" v-model="email" autocomplete="off" placeholder="请输入邮箱"></el-input>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="handleGetEmailCode">获 取</el-button>
+                <el-button type="primary" @click="handleGetEmailCode" :loading="authorizeCodeGeting">获 取</el-button>
             </div>
         </el-dialog>
     </div>
@@ -60,8 +59,9 @@
         components: {TinymceEditor},
         data() {
             return {
+                authorizeCodeGeting: false,
                 openAuthorizeCode: false,
-                email: '',
+                email: localStorage.getItem('email') || '',
                 submiting: false,
                 update: false,
                 disabled: false,
@@ -80,6 +80,7 @@
                     },
                     history: {
                         id: '',
+                        reason: ''
                     },
                     link: ''
                 },
@@ -126,10 +127,24 @@
         methods: {
             // 获取邮箱验证码
             handleGetEmailCode() {
-                apiCommon.getEmailCode(this.email).then(data => {
-                    this.article.codeKey = data;
-                    this.openAuthorizeCode = false;
-                });
+                if (this.email.length > 0) {
+                    this.authorizeCodeGeting = true;
+                    localStorage.setItem('email', this.email);
+                    apiCommon.getEmailCode(this.email).then(data => {
+                        this.article.codeKey = data;
+                        this.openAuthorizeCode = false;
+                        this.authorizeCodeGeting = false;
+                        this.$message('授权码已发往你的邮箱。');
+                    }, err => {
+                        this.authorizeCodeGeting = false;
+                    });
+                } else {
+                    this.$refs.emailInput.focus();
+                    this.$message({
+                        type: 'error',
+                        message:'邮箱不能为空。'
+                    });
+                }
             },
             // 返回上一级
             handleBack() {
@@ -148,11 +163,15 @@
                     apiArticle.add(this.article).then(data => {
                         this.submiting = false;
                         this.toArticleView(data.id);
+                    }, err => {
+                        this.submiting = false;
                     });
                 } else {
                     apiArticle.update(this.article).then(data => {
                         this.submiting = false;
                         this.toArticleView(data.id);
+                    }, err => {
+                        this.submiting = false;
                     });
                 }
             },

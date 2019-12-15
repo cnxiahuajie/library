@@ -5,7 +5,7 @@ import store from "@/store/index";
 import "@/assets/css/global.css";
 import VueCookies from 'vue-cookies'
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import '@/assets/css/theme/element161616/index.css';
 
 Vue.use(VueCookies)
 Vue.use(ElementUI, { size: 'small', zIndex: 3000 });
