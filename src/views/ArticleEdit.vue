@@ -1,11 +1,5 @@
 <template>
     <div id="article-edit-container">
-        <div class="button-container">
-            <el-button @click="handleBack">返回</el-button>
-            <el-button type="primary" @click="handleSubmitArticle">提交</el-button>
-        </div>
-        <el-input v-if="update" class="item" v-model="article.modifierId" placeholder="请输入邮箱"></el-input>
-        <el-input v-else class="item" v-model="article.creatorId" placeholder="请输入邮箱"></el-input>
         <el-input class="item" v-model="article.title" placeholder="请输入标题"></el-input>
         <div class="item article-type-column">
             <el-select class="article-type-column-item" v-model="article.category.id" placeholder="请选择文章类型">
@@ -24,12 +18,34 @@
                         :value="item.id">
                 </el-option>
             </el-select>
-            <el-input class="article-type-column-item default-input-border border-color-transition" v-model="article.column.name" placeholder="输入自定义专栏"></el-input>
+            <el-input class="article-type-column-item default-input-border border-color-transition"
+                      v-model="article.column.name" placeholder="输入自定义专栏"></el-input>
         </div>
         <div class="item article-type-column">
-            <el-input class="default-input-border border-color-transition" v-model="article.link" placeholder="引用链接"></el-input>
+            <el-input class="default-input-border border-color-transition" v-model="article.link"
+                      placeholder="引用链接"></el-input>
         </div>
         <TinymceEditor class="item" ref="editor" v-model="article.content" :disabled="disabled"/>
+        <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"></el-input>
+        <div class="item authorize-code">
+            <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;">
+                <template slot="append">
+                    <el-button @click="openAuthorizeCode = true">获取授权码</el-button>
+                </template>
+            </el-input>
+        </div>
+        {{article.codeKey}}
+        <div class="item button-container">
+            <el-button @click="handleBack">返回</el-button>
+            <el-button type="success" :loading="submiting" @click="handleSubmitArticle">提交</el-button>
+        </div>
+
+        <el-dialog title="获取授权码" :visible.sync="openAuthorizeCode" width="30%">
+            <el-input v-model="email" autocomplete="off" placeholder="请输入邮箱"></el-input>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="handleGetEmailCode">获 取</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -37,15 +53,21 @@
     import TinymceEditor from "../components/TinymceEditor";
     import apiCategory from '@/assets/api/library/api.category';
     import apiArticle from '@/assets/api/library/api.article';
+    import apiCommon from '@/assets/api/library/api.common';
 
     export default {
         name: "ArticleEdit",
         components: {TinymceEditor},
         data() {
             return {
+                openAuthorizeCode: false,
+                email: '',
+                submiting: false,
                 update: false,
                 disabled: false,
                 article: {
+                    authorizeCode: '',
+                    codeKey: '',
                     creatorId: '',
                     modifierId: '',
                     content: '',
@@ -55,6 +77,9 @@
                     column: {
                         id: '',
                         name: ''
+                    },
+                    history: {
+                        id: '',
                     },
                     link: ''
                 },
@@ -99,6 +124,13 @@
             }
         },
         methods: {
+            // 获取邮箱验证码
+            handleGetEmailCode() {
+                apiCommon.getEmailCode(this.email).then(data => {
+                    this.article.codeKey = data;
+                    this.openAuthorizeCode = false;
+                });
+            },
             // 返回上一级
             handleBack() {
                 this.$router.go(-1);
@@ -111,15 +143,22 @@
             },
             // 提交文章
             handleSubmitArticle() {
+                this.submiting = true;
                 if (false === this.update) {
                     apiArticle.add(this.article).then(data => {
-                        alert('保存成功！');
+                        this.submiting = false;
+                        this.toArticleView(data.id);
                     });
                 } else {
                     apiArticle.update(this.article).then(data => {
-                        alert('保存成功！');
+                        this.submiting = false;
+                        this.toArticleView(data.id);
                     });
                 }
+            },
+            // 前往文章详情页面
+            toArticleView(id) {
+                this.$emit('toArticleView', id);
             },
             // 加载文章目录
             loadCategories() {
@@ -153,6 +192,10 @@
     #article-edit-container .button-container {
         display: flex;
         width: 100%;
+    }
+
+    #article-edit-container .authorize-code {
+        display: flex;
     }
 
 </style>
