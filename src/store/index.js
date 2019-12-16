@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    login: false
+    login: false,
+    showTopButton: false
   },
   mutations: {
     // 设置登录状态
@@ -15,7 +16,11 @@ export default new Vuex.Store({
         localStorage.removeItem('access_token');
       }
       state.login = v;
-    }
+    },
+    // 设置置顶按钮
+    showTopButton(state, v) {
+      state.showTopButton = v;
+    },
   },
   actions: {
   },

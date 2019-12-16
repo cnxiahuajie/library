@@ -18,6 +18,8 @@
     import 'tinymce/plugins/codesample'// 代码模版插件
     import 'tinymce/plugins/lists'// 列表插件
     import 'tinymce/plugins/wordcount'// 字数统计插件
+    import 'tinymce/plugins/codesample'// 代码示例
+    import 'tinymce/plugins/code'// 代码示例
 
     export default {
         name: "TinymceEditor",
@@ -41,12 +43,18 @@
             },
             plugins: {
                 type: [String, Array],
-                default: 'lists image media table wordcount preview print codesample'
+                default: 'lists image media table wordcount preview print codesample code'
             },
             toolbar: {
                 type: [String, Array],
-                default: 'undo redo | preview print |  formatselect | codesample | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table | removeformat'
-            }
+                default: 'undo redo | print code preview |  formatselect | codesample | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table | removeformat'
+            },
+            codesample_languages: [
+                {text: 'HTML/XML', value: 'markup'},
+                {text: 'JavaScript', value: 'javascript'},
+                {text: 'CSS', value: 'css'},
+                {text: 'Java', value: 'java'}
+            ]
         },
         data () {
             return {
@@ -55,10 +63,14 @@
                     language: 'zh_CN',
                     skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide`,
                     content_css: `${this.baseUrl}/tinymce/skins/content/default/content.css`,
-                    // skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide-dark`, // 暗色系
-                    // content_css: `${this.baseUrl}/tinymce/skins/content/dark/content.css`, // 暗色系
                     height: '500',
                     plugins: this.plugins,
+                    codesample_languages: [
+                        {text: 'HTML/XML', value: 'markup'},
+                        {text: 'JavaScript', value: 'javascript'},
+                        {text: 'CSS', value: 'css'},
+                        {text: 'Java', value: 'java'}
+                    ],
                     toolbar: this.toolbar,
                     branding: false,
                     menubar: false,

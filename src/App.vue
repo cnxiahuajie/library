@@ -1,13 +1,13 @@
 <template>
     <div id="app">
-        <div class="top">
+        <div class="top" id="top">
             <Top @handleChangeCollapse="handleChangeCollapse" :isCollapse="isCollapse"/>
         </div>
         <div class="main">
             <div class="main-left" :style="{width: isCollapse === true ? 'auto': '20%'}">
                 <Menu :isCollapse="isCollapse"/>
             </div>
-            <div class="main-right">
+            <div class="main-right" id="main-right">
                 <transition name="el-fade-in-linear">
                     <router-view/>
                 </transition>
@@ -27,8 +27,12 @@
         data() {
             return {
                 isCollapse: false,
-                categories: []
+                categories: [],
+                currentScrollTop: 0
             }
+        },
+        mounted() {
+            window.document.getElementById('main-right').addEventListener('scroll', this.handleScroll)
         },
         created() {
             // 设置登录状态
@@ -41,6 +45,19 @@
             }
         },
         methods: {
+            // 处理滚动条事件
+            handleScroll() {
+                let right = document.getElementById('main-right');
+                let top = document.getElementById('top');
+                let nowScroll = right.scrollTop;
+                if (nowScroll >= 50 && top.style.height !== '0px') {
+                    top.style.height = '0px';
+                    this.$store.commit('showTopButton', true);
+                } else if (nowScroll <= 5 && top.style.height !== '50px') {
+                    top.style.height = '50px';
+                    this.$store.commit('showTopButton', false);
+                }
+            },
             // 折叠改变
             handleChangeCollapse(isCollapse) {
                 this.isCollapse = isCollapse;
@@ -63,12 +80,21 @@
 
     #app .main {
         display: flex;
-        height: calc(100vh - 50px);
+        height: calc(100vh);
+    }
+
+    #app .top {
         overflow: hidden;
+        height: 50px;
+        flex-shrink: 0;
+        opacity: 1;
+        transition: height 300ms;
+        -moz-transition: height 300ms; /* Firefox 4 */
+        -webkit-transition: height 300ms; /* Safari 和 Chrome */
+        -o-transition: height 300ms; /* Opera */
     }
 
     #app .main .main-left {
-        height: 100%;
         flex-shrink: 0;
         border-right: 1px solid #DCDFE6;
     }
@@ -76,6 +102,7 @@
     #app .main .main-right {
         width: 100%;
         padding: 10px;
+        overflow-y: auto;
     }
 
 </style>

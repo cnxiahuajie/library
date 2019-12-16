@@ -78,7 +78,7 @@
 <style scoped>
     #top-container {
         width: 100%;
-        height: 50px;
+        height: 100%;
         background-color: #161616;
         display: flex;
         align-items: center;
@@ -163,4 +163,5 @@
     #top-container .link-box .item {
         margin-right: 10px;
     }
+
 </style>

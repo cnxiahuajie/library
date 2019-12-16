@@ -6,7 +6,7 @@ const resolve = dir => path.join(__dirname, dir)
 module.exports = {
     lintOnSave: false,
     devServer: {
-        port: 80,
+        port: 8080,
         disableHostCheck: true,
         open: true,
         hot: true,
@@ -15,7 +15,7 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/library': {
-                target: 'http://192.168.0.105:8080', // 设置网关域名和端口号
+                target: 'http://192.168.229.112:6060', // 设置网关域名和端口号
                 changeOrigin: true, // 跨域
                 pathRewrite: {
                     '^/library': '/'

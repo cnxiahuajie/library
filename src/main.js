@@ -8,12 +8,12 @@ import ElementUI from 'element-ui';
 import '@/assets/css/theme/element161616/index.css';
 
 Vue.use(VueCookies)
-Vue.use(ElementUI, { size: 'small', zIndex: 3000 });
+Vue.use(ElementUI, {size: 'small', zIndex: 3000});
 
 Vue.config.productionTip = false;
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount("#app");

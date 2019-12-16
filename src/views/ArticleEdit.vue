@@ -34,13 +34,27 @@
                 </template>
             </el-input>
         </div>
+
+        <div class="item">
+            <el-checkbox v-model="agree">同意<el-link href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/legalcode" target="_blank">CC BY-NC-SA 3.0 CN</el-link>协议</el-checkbox>
+        </div>
+
         <div class="item button-container">
             <el-button @click="handleBack">返回</el-button>
             <el-button type="success" :loading="submiting" @click="handleSubmitArticle">提交</el-button>
         </div>
 
-        <el-dialog title="获取授权码" :visible.sync="openAuthorizeCode" width="30%">
-            <el-input ref="emailInput" v-model="email" autocomplete="off" placeholder="请输入邮箱"></el-input>
+        <div class="item copyright">
+            <p><span>所属主体：</span>天逸集团&nbsp;平台项目部</p>
+            <p><span>&copy; 2019</span> 天逸财金科技服务（武汉）有限公司&nbsp;版权所有</p>
+        </div>
+
+        <el-dialog class="authorize-code-dialog" title="获取授权码" :visible.sync="openAuthorizeCode" width="30%">
+            <el-alert class="authorize-code-dialog-item"
+                      title="请使用天逸企业内部邮箱。例如（xxx@vteamsystem.com）"
+                      type="info">
+            </el-alert>
+            <el-input class="authorize-code-dialog-item" ref="emailInput" v-model="email" autocomplete="off" placeholder="请输入邮箱"></el-input>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="handleGetEmailCode" :loading="authorizeCodeGeting">获 取</el-button>
             </div>
@@ -59,6 +73,7 @@
         components: {TinymceEditor},
         data() {
             return {
+                agree: false,
                 authorizeCodeGeting: false,
                 openAuthorizeCode: false,
                 email: localStorage.getItem('email') || '',
@@ -158,6 +173,15 @@
             },
             // 提交文章
             handleSubmitArticle() {
+                if (false === this.agree) {
+                    let message = '请查看并同意知识共享许可协议。';
+                    this.$message({
+                        type: 'warning',
+                        message: message
+                    });
+                    throw message;
+                }
+
                 this.submiting = true;
                 if (false === this.update) {
                     apiArticle.add(this.article).then(data => {
@@ -177,7 +201,7 @@
             },
             // 前往文章详情页面
             toArticleView(id) {
-                this.$emit('toArticleView', id);
+                this.$router.push({name:'ArticleView', query: {id: id}});
             },
             // 加载文章目录
             loadCategories() {
@@ -215,6 +239,20 @@
 
     #article-edit-container .authorize-code {
         display: flex;
+    }
+
+    #article-edit-container .authorize-code-dialog .authorize-code-dialog-item:not(:first-child) {
+        margin-top: 20px;
+    }
+
+    #article-edit-container .copyright {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        color: #909399;
+        border-top: 1px solid #DCDFE6;
+        padding: 10px;
     }
 
 </style>
