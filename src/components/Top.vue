@@ -7,7 +7,7 @@
                 </p>
             </div>
             <div class="item logo">
-                <div class="logo-container" @click="toAbout">
+                <div class="logo-container" @click="toHome">
                     <svg t="1576387766135" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="24039" width="24" height="24"><path d="M512 341.333333C582.826667 341.333333 640 284.16 640 213.333333 640 142.506667 582.826667 85.333333 512 85.333333 441.173333 85.333333 384 142.506667 384 213.333333 384 284.16 441.173333 341.333333 512 341.333333M512 492.373333C411.306667 398.933333 277.333333 341.333333 128 341.333333L128 810.666667C277.333333 810.666667 411.306667 868.266667 512 961.706667 612.693333 868.266667 746.666667 810.666667 896 810.666667L896 341.333333C746.666667 341.333333 612.693333 398.933333 512 492.373333Z" p-id="24040" fill="#ffffff"></path></svg>
                     <span>Vtarm library</span>
                 </div>
@@ -20,12 +20,13 @@
         </div>
         <div class="top-item right link-box">
             <div class="item">
-                <el-dropdown trigger="click"  @command="handleMore" style="color: #FFFFFF;">
+                <el-dropdown trigger="click"  @command="handleMore" style="color: #C0C4CC;">
                       <span class="el-dropdown-link">
                         更多<i class="el-icon-arrow-down el-icon--right"></i>
                       </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item icon="el-icon-plus" command="toAddArticle">文章</el-dropdown-item>
+                        <el-dropdown-item icon="el-icon-key" command="toAesTool">AES&nbsp;工具</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -51,20 +52,26 @@
                 this.$router.push({name: 'ArticleEdit'});
             },
             // 前往关于页面
-            toAbout() {
-                this.$router.push({name: 'About'});
+            toHome() {
+                this.$router.push({name: 'Home'});
             },
             // 更多
             handleMore(command) {
                 if ('toAddArticle' === command) {
                     this.toArticleEdit();
+                } else if ('toAesTool' === command) {
+                    this.toAesTool();
                 }
             },
             // 前往搜索页面
             toSearchResult() {
                 if (this.query.length > 0) {
-                    this.$router.push({name: 'ArticleSearchResult', query: {q: this.query}});
+                    this.$router.push({name: 'ArticleSearchResult', query: {q: this.query, type: 'keyword'}});
                 }
+            },
+            // 前往AES页面
+            toAesTool() {
+                this.$router.push({name: 'Aes'});
             },
             // 折叠改变
             handleChangeCollapse() {

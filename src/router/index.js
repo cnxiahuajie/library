@@ -1,26 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
-import About from "@/views/About.vue";
 import UserCenter from "@/views/UserCenter.vue";
 import ArticleSearchResult from "@/views/ArticleSearchResult";
 import ArticleView from "@/views/ArticleView";
 import ArticleEdit from "@/views/ArticleEdit";
 import ArticleCenter from "@/views/ArticleCenter";
+import Aes from "@/views/Aes";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "About",
-    component: About,
-    meta: {login: false}
-  },
-  {
-    path: "/About",
-    name: "About",
-    component: About,
+    name: "Home",
+    component: Home,
     meta: {login: false}
   },
   {
@@ -51,6 +45,12 @@ const routes = [
     path: "/ArticleCenter",
     name: "ArticleCenter",
     component: ArticleCenter,
+    meta: {login: false}
+  },
+  {
+    path: "/Aes",
+    name: "Aes",
+    component: Aes,
     meta: {login: false}
   }
 ];

@@ -9,7 +9,12 @@
     export default {
         name: "ArticleView",
         components: {ArticleDetails},
-        methods: {}
+        methods: {
+            // 返回上一级
+            goBack() {
+                this.$router.go(-1);
+            },
+        }
     }
 </script>
 

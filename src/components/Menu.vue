@@ -4,10 +4,10 @@
             <el-submenu :index="category.id"  v-for="category in categories" :key="category.id">
                 <template slot="title">
                     <i class="category-icon" v-html="category.svg"></i>
-                    <span class="category-name" slot="title" @click="toSearchResult(category.id)">{{category.name}}</span>
+                    <span class="category-name" slot="title" @click="toSearchResult(category.id, 'category')">{{category.name}}</span>
                 </template>
                 <el-menu-item-group v-if="category.columns">
-                    <el-menu-item @click="toSearchResult(column.id)" :index="column.id" v-for="column in category.columns" :key="column.id">{{column.name}}</el-menu-item>
+                    <el-menu-item @click="toSearchResult(column.id, 'column')" :index="column.id" v-for="column in category.columns" :key="column.id">{{column.name}}</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
         </el-menu>
@@ -35,8 +35,8 @@
         },
         methods: {
             // 前往搜索页面
-            toSearchResult(q) {
-                this.$router.push({name: 'ArticleSearchResult', query: {q: q}});
+            toSearchResult(q, type) {
+                this.$router.push({name: 'ArticleSearchResult', query: {q: q, type: type}});
             },
         }
     }

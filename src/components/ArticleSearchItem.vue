@@ -3,15 +3,15 @@
         <el-link class="title" :underline="false" @click="toArticleView">{{article.title}}</el-link>
         <div class="article-info">
             <div class="article-info-item">
-                <div class="tag-point" :style="{backgroundColor: article.category.color}"></div>
-                <div>{{article.category.name}}</div>
+                <p class="tag-point" :style="{backgroundColor: article.category.color}"></p>
+                <p>{{article.category.name}}</p>
             </div>
             <div class="article-info-item">
-                <div>{{article.column.name}}</div>
+                <p>{{article.column.name}}</p>
             </div>
             <div class="article-info-item">
-                <label>最后更新于</label>
-                <strong>{{article.lastModTime}}</strong>
+                <p>最后更新于</p>
+                <p>{{article.lastModTime}}</p>
             </div>
         </div>
     </div>

@@ -2,8 +2,8 @@
     <div :id="'article-details-' + article.id" class="article-details-container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{name: 'ArticleSearchResult', query: {q: article.category.id}}">{{article.category.name}}</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{name: 'ArticleSearchResult', query: {q: article.column.id}}">{{article.column.name}}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{name: 'ArticleSearchResult', query: {q: article.category.id, type: 'category'}}">{{article.category.name}}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{name: 'ArticleSearchResult', query: {q: article.column.id, type: 'column'}}">{{article.column.name}}</el-breadcrumb-item>
         </el-breadcrumb>
         <h1>{{article.title}}</h1>
         <div class="item-container article-header-info">

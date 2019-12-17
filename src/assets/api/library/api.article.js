@@ -27,6 +27,22 @@ export default {
     },
 
     /**
+     * 查询文章列表
+     * @returns {*|Promise|Promise<any>|undefined}
+     */
+    listByCategory(category, page) {
+        return service.request('get', `/library/v1/articles/category?category=${category}&page=${page}`);
+    },
+
+    /**
+     * 查询文章列表
+     * @returns {*|Promise|Promise<any>|undefined}
+     */
+    listByColumn(column, page) {
+        return service.request('get', `/library/v1/articles/column?column=${column}&page=${page}`);
+    },
+
+    /**
      * 查询文章详情
      * @returns {*|Promise|Promise<any>|undefined}
      */

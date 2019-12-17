@@ -1,5 +1,6 @@
 <template>
     <div id="article-edit-container">
+        <el-page-header @back="goBack" content="编解文章"></el-page-header>
         <el-input class="item" v-model="article.title" placeholder="请输入标题"></el-input>
         <div class="item article-type-column">
             <el-select class="article-type-column-item" v-model="article.category.id" placeholder="请选择文章类型">
@@ -21,33 +22,22 @@
             <el-input class="article-type-column-item default-input-border border-color-transition"
                       v-model="article.column.name" placeholder="输入自定义专栏"></el-input>
         </div>
-        <div class="item article-type-column">
-            <el-input class="default-input-border border-color-transition" v-model="article.link"
-                      placeholder="引用链接"></el-input>
-        </div>
         <TinymceEditor class="item" ref="editor" v-model="article.content" :disabled="disabled"/>
         <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"></el-input>
         <div class="item authorize-code">
             <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;">
                 <template slot="append">
-                    <el-button @click="openAuthorizeCode = true">获取授权码</el-button>
+                    <el-button @click="handleGetAuthorizeCode">获取授权码</el-button>
                 </template>
             </el-input>
-        </div>
-
-        <div class="item">
-            <el-checkbox v-model="agree">同意<el-link href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/legalcode" target="_blank">CC BY-NC-SA 3.0 CN</el-link>协议</el-checkbox>
+            <el-checkbox class="cc3" v-model="agree">同意<el-link href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/legalcode" target="_blank">CC BY-NC-SA 3.0 CN</el-link>协议</el-checkbox>
         </div>
 
         <div class="item button-container">
-            <el-button @click="handleBack">返回</el-button>
             <el-button type="success" :loading="submiting" @click="handleSubmitArticle">提交</el-button>
         </div>
 
-        <div class="item copyright">
-            <p><span>所属主体：</span>天逸集团&nbsp;平台项目部</p>
-            <p><span>&copy; 2019</span> 天逸财金科技服务（武汉）有限公司&nbsp;版权所有</p>
-        </div>
+        <Copyright class="item"/>
 
         <el-dialog class="authorize-code-dialog" title="获取授权码" :visible.sync="openAuthorizeCode" width="30%">
             <el-alert class="authorize-code-dialog-item"
@@ -67,10 +57,11 @@
     import apiCategory from '@/assets/api/library/api.category';
     import apiArticle from '@/assets/api/library/api.article';
     import apiCommon from '@/assets/api/library/api.common';
+    import Copyright from "../components/Copyright";
 
     export default {
         name: "ArticleEdit",
-        components: {TinymceEditor},
+        components: {Copyright, TinymceEditor},
         data() {
             return {
                 agree: false,
@@ -140,6 +131,18 @@
             }
         },
         methods: {
+            // 打开获取授权码对话框
+            handleGetAuthorizeCode() {
+                if (false === this.agree) {
+                    let message = '请查看并同意知识共享许可协议。';
+                    this.$message({
+                        type: 'warning',
+                        message: message
+                    });
+                    throw message;
+                }
+                this.openAuthorizeCode = true
+            },
             // 获取邮箱验证码
             handleGetEmailCode() {
                 if (this.email.length > 0) {
@@ -162,7 +165,7 @@
                 }
             },
             // 返回上一级
-            handleBack() {
+            goBack() {
                 this.$router.go(-1);
             },
             // 加载文章
@@ -239,20 +242,15 @@
 
     #article-edit-container .authorize-code {
         display: flex;
+        align-items: center;
+    }
+
+    #article-edit-container .cc3 {
+        margin-left: 10px;
     }
 
     #article-edit-container .authorize-code-dialog .authorize-code-dialog-item:not(:first-child) {
         margin-top: 20px;
-    }
-
-    #article-edit-container .copyright {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 12px;
-        color: #909399;
-        border-top: 1px solid #DCDFE6;
-        padding: 10px;
     }
 
 </style>

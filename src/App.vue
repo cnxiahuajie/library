@@ -13,6 +13,16 @@
                 </transition>
             </div>
         </div>
+
+        <el-dialog
+                title="友情提示"
+                :visible.sync="dialogVisibleHelp"
+                width="60%"
+                :before-close="handleCloseHelper">
+            <el-image
+                    :src="helpImageUrl"
+                    :fit="'scale-down'"></el-image>
+        </el-dialog>
     </div>
 </template>
 
@@ -26,6 +36,8 @@
         components: {Menu, Top},
         data() {
             return {
+                helpImageUrl: require('@/assets/images/help.png'),
+                dialogVisibleHelp: null === localStorage.getItem('help'),
                 isCollapse: false,
                 categories: [],
                 currentScrollTop: 0
@@ -39,12 +51,13 @@
             if (localStorage.getItem('access_token')) {
                 this.$store.commit('login', true);
             }
-            if (null === sessionStorage.getItem('nf')) {
-                sessionStorage.setItem('nf', 'nf');
-                this.toAbout();
-            }
         },
         methods: {
+            // 关闭帮助
+            handleCloseHelper(done) {
+                localStorage.setItem('help', '1');
+                done();
+            },
             // 处理滚动条事件
             handleScroll() {
                 let right = document.getElementById('main-right');
