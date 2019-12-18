@@ -26,7 +26,7 @@
                       </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item icon="el-icon-plus" command="toAddArticle">文章</el-dropdown-item>
-                        <el-dropdown-item icon="el-icon-key" command="toAesTool">AES&nbsp;工具</el-dropdown-item>
+                        <el-dropdown-item icon="el-icon-key" command="toCodecTool">数据加解密</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -59,8 +59,8 @@
             handleMore(command) {
                 if ('toAddArticle' === command) {
                     this.toArticleEdit();
-                } else if ('toAesTool' === command) {
-                    this.toAesTool();
+                } else if ('toCodecTool' === command) {
+                    this.toCodecTool();
                 }
             },
             // 前往搜索页面
@@ -70,8 +70,8 @@
                 }
             },
             // 前往AES页面
-            toAesTool() {
-                this.$router.push({name: 'Aes'});
+            toCodecTool() {
+                this.$router.push({name: 'Codec'});
             },
             // 折叠改变
             handleChangeCollapse() {

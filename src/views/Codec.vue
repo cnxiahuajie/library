@@ -1,12 +1,13 @@
 <template>
     <div id="aes-container">
-        <el-page-header @back="goBack" content="Aes 工具"></el-page-header>
+        <el-page-header @back="goBack" content="数据加解密"></el-page-header>
         <div class="aes-container-item">
             <div class="item">
-                <el-input v-model="key" placeholder="请输入密钥"></el-input>
-            </div>
-            <div class="item">
-                <el-input v-model="iv" placeholder="请输入偏移量"></el-input>
+                <el-switch
+                        v-model="isCollapse"
+                        active-text="展开"
+                        inactive-text="收起">
+                </el-switch>
             </div>
             <div class="item">
                 <el-switch
@@ -25,21 +26,13 @@
             </div>
         </div>
         <div class="aes-container-item">
-            <el-switch
-                    v-model="isCollapse"
-                    active-text="展开"
-                    inactive-text="收起">
-            </el-switch>
-        </div>
-        <div class="aes-container-item">
             <div class="item input-box" :style="{width: isCollapse ? '50%' : 0}">
                 <el-input
                         type="textarea"
                         :rows="20"
                         placeholder="请输入原报文"
                         v-model="srcContent"
-                        resize="none"
-                        :disabled="!(key && iv)">
+                        resize="none">
                 </el-input>
             </div>
             <div class="item output-box">
@@ -51,7 +44,6 @@
                         placeholder="展示处理后的报文"
                         v-model="destContent"
                         resize="none"
-                        :disabled="!(key && iv)"
                         :readonly="true">
                 </el-input>
             </div>
@@ -69,7 +61,7 @@
     const MINUS = '-';
 
     export default {
-        name: "Aes",
+        name: "Codec",
         data() {
             return {
                 isCollapse: true,
@@ -77,8 +69,8 @@
                 srcContent: '',
                 destContentData: {},
                 destContent: '',
-                key: localStorage.getItem(KEY) || 'bWFsbHB3ZA==WNST',
-                iv: localStorage.getItem(IV) || '1234567890123456',
+                key: process.env.VUE_APP_AES_KEY,
+                iv: process.env.VUE_APP_AES_IV,
                 mode: localStorage.getItem(MODE),
                 MODE_PLUS: PLUS,
                 MODE_MINUS: MINUS
@@ -91,21 +83,13 @@
             mode(newVal) {
                 localStorage.setItem(MODE, newVal);
                 this.viewMode = 'Text';
-                this.doAes();
+                this.doCodec();
             },
             srcContent(newVal) {
-                this.doAes();
+                this.doCodec();
             },
             destContent(newVal) {
-                this.doAes();
-            },
-            key(newVal) {
-                localStorage.setItem(KEY, newVal);
-                this.doAes();
-            },
-            iv(newVal) {
-                localStorage.setItem(IV, newVal);
-                this.doAes();
+                this.doCodec();
             }
         },
         methods: {
@@ -127,7 +111,7 @@
                 }
             },
             // aes
-            doAes() {
+            doCodec() {
                 if (this.srcContent.length > 0 && this.key.length > 0 && this.iv.length > 0) {
                     if (this.mode === this.MODE_PLUS) {
                         this.destContent = Encrypt(this.srcContent, this.key, this.iv);

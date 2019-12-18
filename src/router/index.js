@@ -6,7 +6,7 @@ import ArticleSearchResult from "@/views/ArticleSearchResult";
 import ArticleView from "@/views/ArticleView";
 import ArticleEdit from "@/views/ArticleEdit";
 import ArticleCenter from "@/views/ArticleCenter";
-import Aes from "@/views/Aes";
+import Codec from "@/views/Codec";
 
 Vue.use(VueRouter);
 
@@ -48,9 +48,9 @@ const routes = [
     meta: {login: false}
   },
   {
-    path: "/Aes",
-    name: "Aes",
-    component: Aes,
+    path: "/Codec",
+    name: "Codec",
+    component: Codec,
     meta: {login: false}
   }
 ];
