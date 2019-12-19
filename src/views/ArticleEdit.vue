@@ -22,7 +22,7 @@
             <el-input class="article-type-column-item default-input-border border-color-transition"
                       v-model="article.column.name" placeholder="输入自定义专栏"></el-input>
         </div>
-        <MarkdownEditor v-if="article.content.length > 0 && article.sourceContent.length > 0" class="item" :content="article.content" :sourceContent="article.sourceContent" @htmlContent="handleHtmlContentChange" @markdownContent="handleMarkdownContentChange"/>
+        <MarkdownEditor v-if="null != article.content && null != article.sourceContent" class="item" :content="article.content" :sourceContent="article.sourceContent" @htmlContent="handleHtmlContentChange" @markdownContent="handleMarkdownContentChange"/>
         <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"></el-input>
         <div class="item authorize-code">
             <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;">
@@ -76,8 +76,8 @@
                     codeKey: '',
                     creatorId: '',
                     modifierId: '',
-                    sourceContent: '',
-                    content: '',
+                    sourceContent: null,
+                    content: null,
                     category: {
                         id: ''
                     },
@@ -129,6 +129,27 @@
                 this.update = true;
                 // 加载文章
                 this.loadArticle();
+            } else {
+                this.article = {
+                    authorizeCode: '',
+                    codeKey: '',
+                    creatorId: '',
+                    modifierId: '',
+                    sourceContent: '',
+                    content: '',
+                    category: {
+                        id: ''
+                    },
+                    column: {
+                        id: '',
+                        name: ''
+                    },
+                    history: {
+                        id: '',
+                        reason: ''
+                    },
+                    link: ''
+                }
             }
         },
         methods: {
