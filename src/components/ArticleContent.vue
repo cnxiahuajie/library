@@ -4,7 +4,7 @@
 
 <script>
     import hljs from 'highlight.js';
-    import 'highlight.js/styles/a11y-dark.css';
+    import 'highlight.js/scss/github.scss';
 
     export default {
         name: "ArticleContent",
@@ -32,10 +32,7 @@
 <style lang="scss">
     #article-content-container {
         width: 100%;
-        margin: auto;
-        pre {
-            font-size: 14px;
-            line-height: 1.2em;
-        }
+        margin-top: 10px;
+        padding: 20px;
     }
 </style>

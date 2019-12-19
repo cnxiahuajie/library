@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="item-container dividing-line"></div>
-        <div class="item-container">
+        <div class="item-container article-content-container">
             <ArticleContent :content="article.content"/>
         </div>
         <div class="top-button" @click="handleGoTop" v-show="showTopButton">
@@ -113,7 +113,7 @@
 
     .article-header-info {
         font-size: 14px;
-        color: #909399;
+        color: #161616;
     }
 
     .article-details-container .item-container .item {
@@ -133,5 +133,6 @@
         opacity: 1;
         cursor: pointer;
     }
+
 
 </style>

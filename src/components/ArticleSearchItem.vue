@@ -1,5 +1,5 @@
 <template>
-    <div :id="article.id">
+    <div class="article-item" :id="article.id">
         <el-link class="title" :underline="false" @click="toArticleView">{{article.title}}</el-link>
         <div class="article-info">
             <div class="article-info-item">
@@ -31,9 +31,11 @@
 </script>
 
 <style scoped>
+
     .title {
         color: rgba(48, 49, 51, 0.6);
         font-size: 18px;
+        z-index: 10;
     }
 
     .article-info {

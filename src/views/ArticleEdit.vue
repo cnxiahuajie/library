@@ -22,7 +22,7 @@
             <el-input class="article-type-column-item default-input-border border-color-transition"
                       v-model="article.column.name" placeholder="输入自定义专栏"></el-input>
         </div>
-        <TinymceEditor class="item" ref="editor" v-model="article.content" :disabled="disabled"/>
+        <MarkdownEditor v-if="article.content.length > 0 && article.sourceContent.length > 0" class="item" :content="article.content" :sourceContent="article.sourceContent" @htmlContent="handleHtmlContentChange" @markdownContent="handleMarkdownContentChange"/>
         <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"></el-input>
         <div class="item authorize-code">
             <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;">
@@ -53,15 +53,15 @@
 </template>
 
 <script>
-    import TinymceEditor from "../components/TinymceEditor";
     import apiCategory from '@/assets/api/library/api.category';
     import apiArticle from '@/assets/api/library/api.article';
     import apiCommon from '@/assets/api/library/api.common';
-    import Copyright from "../components/Copyright";
+    import Copyright from "@/components/Copyright";
+    import MarkdownEditor from "@/components/MarkdownEditor";
 
     export default {
         name: "ArticleEdit",
-        components: {Copyright, TinymceEditor},
+        components: {MarkdownEditor, Copyright},
         data() {
             return {
                 agree: false,
@@ -76,6 +76,7 @@
                     codeKey: '',
                     creatorId: '',
                     modifierId: '',
+                    sourceContent: '',
                     content: '',
                     category: {
                         id: ''
@@ -131,6 +132,14 @@
             }
         },
         methods: {
+            // html内容
+            handleHtmlContentChange(value) {
+                this.article.content = value;
+            },
+            // markdown内容
+            handleMarkdownContentChange(value) {
+                this.article.sourceContent = value;
+            },
             // 打开获取授权码对话框
             handleGetAuthorizeCode() {
                 if (false === this.agree) {

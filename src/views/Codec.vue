@@ -155,10 +155,12 @@
                 width: 50%;
                 flex-shrink: 0;
                 overflow: hidden;
+                transition: width 300ms;
             }
 
             .output-box {
                 width: 100%;
+                transition: width 300ms;
             }
 
         }
