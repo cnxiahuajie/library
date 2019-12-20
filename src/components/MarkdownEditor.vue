@@ -1,6 +1,6 @@
 <template>
     <div id="markdown-editor-container">
-        <mavon-editor ref="editor" v-model="markdownContent" @change="change" :toolbars="toolbars" :ishljs="true" :code_style="'tomorrow-night'"></mavon-editor>
+        <mavon-editor ref="editor" v-model="markdownContent" @change="change" :toolbars="toolbars" :ishljs="true"></mavon-editor>
     </div>
 </template>
 

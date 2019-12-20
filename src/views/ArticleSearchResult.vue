@@ -1,7 +1,7 @@
 <template>
     <div id="article-search-result" v-loading="searching">
         <el-page-header @back="goBack" content="搜索结果"></el-page-header>
-        <el-card class="article" shadow="never" v-for="article in articles" :key="article.id">
+        <el-card class="article" shadow="never" v-for="article in pageResponse.result" :key="article.id">
             <div class="article-hover-box-left-top"></div>
             <ArticleSearchItem :article="article" @toArticleView="toArticleView(article.id)"/>
             <div class="article-hover-box-right-bottom"></div>
@@ -10,6 +10,11 @@
             <p v-if="type === 'keyword'">未搜索到&nbsp;[<strong>{{q}}</strong>]&nbsp;相关的内容</p>
             <p v-else>未搜索到相关的内容</p>
         </div>
+        <el-pagination v-show="!noneResult" class="page-container"
+                background
+                layout="prev, pager, next"
+                :total="pageResponse.total">
+        </el-pagination>
     </div>
 </template>
 
@@ -27,12 +32,19 @@
                 q: '',
                 type: '',
                 page: 0,
-                articles: []
+                pageResponse: {
+                    result: [],
+                    total: 0
+                },
+                lastPage: false
             }
         },
         beforeRouteUpdate (to, from, next) {
             this.searching = true;
-            this.articles = [];
+            this.pageResponse = {
+                result: [],
+                total: 0
+            };
             this.q = to.query.q;
             this.type = to.query.type;
             this.handleSearch();
@@ -53,11 +65,8 @@
                 this.noneResult = false;
                 if ('category' === this.type) {
                     apiArticle.listByCategory(this.q, this.page).then(data => {
-                        if (null !== data && data.length > 0) {
-                            this.articles = data;
-                            this.articles.forEach(item => {
-                                item["visible"] = true;
-                            })
+                        if (null !== data && data.total > 0) {
+                            this.pageResponse = data;
                         } else {
                             this.noneResult = true;
                         }
@@ -65,11 +74,8 @@
                     });
                 } else if ('column' ===  this.type) {
                     apiArticle.listByColumn(this.q, this.page).then(data => {
-                        if (null !== data && data.length > 0) {
-                            this.articles = data;
-                            this.articles.forEach(item => {
-                                item["visible"] = true;
-                            })
+                        if (null !== data && data.total > 0) {
+                            this.pageResponse = data;
                         } else {
                             this.noneResult = true;
                         }
@@ -77,11 +83,8 @@
                     });
                 } else {
                     apiArticle.list(this.q, this.page).then(data => {
-                        if (null !== data && data.length > 0) {
-                            this.articles = data;
-                            this.articles.forEach(item => {
-                                item["visible"] = true;
-                            })
+                        if (null !== data && data.total > 0) {
+                            this.pageResponse = data;
                         } else {
                             this.noneResult = true;
                         }
@@ -162,6 +165,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .page-container {
+        margin: 20px 0;
     }
 
 </style>

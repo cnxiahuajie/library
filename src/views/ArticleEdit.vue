@@ -1,7 +1,7 @@
 <template>
     <div id="article-edit-container">
         <el-page-header @back="goBack" content="编解文章"></el-page-header>
-        <el-input class="item" v-model="article.title" placeholder="请输入标题"></el-input>
+        <el-input class="item" v-model="article.title" placeholder="请输入标题" :maxlength="30"></el-input>
         <div class="item article-type-column">
             <el-select class="article-type-column-item" v-model="article.category.id" placeholder="请选择文章类型">
                 <el-option
@@ -19,25 +19,28 @@
                         :value="item.id">
                 </el-option>
             </el-select>
-            <el-input class="article-type-column-item default-input-border border-color-transition"
-                      v-model="article.column.name" placeholder="输入自定义专栏"></el-input>
+            <el-input class="article-type-column-item"
+                      v-model="article.column.name" placeholder="输入自定义专栏" :maxlength="30"></el-input>
         </div>
         <MarkdownEditor v-if="null != article.content && null != article.sourceContent" class="item" :content="article.content" :sourceContent="article.sourceContent" @htmlContent="handleHtmlContentChange" @markdownContent="handleMarkdownContentChange"/>
-        <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"></el-input>
-        <div class="item authorize-code">
-            <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;">
+        <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"  :maxlength="200"></el-input>
+        <div class="item button-container">
+            <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;"  :maxlength="6">
                 <template slot="append">
                     <el-button @click="handleGetAuthorizeCode">获取授权码</el-button>
                 </template>
             </el-input>
-            <el-checkbox class="cc3" v-model="agree">同意<el-link href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/legalcode" target="_blank">CC BY-NC-SA 3.0 CN</el-link>协议</el-checkbox>
+            <el-button class="button-container-item" type="success" :loading="submiting" @click="handleSubmitArticle">提交</el-button>
         </div>
 
-        <div class="item button-container">
-            <el-button type="success" :loading="submiting" @click="handleSubmitArticle">提交</el-button>
+        <div class="item licenses">
+            <div class="licenses-item">
+                <el-link rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png" /></el-link>
+            </div>
+            <div class="licenses-item">
+                本作品采用<el-link rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</el-link>进行许可。
+            </div>
         </div>
-
-        <Copyright class="item"/>
 
         <el-dialog class="authorize-code-dialog" title="获取授权码" :visible.sync="openAuthorizeCode" width="30%">
             <el-alert class="authorize-code-dialog-item"
@@ -56,15 +59,13 @@
     import apiCategory from '@/assets/api/library/api.category';
     import apiArticle from '@/assets/api/library/api.article';
     import apiCommon from '@/assets/api/library/api.common';
-    import Copyright from "@/components/Copyright";
     import MarkdownEditor from "@/components/MarkdownEditor";
 
     export default {
         name: "ArticleEdit",
-        components: {MarkdownEditor, Copyright},
+        components: {MarkdownEditor},
         data() {
             return {
-                agree: false,
                 authorizeCodeGeting: false,
                 openAuthorizeCode: false,
                 email: localStorage.getItem('email') || '',
@@ -163,14 +164,6 @@
             },
             // 打开获取授权码对话框
             handleGetAuthorizeCode() {
-                if (false === this.agree) {
-                    let message = '请查看并同意知识共享许可协议。';
-                    this.$message({
-                        type: 'warning',
-                        message: message
-                    });
-                    throw message;
-                }
                 this.openAuthorizeCode = true
             },
             // 获取邮箱验证码
@@ -206,13 +199,21 @@
             },
             // 提交文章
             handleSubmitArticle() {
-                if (false === this.agree) {
-                    let message = '请查看并同意知识共享许可协议。';
+
+                if (null === this.article.authorizeCode) {
                     this.$message({
-                        type: 'warning',
-                        message: message
+                        type: 'error',
+                        message:'请输入授权码。'
                     });
-                    throw message;
+                    throw '请输入授权码';
+                }
+
+                if (null === this.article.history.reason) {
+                    this.$message({
+                        type: 'error',
+                        message:'请输入修改原因。'
+                    });
+                    throw '请输入修改原因';
                 }
 
                 this.submiting = true;
@@ -270,13 +271,20 @@
         width: 100%;
     }
 
-    #article-edit-container .authorize-code {
-        display: flex;
-        align-items: center;
+    #article-edit-container .button-container-item {
+        margin-left: 10px;
     }
 
-    #article-edit-container .cc3 {
-        margin-left: 10px;
+    #article-edit-container .licenses {
+        display: flex;
+        justify-content: center;
+        border: 1px dotted #DCDFE6;
+        padding: 20px;
+    }
+
+    #article-edit-container .licenses .licenses-item {
+        display: flex;
+        align-items: center;
     }
 
     #article-edit-container .authorize-code-dialog .authorize-code-dialog-item:not(:first-child) {

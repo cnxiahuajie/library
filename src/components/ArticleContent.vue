@@ -22,6 +22,7 @@
             handleHighlight() {
                 let highlight = this.$refs.articleContentContainer.querySelectorAll('pre code');
                 highlight.forEach((block) => {
+                    console.log(block);
                     hljs.highlightBlock(block);
                 });
             }
