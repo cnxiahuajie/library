@@ -1,7 +1,7 @@
 <template>
     <div id="article-search-result" v-loading="searching">
         <el-page-header @back="goBack" content="搜索结果"></el-page-header>
-        <el-card class="article" shadow="never" v-for="article in pageResponse.result" :key="article.id">
+        <el-card class="article" shadow="never" v-for="article in pageResponse.list" :key="article.id">
             <div class="article-hover-box-left-top"></div>
             <ArticleSearchItem :article="article" @toArticleView="toArticleView(article.id)"/>
             <div class="article-hover-box-right-bottom"></div>
@@ -10,7 +10,7 @@
             <p v-if="type === 'keyword'">未搜索到&nbsp;[<strong>{{q}}</strong>]&nbsp;相关的内容</p>
             <p v-else>未搜索到相关的内容</p>
         </div>
-        <el-pagination v-show="!noneResult" class="page-container"
+        <el-pagination v-show="pageResponse.total > 0" class="page-container"
                 background
                 layout="prev, pager, next"
                 :total="pageResponse.total">
@@ -33,8 +33,12 @@
                 type: '',
                 page: 0,
                 pageResponse: {
-                    result: [],
-                    total: 0
+                    list: [],
+                    total: 0,
+                    isFirstPage: false,
+                    isLastPage: false,
+                    hasPreviousPage: false,
+                    hasNextPage: false
                 },
                 lastPage: false
             }
@@ -42,8 +46,12 @@
         beforeRouteUpdate (to, from, next) {
             this.searching = true;
             this.pageResponse = {
-                result: [],
-                total: 0
+                list: [],
+                total: 0,
+                isFirstPage: false,
+                isLastPage: false,
+                hasPreviousPage: false,
+                hasNextPage: false
             };
             this.q = to.query.q;
             this.type = to.query.type;

@@ -22,7 +22,6 @@
             handleHighlight() {
                 let highlight = this.$refs.articleContentContainer.querySelectorAll('pre code');
                 highlight.forEach((block) => {
-                    console.log(block);
                     hljs.highlightBlock(block);
                 });
             }
@@ -35,5 +34,14 @@
         width: 100%;
         margin-top: 10px;
         padding: 20px;
+        border: 1px solid #DCDFE6;
     }
+
+    blockquote {
+        color: #6a737d;
+        border-left: .25em solid #dfe2e5;
+        margin: 5px;
+        text-indent: 23px;
+    }
+
 </style>

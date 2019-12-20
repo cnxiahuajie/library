@@ -1,11 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
-import UserCenter from "@/views/UserCenter.vue";
 import ArticleSearchResult from "@/views/ArticleSearchResult";
 import ArticleView from "@/views/ArticleView";
 import ArticleEdit from "@/views/ArticleEdit";
-import ArticleCenter from "@/views/ArticleCenter";
 import Codec from "@/views/Codec";
 
 Vue.use(VueRouter);
@@ -15,12 +13,6 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    meta: {login: false}
-  },
-  {
-    path: "/UserCenter",
-    name: "UserCenter",
-    component: UserCenter,
     meta: {login: false}
   },
   {
@@ -39,12 +31,6 @@ const routes = [
     path: "/ArticleEdit",
     name: "ArticleEdit",
     component: ArticleEdit,
-    meta: {login: false}
-  },
-  {
-    path: "/ArticleCenter",
-    name: "ArticleCenter",
-    component: ArticleCenter,
     meta: {login: false}
   },
   {
