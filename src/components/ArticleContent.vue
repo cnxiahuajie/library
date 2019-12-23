@@ -34,7 +34,6 @@
         width: 100%;
         margin-top: 10px;
         padding: 20px;
-        border: 1px solid #DCDFE6;
     }
 
     blockquote {

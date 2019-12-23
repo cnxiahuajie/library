@@ -10,7 +10,7 @@
             <p v-if="type === 'keyword'">未搜索到&nbsp;[<strong>{{q}}</strong>]&nbsp;相关的内容</p>
             <p v-else>未搜索到相关的内容</p>
         </div>
-        <el-pagination v-show="pageResponse.total > 0" class="page-container"
+        <el-pagination v-show="false === pageResponse.isLastPage" class="page-container"
                 background
                 layout="prev, pager, next"
                 :total="pageResponse.total">
@@ -35,8 +35,8 @@
                 pageResponse: {
                     list: [],
                     total: 0,
-                    isFirstPage: false,
-                    isLastPage: false,
+                    isFirstPage: true,
+                    isLastPage: true,
                     hasPreviousPage: false,
                     hasNextPage: false
                 },
@@ -48,8 +48,8 @@
             this.pageResponse = {
                 list: [],
                 total: 0,
-                isFirstPage: false,
-                isLastPage: false,
+                isFirstPage: true,
+                isLastPage: true,
                 hasPreviousPage: false,
                 hasNextPage: false
             };

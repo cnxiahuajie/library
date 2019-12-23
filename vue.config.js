@@ -15,7 +15,7 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/library': {
-                target: 'http://192.168.0.105:8080', // 设置网关域名和端口号
+                target: `http://${process.env.VUE_APP_API_SERVER_IP}:${process.env.VUE_APP_API_SERVER_PORT}`, // 设置网关域名和端口号
                 changeOrigin: true, // 跨域
                 pathRewrite: {
                     '^/library': '/'
