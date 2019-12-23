@@ -4,7 +4,7 @@
 
 <script>
     import hljs from 'highlight.js';
-    import 'highlight.js/scss/github.scss';
+    import 'highlight.js/scss/a11y-dark.scss';
 
     export default {
         name: "ArticleContent",
@@ -23,6 +23,7 @@
                 let highlight = this.$refs.articleContentContainer.querySelectorAll('pre code');
                 highlight.forEach((block) => {
                     hljs.highlightBlock(block);
+                    block.style.fontSize = '1.2em';
                 });
             }
         }
