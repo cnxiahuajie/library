@@ -5,6 +5,8 @@
 <script>
     import hljs from 'highlight.js';
     import 'highlight.js/scss/a11y-dark.scss';
+    import domtoimage from 'dom-to-image';
+    import { saveAs } from 'file-saver';
 
     export default {
         name: "ArticleContent",
@@ -18,6 +20,14 @@
             this.handleHighlight();
         },
         methods: {
+            // 下载
+            handleDownload() {
+                var node = document.getElementById('article-content-container');
+                let id = this.$route.query.id;
+                domtoimage.toBlob(node).then(function (blob) {
+                    saveAs(blob, id + '.png');
+                });
+            },
             // 处理高亮字段
             handleHighlight() {
                 let highlight = this.$refs.articleContentContainer.querySelectorAll('pre code');

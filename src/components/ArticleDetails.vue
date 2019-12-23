@@ -15,6 +15,16 @@
                 <strong class="child-item" v-text="article.lastModTime"></strong>
             </div>
             <div class="item">
+                <el-dropdown @command="handleDownload">
+                  <span class="el-dropdown-link">
+                    下载<i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="png">快照</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
+            <div class="item">
                 <p>共<strong v-text="article.modifierCount"></strong>人参与了修正</p>
             </div>
             <div class="item">
@@ -24,7 +34,7 @@
         </div>
         <div class="item-container dividing-line"></div>
         <div class="item-container article-content-container">
-            <ArticleContent :content="article.content"/>
+            <ArticleContent ref="articleContent" :content="article.content"/>
         </div>
         <div class="article-history-box">
             <ArticleHistory v-if="null !== article.id && article.id.length > 0" :show="showArticleHistory" :article-id="article.id"/>
@@ -73,6 +83,12 @@
             this.loadArticle();
         },
         methods: {
+            // 下载
+            handleDownload(command) {
+                if ('png' === command) {
+                    this.toDownload();
+                }
+            },
             // 置顶
             handleGoTop() {
                 let right = document.getElementById('main-right');
@@ -84,6 +100,10 @@
                         that.handleGoTop();
                     }, 1);
                 }
+            },
+            // 前往下载
+            toDownload() {
+                this.$refs.articleContent.handleDownload();
             },
             // 前往文章编辑页面
             toArticleEdit() {
