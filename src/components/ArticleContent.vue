@@ -43,7 +43,6 @@
 <style lang="scss">
     #article-content-container {
         width: 100%;
-        margin-top: 10px;
         padding: 20px;
     }
 

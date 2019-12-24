@@ -39,5 +39,5 @@ module.exports = {
         // 重新设置 alias
         config.resolve.alias
             .set('@', resolve('src'))
-    }
+    },
 }
