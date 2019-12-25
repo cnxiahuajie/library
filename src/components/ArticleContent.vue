@@ -44,13 +44,19 @@
     #article-content-container {
         width: 100%;
         padding: 20px;
-    }
 
-    blockquote {
-        color: #6a737d;
-        border-left: .25em solid #dfe2e5;
-        margin: 5px;
-        text-indent: 23px;
+        blockquote {
+            color: #6a737d;
+            border-left: .25em solid #dfe2e5;
+            margin: 5px;
+            text-indent: 23px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: scale-down;
+        }
     }
 
 </style>
