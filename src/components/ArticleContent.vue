@@ -57,6 +57,17 @@
             height: 100%;
             object-fit: scale-down;
         }
+
+        p {
+            display: block;
+            font-size: 14px!important;
+            line-height: 30px;
+            text-indent: 2em;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+        }
     }
 
 </style>
