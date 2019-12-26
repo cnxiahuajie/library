@@ -43,7 +43,6 @@
 <style lang="scss">
     #article-content-container {
         width: 100%;
-        padding: 20px;
 
         blockquote {
             color: #6a737d;
