@@ -188,7 +188,6 @@
 
     .article-header-info {
         font-size: 14px;
-        color: #161616;
     }
 
     .article-details-container .item-container .item {

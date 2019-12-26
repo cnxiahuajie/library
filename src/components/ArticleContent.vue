@@ -67,6 +67,10 @@
             margin-inline-start: 0px;
             margin-inline-end: 0px;
         }
+
+        .hljs-center {
+            text-align: center;
+        }
     }
 
 </style>
