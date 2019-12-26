@@ -134,11 +134,13 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        margin-bottom: 50px;
     }
 
     #article-search-result .article {
         display: flex;
         position: relative;
+        margin-top: 20px;
     }
 
     #article-search-result .article:hover .article-hover-box-left-top {
@@ -181,10 +183,6 @@
         right: 0;
         width: 0px;
         height: 0px;
-    }
-
-    #article-search-result .article:not(:first-child) {
-        margin-top: 20px;
     }
 
     .not-found {

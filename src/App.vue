@@ -111,6 +111,8 @@
     #app .main .main-left {
         flex-shrink: 0;
         border-right: 1px solid #DCDFE6;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     #app .main .main-right {
