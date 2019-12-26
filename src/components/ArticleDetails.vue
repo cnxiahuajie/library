@@ -52,7 +52,7 @@
                 </el-dropdown>
             </div>
             <div class="item">
-                <p>共<strong v-text="article.modifierCount"></strong>人参与了修正</p>
+                <p>共修订了<strong v-text="article.modifyCount"></strong>次</p>
             </div>
             <div class="item">
                 <p class="child-item">文章内容有误？</p>
@@ -159,10 +159,6 @@
             // 前往文章编辑页面
             toArticleEdit() {
                 this.$router.push({name: 'ArticleEdit', query: {id: this.id}});
-            },
-            // 前往文章历史页面
-            toHistory() {
-                this.$router.push({name: 'ArticleHistory', query: {id: this.id}});
             },
             // 加载文章
             loadArticle() {

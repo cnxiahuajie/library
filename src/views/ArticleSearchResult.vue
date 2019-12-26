@@ -10,10 +10,11 @@
             <p v-if="type === 'keyword'">未搜索到&nbsp;[<strong>{{q}}</strong>]&nbsp;相关的内容</p>
             <p v-else>未搜索到相关的内容</p>
         </div>
-        <el-pagination v-show="false === pageResponse.isLastPage" class="page-container"
-                background
-                layout="prev, pager, next"
-                :total="pageResponse.total">
+        <el-pagination class="page-container"
+                       background
+                       layout="prev, pager, next"
+                       :total="pageResponse.total" :hide-on-single-page="true" :current-page="page"
+                       @current-change="handlePageSearch">
         </el-pagination>
     </div>
 </template>
@@ -31,7 +32,7 @@
                 searching: false,
                 q: '',
                 type: '',
-                page: 0,
+                page: 1,
                 pageResponse: {
                     list: [],
                     total: 0,
@@ -43,7 +44,7 @@
                 lastPage: false
             }
         },
-        beforeRouteUpdate (to, from, next) {
+        beforeRouteUpdate(to, from, next) {
             this.searching = true;
             this.pageResponse = {
                 list: [],
@@ -53,6 +54,7 @@
                 hasPreviousPage: false,
                 hasNextPage: false
             };
+            this.page = 1;
             this.q = to.query.q;
             this.type = to.query.type;
             this.handleSearch();
@@ -68,6 +70,25 @@
             goBack() {
                 this.$router.go(-1);
             },
+            // 执行分页搜索
+            handlePageSearch(page) {
+                this.searching = true;
+                this.page = page;
+                this.handleSearch();
+                this.handleGoTop();
+            },
+            // 置顶
+            handleGoTop() {
+                let right = document.getElementById('main-right');
+                let that = this;
+                if (right.scrollTop > 0) {
+                    setTimeout(function () {
+                        document.getElementById('main-right').scrollTop = right.scrollTop - 16;
+                        // 递归滚动
+                        that.handleGoTop();
+                    }, 1);
+                }
+            },
             // 执行搜索
             handleSearch() {
                 this.noneResult = false;
@@ -80,7 +101,7 @@
                         }
                         this.searching = false;
                     });
-                } else if ('column' ===  this.type) {
+                } else if ('column' === this.type) {
                     apiArticle.listByColumn(this.q, this.page).then(data => {
                         if (null !== data && data.total > 0) {
                             this.pageResponse = data;
@@ -102,7 +123,7 @@
             },
             // 前往文章详情页面
             toArticleView(id) {
-                this.$router.push({name:'ArticleView', query: {id: id}});
+                this.$router.push({name: 'ArticleView', query: {id: id}});
             }
         }
     }
@@ -125,9 +146,9 @@
         width: 100%;
         height: 100%;
         transition: width 500ms, height 500ms, color 500ms;
-        border-image: -webkit-linear-gradient( red, blue) 30 30;
-        border-image: -moz-linear-gradient( red, blue) 30 30;
-        border-image: linear-gradient( red, blue) 30 30;
+        border-image: -webkit-linear-gradient(red, blue) 30 30;
+        border-image: -moz-linear-gradient(red, blue) 30 30;
+        border-image: linear-gradient(red, blue) 30 30;
     }
 
     #article-search-result .article:hover .article-hover-box-right-bottom {
@@ -135,9 +156,9 @@
         width: 100%;
         height: 100%;
         transition: width 500ms, height 500ms, color 500ms;
-        border-image: -webkit-linear-gradient( red, blue) 30 30;
-        border-image: -moz-linear-gradient( red, blue) 30 30;
-        border-image: linear-gradient( red, blue) 30 30;
+        border-image: -webkit-linear-gradient(red, blue) 30 30;
+        border-image: -moz-linear-gradient(red, blue) 30 30;
+        border-image: linear-gradient(red, blue) 30 30;
     }
 
     #article-search-result .article-hover-box-left-top {
