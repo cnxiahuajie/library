@@ -69,7 +69,22 @@
         }
 
         .hljs-center {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hljs-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .hljs-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
     }
 
