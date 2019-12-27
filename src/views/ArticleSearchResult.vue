@@ -1,10 +1,10 @@
 <template>
     <div id="article-search-result" v-loading="searching">
         <el-page-header @back="goBack" content="搜索结果"></el-page-header>
-        <el-card class="article" shadow="never" v-for="article in pageResponse.list" :key="article.id">
-            <div class="article-hover-box-left-top"></div>
+        <el-card class="article" shadow="hover" v-for="article in pageResponse.list" :key="article.id" :body-style="{width: '100%'}">
+<!--            <div class="article-hover-box-left-top"></div>-->
             <ArticleSearchItem :article="article" @toArticleView="toArticleView(article.id)"/>
-            <div class="article-hover-box-right-bottom"></div>
+<!--            <div class="article-hover-box-right-bottom"></div>-->
         </el-card>
         <div v-show="noneResult" class="not-found">
             <p v-if="type === 'keyword'">未搜索到&nbsp;[<strong>{{q}}</strong>]&nbsp;相关的内容</p>

@@ -1,6 +1,9 @@
 <template>
-    <div class="article-item" :id="article.id">
+    <div class="article-item" :id="article.id" @click="toArticleView">
         <el-link class="title" :underline="false" @click="toArticleView">{{article.title}}</el-link>
+        <div class="content">
+            <p v-html="article.content"></p>
+        </div>
         <div class="article-info">
             <div class="article-info-item">
                 <p class="tag-point" :style="{backgroundColor: article.category.color}"></p>
@@ -32,17 +35,30 @@
 
 <style scoped>
 
+    .article-item {
+        width: 100%;
+        cursor: pointer;
+    }
+
     .title {
         color: rgba(48, 49, 51, 0.6);
         font-size: 18px;
-        z-index: 10;
+    }
+
+    .content p {
+        font-size: .8em;
+        text-indent: 2em;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        line-height: 2em;
     }
 
     .article-info {
         display: flex;
         font-size: 14px;
         align-items: center;
-        margin-top: 10px;
     }
 
     .article-info .article-info-item:not(:first-child) {
