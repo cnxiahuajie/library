@@ -2,9 +2,7 @@
     <div id="article-search-result" v-loading="searching">
         <el-page-header @back="goBack" content="搜索结果"></el-page-header>
         <el-card class="article" shadow="hover" v-for="article in pageResponse.list" :key="article.id" :body-style="{width: '100%'}">
-<!--            <div class="article-hover-box-left-top"></div>-->
             <ArticleSearchItem :article="article" @toArticleView="toArticleView(article.id)"/>
-<!--            <div class="article-hover-box-right-bottom"></div>-->
         </el-card>
         <div v-show="noneResult" class="not-found">
             <p v-if="type === 'keyword'">未搜索到&nbsp;[<strong>{{q}}</strong>]&nbsp;相关的内容</p>
@@ -79,15 +77,7 @@
             },
             // 置顶
             handleGoTop() {
-                let right = document.getElementById('main-right');
-                let that = this;
-                if (right.scrollTop > 0) {
-                    setTimeout(function () {
-                        document.getElementById('main-right').scrollTop = right.scrollTop - 16;
-                        // 递归滚动
-                        that.handleGoTop();
-                    }, 1);
-                }
+                document.getElementById('main-right').scrollTop = 0;
             },
             // 执行搜索
             handleSearch() {
@@ -141,48 +131,6 @@
         display: flex;
         position: relative;
         margin-top: 20px;
-    }
-
-    #article-search-result .article:hover .article-hover-box-left-top {
-        color: #606266;
-        width: 100%;
-        height: 100%;
-        transition: width 500ms, height 500ms, color 500ms;
-        border-image: -webkit-linear-gradient(red, blue) 30 30;
-        border-image: -moz-linear-gradient(red, blue) 30 30;
-        border-image: linear-gradient(red, blue) 30 30;
-    }
-
-    #article-search-result .article:hover .article-hover-box-right-bottom {
-        color: #606266;
-        width: 100%;
-        height: 100%;
-        transition: width 500ms, height 500ms, color 500ms;
-        border-image: -webkit-linear-gradient(red, blue) 30 30;
-        border-image: -moz-linear-gradient(red, blue) 30 30;
-        border-image: linear-gradient(red, blue) 30 30;
-    }
-
-    #article-search-result .article-hover-box-left-top {
-        border-top: 2px solid;
-        border-left: 2px solid;
-        position: absolute;
-        color: #FFFFFF;
-        top: 0;
-        left: 0;
-        width: 0px;
-        height: 0px;
-    }
-
-    #article-search-result .article-hover-box-right-bottom {
-        border-right: 2px solid;
-        border-bottom: 2px solid;
-        position: absolute;
-        color: #FFFFFF;
-        bottom: 0;
-        right: 0;
-        width: 0px;
-        height: 0px;
     }
 
     .not-found {

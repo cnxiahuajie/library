@@ -45,6 +45,10 @@
         font-size: 18px;
     }
 
+    .content {
+        margin-top: 10px;
+    }
+
     .content p {
         font-size: .8em;
         text-indent: 2em;
@@ -58,8 +62,9 @@
 
     .article-info {
         display: flex;
-        font-size: 14px;
+        font-size: .8em;
         align-items: center;
+        margin: 0;
     }
 
     .article-info .article-info-item:not(:first-child) {
