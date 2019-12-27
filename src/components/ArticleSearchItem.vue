@@ -53,6 +53,7 @@
         -webkit-line-clamp: 2;
         overflow: hidden;
         line-height: 2em;
+        margin: 0;
     }
 
     .article-info {
