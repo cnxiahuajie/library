@@ -126,7 +126,6 @@
         display: flex;
         align-items: center;
         height: 100%;
-        text-shadow: 0 0 20px #FFFFFF;
     }
 
     #top-container .left .collapse-container {
