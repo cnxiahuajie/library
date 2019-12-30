@@ -124,7 +124,6 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin-bottom: 50px;
     }
 
     #article-search-result .article {
@@ -135,7 +134,6 @@
 
     .not-found {
         width: 100%;
-        height: 100%;
         color: #606266;
         display: flex;
         justify-content: center;

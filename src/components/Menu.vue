@@ -45,7 +45,6 @@
 <style scoped>
     #menu-container {
         width: 100%;
-        margin-bottom: 50px;
     }
 
     #menu-container .category-name {

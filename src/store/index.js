@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     login: false,
-    showTopButton: false
+    showProgressBar: false
   },
   mutations: {
     // 设置登录状态
@@ -17,9 +17,9 @@ export default new Vuex.Store({
       }
       state.login = v;
     },
-    // 设置置顶按钮
-    showTopButton(state, v) {
-      state.showTopButton = v;
+    // 是否显示进度条
+    showProgressBar(state, v) {
+      state.showProgressBar = v;
     },
   },
   actions: {

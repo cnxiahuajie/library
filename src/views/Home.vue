@@ -39,7 +39,7 @@
 <style lang="scss" scoped>
     #home-container {
         width: calc(100%);
-        height: calc(100%);
+        height: calc(100% - 50px);
         display: flex;
         flex-direction: column;
         justify-content: center;

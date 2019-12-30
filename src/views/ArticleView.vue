@@ -21,6 +21,5 @@
 <style scoped>
     #article-view-container {
         width: 100%;
-        margin-bottom: 50px;
     }
 </style>

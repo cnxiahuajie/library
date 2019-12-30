@@ -252,7 +252,6 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin-bottom: 50px;
     }
 
     #article-edit-container .item:not(:first-child) {

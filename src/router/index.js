@@ -5,6 +5,7 @@ import ArticleSearchResult from "@/views/ArticleSearchResult";
 import ArticleView from "@/views/ArticleView";
 import ArticleEdit from "@/views/ArticleEdit";
 import Codec from "@/views/Codec";
+import store from "@/store/index";
 
 Vue.use(VueRouter);
 
