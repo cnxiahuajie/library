@@ -86,6 +86,34 @@
             flex-direction: column;
             align-items: flex-end;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+            thead {
+                tr {
+                    text-align: left;
+                    th {
+                        border: 1px solid #DCDFE6;
+                        padding: 1em;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    td {
+                        border: 1px solid #DCDFE6;
+                        padding: .8em;
+                    }
+                }
+
+                tr:nth-child(odd) {
+                    background-color: #F2F6FC;
+                }
+            }
+        }
     }
 
 </style>
