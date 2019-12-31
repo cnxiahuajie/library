@@ -3,6 +3,30 @@ import service from '@/assets/api/request'
 export default {
 
     /**
+     * 获取文章比例
+     * @returns {*|Promise|Promise<any>|undefined}
+     */
+    getArticleStatistics() {
+        return service.request('get', `/library/v1/articles/statistics`);
+    },
+
+    /**
+     * 获取近一周文章发布数量
+     * @returns {*|Promise|Promise<any>|undefined}
+     */
+    getLatelyRelease() {
+        return service.request('get', `/library/v1/articles/lately-release`);
+    },
+
+    /**
+     * 获取文章流量榜集合
+     * @returns {*|Promise|Promise<any>|undefined}
+     */
+    getArticleBrowseRank() {
+        return service.request('get', `/library/v1/articles/browse-rank`);
+    },
+
+    /**
      * 新增文章
      * @returns {*|Promise|Promise<any>|undefined}
      */

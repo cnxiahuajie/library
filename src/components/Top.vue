@@ -75,8 +75,7 @@
             },
             // 折叠改变
             handleChangeCollapse() {
-                this.collapse = !this.collapse;
-                this.$emit('handleChangeCollapse', this.collapse);
+                this.$store.commit('showLeftMenu', !this.$store.state.showLeftMenu);
             }
         }
     }

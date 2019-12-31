@@ -94,9 +94,11 @@
         },
         created() {
             this.loadArticle();
+            this.$store.commit('showLeftMenu', true);
         },
         beforeDestroy() {
             this.$store.commit('showProgressBar', false);
+            this.$store.commit('showLeftMenu', false);
             document.documentElement.scrollTop = 0;
         },
         methods: {
