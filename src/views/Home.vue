@@ -14,7 +14,7 @@
 
         <!-- 文章流量榜 -->
         <div class="item">
-            <label class="title" for="articleReadRank">文章流量榜</label>
+            <label class="title" for="articleReadRank">文章流量榜TOP10</label>
             <div id="articleReadRank">
                 <el-table
                           :data="articleBrowseRank"
