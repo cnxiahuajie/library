@@ -22,7 +22,7 @@
             <el-input class="article-type-column-item"
                       v-model="article.column.name" placeholder="输入自定义专栏" :maxlength="30"></el-input>
         </div>
-        <MarkdownEditor ref="markdownEditor" class="item" @handleChange="handleMarkdownContentChange"/>
+        <MarkdownEditor ref="markdownEditor" class="item" @handleChange="handleContentChange"/>
         <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"  :maxlength="200"></el-input>
         <div class="item button-container">
             <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;"  :maxlength="6">
@@ -60,6 +60,7 @@
     import apiArticle from '@/assets/api/library/api.article';
     import apiCommon from '@/assets/api/library/api.common';
     import MarkdownEditor from "@/components/MarkdownEditor";
+    import marked from 'marked';
 
     export default {
         name: "ArticleEdit",
@@ -154,13 +155,10 @@
             }
         },
         methods: {
-            // html内容
-            handleHtmlContentChange(value) {
-                this.article.content = value;
-            },
-            // markdown内容
-            handleMarkdownContentChange(value) {
-                this.article.sourceContent = value;
+            // 文章内容改变
+            handleContentChange(content) {
+                this.article.sourceContent = content;
+                this.article.content = marked(content);
             },
             // 打开获取授权码对话框
             handleGetAuthorizeCode() {
@@ -200,7 +198,6 @@
             },
             // 提交文章
             handleSubmitArticle() {
-
                 if (null === this.article.authorizeCode) {
                     this.$message({
                         type: 'error',
