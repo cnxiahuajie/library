@@ -14,9 +14,10 @@
                 </transition>
             </div>
         </div>
-
-        <!-- 版权 -->
-        <Copyright/>
+        <div class="bottom">
+            <!-- 版权 -->
+            <Copyright/>
+        </div>
 
         <!-- 置顶键 -->
         <TopButton/>
@@ -142,6 +143,12 @@
 
     #app .top-button:hover {
         opacity: 1;
+    }
+
+    #app .bottom {
+        margin-top: 20px;
+        background-color: #F2F6FC;
+        border-top: 1px solid #DCDFE6;
     }
 
 </style>
