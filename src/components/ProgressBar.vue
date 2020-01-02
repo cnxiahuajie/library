@@ -21,7 +21,7 @@
         background-color: #FFFFFF;
         position: fixed;
         top: 0;
-        z-index: 10;
+        z-index: 9999;
 
         .progress-bar {
             width: 0%;

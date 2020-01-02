@@ -138,7 +138,7 @@
                 apiArticle.details(this.id).then(data => {
                     this.article = data;
                     this.$store.commit('showProgressBar', true);
-                    this.$refs.articleContent.handleLoadArticleContent(this.article.sourceContent);
+                    this.$refs.articleContent.loadContent(this.article.sourceContent);
                     this.loading = false;
                 });
             }
