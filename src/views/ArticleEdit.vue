@@ -22,7 +22,7 @@
             <el-input class="article-type-column-item"
                       v-model="article.column.name" placeholder="输入自定义专栏" :maxlength="30"></el-input>
         </div>
-        <MarkdownEditor v-if="null != article.sourceContent" class="item" :content="article.sourceContent" @handleChange="handleMarkdownContentChange"/>
+        <MarkdownEditor ref="markdownEditor" class="item" @handleChange="handleMarkdownContentChange"/>
         <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"  :maxlength="200"></el-input>
         <div class="item button-container">
             <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;"  :maxlength="6">
@@ -195,6 +195,7 @@
             loadArticle() {
                 apiArticle.details(this.$route.query.id).then(data => {
                     this.article = data;
+                    this.$refs.markdownEditor.loadContent(this.article.sourceContent);
                 });
             },
             // 提交文章

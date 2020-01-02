@@ -4,7 +4,7 @@
 
 <script>
     import hljs from 'highlight.js';
-    import 'highlight.js/scss/a11y-dark.scss';
+    import 'highlight.js/scss/tomorrow-night.scss';
     import domtoimage from 'dom-to-image';
     import {saveAs} from 'file-saver';
     import marked from 'marked';
@@ -71,6 +71,11 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: scale-down;
+        }
+
+        pre {
+            padding: 1em;
+            background-color: #f6f8fa;
         }
 
         p {
