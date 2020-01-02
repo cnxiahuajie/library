@@ -1,6 +1,6 @@
 <template>
     <div id="menu-container">
-        <el-menu :collapse="isCollapse" :collapse-transition="false" :unique-opened="true">
+        <el-menu :style="{borderRight: '0px'}" :collapse="isCollapse" :collapse-transition="false" :unique-opened="true">
             <el-submenu :index="category.id"  v-for="category in categories" :key="category.id">
                 <template slot="title">
                     <i class="category-icon" v-html="category.svg"></i>

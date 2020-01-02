@@ -1,25 +1,38 @@
 <template>
-    <div ref="articleContentContainer" id="article-content-container" v-html="content"></div>
+    <div ref="articleContentContainer" id="article-content-container" v-html="htmlContent"></div>
 </template>
 
 <script>
     import hljs from 'highlight.js';
     import 'highlight.js/scss/a11y-dark.scss';
     import domtoimage from 'dom-to-image';
-    import { saveAs } from 'file-saver';
+    import {saveAs} from 'file-saver';
+    import marked from 'marked';
 
     export default {
         name: "ArticleContent",
         props: {
             content: String
         },
-        mounted() {
-            this.handleHighlight();
-        },
-        updated() {
-            this.handleHighlight();
+        data() {
+            return {
+                htmlContent: ''
+            }
         },
         methods: {
+            // 加载文章内容
+            handleLoadArticleContent(content) {
+                let that = this;
+                Promise.all([this.handleMarkdown2Html(content)]).then(() => {
+                    that.handleHighlight();
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            // 处理markdown转html
+            handleMarkdown2Html(content) {
+                this.htmlContent = marked(content);
+            },
             // 下载
             handleDownload() {
                 var node = document.getElementById('article-content-container');
@@ -43,6 +56,9 @@
 <style lang="scss">
     #article-content-container {
         width: 100%;
+        border: 1px solid #DCDFE6;
+        padding: 0 2em;
+        border-radius: 4px;
 
         blockquote {
             color: #6a737d;
@@ -59,7 +75,7 @@
 
         p {
             display: block;
-            font-size: 14px!important;
+            font-size: 14px !important;
             line-height: 30px;
             text-indent: 2em;
             margin-block-start: 1em;
@@ -94,6 +110,7 @@
             thead {
                 tr {
                     text-align: left;
+
                     th {
                         border: 1px solid #DCDFE6;
                         padding: 1em;

@@ -59,9 +59,8 @@
                 <el-button type="text" @click="toArticleEdit">编辑</el-button>
             </div>
         </div>
-        <div class="item-container dividing-line"></div>
         <div class="item-container article-content-container">
-            <ArticleContent ref="articleContent" :content="article.content"/>
+            <ArticleContent v-loading="loading" ref="articleContent"/>
         </div>
         <div class="article-history-box">
             <ArticleHistory v-if="null !== article.id && article.id.length > 0" :show="showArticleHistory"
@@ -83,6 +82,7 @@
         },
         data() {
             return {
+                loading: true,
                 showArticleHistory: false,
                 article: {
                     id: '',
@@ -138,6 +138,8 @@
                 apiArticle.details(this.id).then(data => {
                     this.article = data;
                     this.$store.commit('showProgressBar', true);
+                    this.$refs.articleContent.handleLoadArticleContent(this.article.sourceContent);
+                    this.loading = false;
                 });
             }
         }
@@ -167,11 +169,6 @@
     .article-details-container .item-container .item {
         display: flex;
         align-items: center;
-    }
-
-    .dividing-line {
-        width: 100%;
-        border-bottom: 1px solid #DCDFE6;
     }
 
     .article-history-box {

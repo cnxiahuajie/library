@@ -1,6 +1,6 @@
 <template>
     <div id="markdown-editor-container">
-        <mavon-editor ref="editor" v-model="markdownContent" @change="change" :toolbars="toolbars" :ishljs="true"></mavon-editor>
+        <mavon-editor ref="editor" v-model="content" @change="change" :toolbars="toolbars" :ishljs="true"></mavon-editor>
     </div>
 </template>
 
@@ -12,13 +12,11 @@
         name: "MarkdownEditor",
         components: {mavonEditor},
         props: {
-            content: String,
             sourceContent: String
         },
         data() {
             return {
-                htmlContent: this.content,
-                markdownContent: this.sourceContent,
+                content: this.sourceContent,
                 toolbars: {
                     bold: true, // 粗体
                     italic: true, // 斜体
@@ -55,18 +53,13 @@
             }
         },
         watch: {
-            htmlContent(newValue) {
-                this.$emit('htmlContent', newValue)
-            },
-            markdownContent(newValue) {
-                this.$emit('markdownContent', newValue)
+            content(newValue) {
+                this.$emit('handleChange', newValue)
             }
         },
         methods: {
             change(value, render) {
-                //实时获取转成html的数据
-                this.htmlContent = render
-                this.markdownContent = value;
+                this.content = value
             }
         }
     }

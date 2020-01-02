@@ -2,39 +2,45 @@
     <div id="home-container">
         <!-- 文章类型占比 -->
         <div class="item">
-            <label class="title" for="statistics">文章统计</label>
-            <div id="statistics"></div>
+            <el-card class="box-card">
+                <label class="title" for="statistics">文章统计</label>
+                <div id="statistics"></div>
+            </el-card>
         </div>
 
         <!-- 近一周文章发布数量 -->
         <div class="item">
-            <label class="title" for="dataOfReleases">近一周文章发布量</label>
-            <div id="dataOfReleases"></div>
+            <el-card class="box-card">
+                <label class="title" for="dataOfReleases">近一周文章发布量</label>
+                <div id="dataOfReleases"></div>
+            </el-card>
         </div>
 
         <!-- 文章流量榜 -->
         <div class="item">
-            <label class="title" for="articleReadRank">文章流量榜TOP10</label>
-            <div id="articleReadRank">
-                <el-table
-                          :data="articleBrowseRank"
-                          stripe>
-                    <el-table-column
-                            prop="title"
-                            label="文章标题">
-                    </el-table-column>
-                    <el-table-column
-                            prop="count"
-                            label="阅读数"
-                            align="right"
-                            width="150">
-                    </el-table-column>
-                    <el-table-column
-                            prop="characteristics"
-                            label="文章特性" width="300">
-                    </el-table-column>
-                </el-table>
-            </div>
+            <el-card class="box-card">
+                <label class="title" for="articleReadRank">文章流量榜TOP10</label>
+                <div id="articleReadRank">
+                    <el-table
+                              :data="articleBrowseRank"
+                              stripe>
+                        <el-table-column
+                                prop="title"
+                                label="文章标题">
+                        </el-table-column>
+                        <el-table-column
+                                prop="count"
+                                label="阅读数"
+                                align="right"
+                                width="150">
+                        </el-table-column>
+                        <el-table-column
+                                prop="characteristics"
+                                label="文章特性" width="300">
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </el-card>
         </div>
 
         <Copyright/>
@@ -202,12 +208,14 @@
         width: 100%;
 
         .item {
-            margin-top: 20px;
-
             .title {
-                font-size: 24px;
+                font-size: 18px;
                 font-weight: bold;
             }
+        }
+
+        .item:not(:first-child) {
+            margin-top: 10px;
         }
     }
 
