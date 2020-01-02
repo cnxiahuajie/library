@@ -42,6 +42,8 @@
                 </div>
             </el-card>
         </div>
+
+        <el-divider><i class="el-icon-caret-top"></i></el-divider>
     </div>
 </template>
 
@@ -96,7 +98,7 @@
                     chart.source(data.rate, {
                         percent: {
                             formatter: val => {
-                                val = (val * 100) + '%';
+                                val = (val) + '%';
                                 return val;
                             }
                         }
@@ -112,7 +114,7 @@
                     // 辅助文本
                     chart.guide().html({
                         position: [ '50%', '50%' ],
-                        html: '<div style="color:#161616;font-size: 14px;text-align: center;width: 10em;">文章<br><span style="color:#161616;font-size:20px">' + data.total + '</span>篇</div>',
+                        html: '<div style="color:#161616;font-size: 14px;text-align: center;width: 10em;">文章<br><span style="color:#409EFF;font-size:20px">' + data.total + '</span>篇</div>',
                         alignX: 'middle',
                         alignY: 'middle'
                     });
@@ -124,11 +126,11 @@
                                 return item.point.item + ': ' + val;
                             }
                         })
-                        .tooltip('item*percent', (item, percent) => {
-                            percent = percent * 100 + '%';
+                        .tooltip('item*count', (item, count) => {
+                            count = '<label style="font-size: 2em; color:#409EFF;">' + count + '</label>' + '篇';
                             return {
                                 name: item,
-                                value: percent
+                                value: count
                             };
                         })
                         .style({
@@ -185,7 +187,7 @@
                         }, {
                             textStyle: {
                                 fill: '#7a7a7a',
-                                fontSize: 12,
+                                fontSize: 14,
                                 stroke: 'white',
                                 lineWidth: 2,
                                 fontWeight: 300
