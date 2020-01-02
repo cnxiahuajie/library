@@ -42,8 +42,6 @@
                 </div>
             </el-card>
         </div>
-
-        <Copyright/>
     </div>
 </template>
 
@@ -51,11 +49,9 @@
 
     import G2 from '@antv/g2';
     import apiArticle from '@/assets/api/library/api.article';
-    import Copyright from "../components/Copyright";
 
     export default {
         name: "Home",
-        components: {Copyright},
         data() {
             return {
                 // 文章占比

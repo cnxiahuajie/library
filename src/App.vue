@@ -15,6 +15,9 @@
             </div>
         </div>
 
+        <!-- 版权 -->
+        <Copyright/>
+
         <!-- 置顶键 -->
         <TopButton/>
 
@@ -31,10 +34,11 @@
     import VersionNotification from "./components/VersionNotification";
     import ProgressBar from "./components/ProgressBar";
     import TopButton from "./components/TopButton";
+    import Copyright from "./components/Copyright";
 
     export default {
         name: "App",
-        components: {TopButton, ProgressBar, VersionNotification, Menu, Top},
+        components: {Copyright, TopButton, ProgressBar, VersionNotification, Menu, Top},
         data() {
             return {
                 isCollapse: false,
