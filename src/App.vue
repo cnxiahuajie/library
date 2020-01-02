@@ -14,10 +14,6 @@
                 </transition>
             </div>
         </div>
-        <div class="bottom">
-            <!-- 版权 -->
-            <Copyright/>
-        </div>
 
         <!-- 置顶键 -->
         <TopButton/>
@@ -35,11 +31,10 @@
     import VersionNotification from "./components/VersionNotification";
     import ProgressBar from "./components/ProgressBar";
     import TopButton from "./components/TopButton";
-    import Copyright from "./components/Copyright";
 
     export default {
         name: "App",
-        components: {Copyright, TopButton, ProgressBar, VersionNotification, Menu, Top},
+        components: {TopButton, ProgressBar, VersionNotification, Menu, Top},
         data() {
             return {
                 isCollapse: false,
@@ -90,13 +85,14 @@
         margin: 0;
         overflow-x: hidden;
         overflow-y: auto;
-        font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
         color: #161616;
     }
 
     #app {
         display: flex;
         flex-direction: column;
+        position: relative;
     }
 
     #app .main {
@@ -143,12 +139,6 @@
 
     #app .top-button:hover {
         opacity: 1;
-    }
-
-    #app .bottom {
-        margin-top: 20px;
-        background-color: #F2F6FC;
-        border-top: 1px solid #DCDFE6;
     }
 
 </style>
