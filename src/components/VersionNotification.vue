@@ -2,6 +2,7 @@
     <div id="notification-container">
         <el-dialog
                 title="更新通知"
+                center
                 :visible.sync="dialogVisibleNotification"
                 :before-close="handleCloseNotification">
             <p v-html="content"></p>

@@ -110,7 +110,7 @@
                     // 辅助文本
                     chart.guide().html({
                         position: [ '50%', '50%' ],
-                        html: '<div style="color:#8c8c8c;font-size: 14px;text-align: center;width: 10em;">文章<br><span style="color:#8c8c8c;font-size:20px">' + data.total + '</span>篇</div>',
+                        html: '<div style="color:#161616;font-size: 14px;text-align: center;width: 10em;">文章<br><span style="color:#161616;font-size:20px">' + data.total + '</span>篇</div>',
                         alignX: 'middle',
                         alignY: 'middle'
                     });
