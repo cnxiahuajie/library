@@ -248,6 +248,7 @@
         outline: none;
         border: none;
         font-size: 13px;
+        padding: 0;
     }
 
 </style>
