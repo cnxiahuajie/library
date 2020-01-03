@@ -26,11 +26,11 @@
 
 <script>
 
-    import Top from "./components/Top";
-    import Menu from "./components/Menu";
-    import VersionNotification from "./components/VersionNotification";
-    import ProgressBar from "./components/ProgressBar";
-    import TopButton from "./components/TopButton";
+    import Top from "@/components/Top";
+    import Menu from "@/components/Menu";
+    import VersionNotification from "@/components/VersionNotification";
+    import ProgressBar from "@/components/ProgressBar";
+    import TopButton from "@/components/TopButton";
 
     export default {
         name: "App",
