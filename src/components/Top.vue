@@ -209,6 +209,10 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+
+        transition: background-color .3s, color .3s;
+        -webkit-transition: background-color .3s, color .3s;
+        -ms-transition: background-color .3s, color .3s;
     }
 
     #top-container .nav-container .right .search-icon-box:hover {
