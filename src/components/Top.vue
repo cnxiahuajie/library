@@ -216,7 +216,7 @@
     }
 
     #top-container .nav-container .right .search-icon-box:hover {
-        background-color: #FAFAFA;
+        background-color: #E8E8E9;
         color: #161616;
     }
 
@@ -244,7 +244,7 @@
         width: 100%;
         height: 100%;
         text-align: center;
-        background-color: #FAFAFA;
+        background-color: #E8E8E9;
         outline: none;
         border: none;
         font-size: 13px;
