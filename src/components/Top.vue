@@ -216,7 +216,7 @@
     }
 
     #top-container .nav-container .right .search-icon-box:hover {
-        background-color: #CCCCCC;
+        background-color: #FAFAFA;
         color: #161616;
     }
 
@@ -235,9 +235,9 @@
         width: 100%;
         height: 0;
         opacity: 0;
-        transition: height .3s;
-        -webkit-transition: height .3s;
-        -ms-transition: height .3s;
+        transition: height .3s, opacity.3s;
+        -webkit-transition: height .3s, opacity.3s;
+        -ms-transition: height .3s, opacity.3s;
     }
 
     #top-container .search-box-container input {
