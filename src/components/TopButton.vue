@@ -52,5 +52,7 @@
 </script>
 
 <style scoped>
-
+    #top-button-container {
+        z-index: 9999;
+    }
 </style>
