@@ -65,5 +65,7 @@
 </script>
 
 <style scoped>
-
+    #article-history-container {
+        width: 100%;
+    }
 </style>

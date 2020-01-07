@@ -29,6 +29,6 @@
 
 <style lang="scss" scoped>
     #article-content-container {
-
+        width: 100%;
     }
 </style>

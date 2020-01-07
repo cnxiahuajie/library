@@ -9,7 +9,7 @@
                 {{article.column.name}}
             </el-breadcrumb-item>
         </el-breadcrumb>
-        <h1>{{article.title}}</h1>
+        <h1 class="item-container">{{article.title}}</h1>
         <div class="item-container article-header-info">
             <div class="item">
                 <div class="tag-point" :style="{backgroundColor: article.category.color}"></div>
@@ -24,18 +24,6 @@
                     下载<i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="png">
-                            <div class="download-item">
-                                <svg t="1577177193949" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                     xmlns="http://www.w3.org/2000/svg" p-id="1752" width="16" height="16">
-                                    <path d="M970.88 803.2V375.04a98.56 98.56 0 0 0-97.92-97.92h-152.32L696.32 192a64 64 0 0 0-64-43.52H393.6a64 64 0 0 0-64 43.52l-26.24 84.48H151.04A97.92 97.92 0 0 0 53.12 375.04v428.8a97.92 97.92 0 0 0 97.92 97.92h721.92a98.56 98.56 0 0 0 97.92-98.56z m-64 0a33.92 33.92 0 0 1-33.92 33.92H151.04a33.92 33.92 0 0 1-33.92-33.92V375.04a33.92 33.92 0 0 1 33.92-33.92h176.64A32 32 0 0 0 359.04 320L384 211.2a14.08 14.08 0 0 1 7.04 0h243.84L665.6 320a32 32 0 0 0 30.72 23.68h176.64a33.92 33.92 0 0 1 33.92 33.92z"
-                                          fill="#2c2c2c" p-id="1753"></path>
-                                    <path d="M284.16 423.04H209.28a16 16 0 0 0 0 32h74.88a16 16 0 0 0 0-32zM512 384a188.16 188.16 0 1 0 188.16 192A188.8 188.8 0 0 0 512 384z m0 345.6A156.16 156.16 0 1 1 668.16 576 156.8 156.8 0 0 1 512 729.6z"
-                                          fill="#2c2c2c" p-id="1754"></path>
-                                </svg>
-                                <span>快照</span>
-                            </div>
-                        </el-dropdown-item>
                         <el-dropdown-item command="pdf">
                             <div class="download-item">
                                 <svg t="1577177019874" class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -59,13 +47,17 @@
                 <el-button type="text" @click="toArticleEdit">编辑</el-button>
             </div>
         </div>
+        <div class="item-container" v-show="article.attachments.length > 0">
+            <Attachment ref="articleAttachment"/>
+        </div>
         <div class="item-container article-content-container">
             <ArticleContent v-loading="loading" ref="articleContent"/>
         </div>
-        <div class="article-history-box">
+        <div class="item-container article-history-box">
             <ArticleHistory v-if="null !== article.id && article.id.length > 0" :show="showArticleHistory"
                             :article-id="article.id"/>
         </div>
+        <CCBYNCSA3 class="item-container"/>
     </div>
 </template>
 
@@ -73,10 +65,12 @@
     import apiArticle from '@/assets/api/library/api.article';
     import ArticleContent from "./ArticleContent";
     import ArticleHistory from "./ArticleHistory";
+    import Attachment from "./Attachment";
+    import CCBYNCSA3 from "./CCBYNCSA3";
 
     export default {
         name: "ArticleDetails",
-        components: {ArticleHistory, ArticleContent},
+        components: {CCBYNCSA3, Attachment, ArticleHistory, ArticleContent},
         props: {
             id: String
         },
@@ -88,7 +82,8 @@
                     id: '',
                     category: {},
                     column: {},
-                    articleHistories: []
+                    articleHistories: [],
+                    attachments: []
                 }
             }
         },
@@ -104,9 +99,7 @@
         methods: {
             // 下载
             handleDownload(command) {
-                if ('png' === command) {
-                    this.toDownload();
-                } else if ('pdf' === command) {
+                if ('pdf' === command) {
                     var rawFile = new XMLHttpRequest();
                     if (rawFile.overrideMimeType) {
                         rawFile.overrideMimeType("application/json");
@@ -125,10 +118,6 @@
                     rawFile.send(null);
                 }
             },
-            // 前往下载
-            toDownload() {
-                this.$refs.articleContent.handleDownload();
-            },
             // 前往文章编辑页面
             toArticleEdit() {
                 this.$router.push({name: 'ArticleEdit', query: {id: this.id}});
@@ -139,6 +128,7 @@
                     this.article = data;
                     this.$store.commit('showProgressBar', true);
                     this.$refs.articleContent.loadContent(this.article.sourceContent);
+                    this.$refs.articleAttachment.loadAttachments(this.article.attachments)
                     this.loading = false;
                 });
             }
@@ -147,15 +137,21 @@
 </script>
 
 <style lang="scss" scoped>
+
     .article-details-container {
         display: flex;
         width: 100%;
         flex-direction: column;
     }
 
+    .article-details-container h1 {
+        margin: 0;
+    }
+
     .article-details-container .item-container {
         display: flex;
         align-items: center;
+        margin-top: 10px;
     }
 
     .article-details-container .item-container .item:not(:first-child) {
@@ -183,6 +179,7 @@
         span {
             padding-left: 5px;
         }
+
     }
 
 </style>

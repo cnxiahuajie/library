@@ -1,6 +1,6 @@
 <template>
     <div id="aes-container">
-        <el-page-header @back="goBack" content="数据加解密"></el-page-header>
+        <el-page-header @back="goBack" content="AES数据加解密"></el-page-header>
         <div class="aes-container-item">
             <div class="item">
                 <el-switch

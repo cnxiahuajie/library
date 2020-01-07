@@ -23,31 +23,42 @@
                       v-model="article.column.name" placeholder="输入自定义专栏" :maxlength="30"></el-input>
         </div>
         <MarkdownEditor ref="markdownEditor" class="item" @handleChange="handleContentChange"/>
-        <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"  :maxlength="200"></el-input>
+        <div class="item attachments-container">
+            <el-upload
+                    :action="fileUploadUrl"
+                    :on-remove="handleRemove"
+                    :before-remove="beforeRemove"
+                    :on-success="handleOnSuccess"
+                    multiple
+                    :data="attachment"
+                    :file-list="article.attachments">
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">最大只能上传100M，如果文件较大请先压缩文件。</div>
+            </el-upload>
+        </div>
+
+        <el-input v-show="update" class="item" v-model="article.history.reason" placeholder="修改原因"
+                  :maxlength="200"></el-input>
         <div class="item button-container">
-            <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;"  :maxlength="6">
+            <el-input v-model="article.authorizeCode" placeholder="授权码" style="width: 20%;" :maxlength="6">
                 <template slot="append">
                     <el-button @click="handleGetAuthorizeCode">获取授权码</el-button>
                 </template>
             </el-input>
-            <el-button class="button-container-item" type="success" :loading="submiting" @click="handleSubmitArticle">提交</el-button>
+            <el-button class="button-container-item" type="success" :loading="submiting" @click="handleSubmitArticle">
+                提交
+            </el-button>
         </div>
 
-        <div class="item licenses">
-            <div class="licenses-item">
-                <el-link rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png" /></el-link>
-            </div>
-            <div class="licenses-item">
-                本作品采用<el-link rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</el-link>进行许可。
-            </div>
-        </div>
+        <CCBYNCSA3 class="item"/>
 
         <el-dialog class="authorize-code-dialog" title="获取授权码" :visible.sync="openAuthorizeCode" width="30%">
             <el-alert class="authorize-code-dialog-item"
                       title="请使用天逸企业内部邮箱。例如（xxx@vteamsystem.com）"
                       type="info">
             </el-alert>
-            <el-input class="authorize-code-dialog-item" ref="emailInput" v-model="email" autocomplete="off" placeholder="请输入邮箱"></el-input>
+            <el-input class="authorize-code-dialog-item" ref="emailInput" v-model="email" autocomplete="off"
+                      placeholder="请输入邮箱"></el-input>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="handleGetEmailCode" :loading="authorizeCodeGeting">获 取</el-button>
             </div>
@@ -61,19 +72,24 @@
     import apiCommon from '@/assets/api/library/api.common';
     import MarkdownEditor from "@/components/MarkdownEditor";
     import marked from 'marked';
+    import CCBYNCSA3 from "../components/CCBYNCSA3";
+    import apiFiles from '@/assets/api/library/api.files';
 
     export default {
         name: "ArticleEdit",
-        components: {MarkdownEditor},
+        components: {CCBYNCSA3, MarkdownEditor},
         data() {
             return {
+                fileUploadUrl: process.env.VUE_APP_FILE_UPLOAD_URL,
                 authorizeCodeGeting: false,
                 openAuthorizeCode: false,
                 email: localStorage.getItem('email') || '',
                 submiting: false,
                 update: false,
                 disabled: false,
+                attachment: {},
                 article: {
+                    attachments: [],
                     authorizeCode: '',
                     codeKey: '',
                     creatorId: '',
@@ -155,6 +171,29 @@
             }
         },
         methods: {
+            // 文件上传成功时
+            handleOnSuccess(response, file, fileList) {
+                if (!this.article.attachments) {
+                    this.article.attachments = new Array();
+                }
+                this.article.attachments.push(response.data);
+            },
+            // 处理移除文件
+            handleRemove(file, fileList) {
+                apiFiles.remove(file.id).then(() => {
+                    this.article.attachments.forEach((item, i) => {
+                        if (item.id === file.id) {
+                            console.log(this.article.attachments);
+                            this.article.attachments.splice(i, 1);
+                            console.log(this.article.attachments);
+                        }
+                    });
+                });
+            },
+            // 移除前钩子
+            beforeRemove(file, fileList) {
+                return this.$confirm(`此操作不可撤销，确定删除 ${file.name}？`);
+            },
             // 文章内容改变
             handleContentChange(content) {
                 this.article.sourceContent = content;
@@ -181,7 +220,7 @@
                     this.$refs.emailInput.focus();
                     this.$message({
                         type: 'error',
-                        message:'邮箱不能为空。'
+                        message: '邮箱不能为空。'
                     });
                 }
             },
@@ -201,7 +240,7 @@
                 if (null === this.article.authorizeCode) {
                     this.$message({
                         type: 'error',
-                        message:'请输入授权码。'
+                        message: '请输入授权码。'
                     });
                     throw '请输入授权码';
                 }
@@ -209,7 +248,7 @@
                 if (null === this.article.history.reason) {
                     this.$message({
                         type: 'error',
-                        message:'请输入修改原因。'
+                        message: '请输入修改原因。'
                     });
                     throw '请输入修改原因';
                 }
@@ -233,7 +272,7 @@
             },
             // 前往文章详情页面
             toArticleView(id) {
-                this.$router.push({name:'ArticleView', query: {id: id}});
+                this.$router.push({name: 'ArticleView', query: {id: id}});
             },
             // 加载文章目录
             loadCategories() {
@@ -273,20 +312,13 @@
         margin-left: 10px;
     }
 
-    #article-edit-container .licenses {
-        display: flex;
-        justify-content: center;
-        border: 1px dotted #DCDFE6;
-        padding: 20px;
-    }
-
-    #article-edit-container .licenses .licenses-item {
-        display: flex;
-        align-items: center;
-    }
-
     #article-edit-container .authorize-code-dialog .authorize-code-dialog-item:not(:first-child) {
         margin-top: 20px;
+    }
+
+    #article-edit-container .attachments-container {
+        border: 1px solid #DCDFE6;
+        padding: 10px;
     }
 
 </style>
