@@ -96,7 +96,7 @@
             </div>
         </div>
         <div id="search-box-container" class="search-box-container">
-            <input autocomplete="off" placeholder="搜些什么......" @change="toSearchResult" v-model="query"/>
+            <input autocomplete="off" placeholder="搜索" @change="toSearchResult" v-model="query"/>
         </div>
     </div>
 </template>
@@ -127,6 +127,9 @@
                     box.style.opacity = 0;
                 }
             }
+        },
+        created () {
+            this.expandSearchBox = false;
         },
         methods: {
             // 关闭搜索框
@@ -300,7 +303,7 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: auto;
+        height: 0;
         opacity: 0;
         transition: height .3s, opacity .3s;
         -webkit-transition: height .3s, opacity .3s;

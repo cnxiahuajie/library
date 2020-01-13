@@ -1,6 +1,6 @@
 <template>
     <div id="article-search-result" v-loading="searching">
-        <el-page-header @back="goBack" content="搜索结果"></el-page-header>
+        <el-page-header @back="goBack" :content="pageHeader"></el-page-header>
         <el-card class="article" shadow="hover" v-for="article in pageResponse.list" :key="article.id" :body-style="{width: '100%'}">
             <ArticleSearchItem :article="article" @toArticleView="toArticleView(article.id)"/>
         </el-card>
@@ -14,9 +14,6 @@
                        :total="pageResponse.total" :hide-on-single-page="true" :current-page="page"
                        @current-change="handlePageSearch">
         </el-pagination>
-        <div v-show="pageResponse.isLastPage">
-            <el-divider><i class="el-icon-caret-top"></i></el-divider>
-        </div>
     </div>
 </template>
 
@@ -29,6 +26,7 @@
         components: {ArticleSearchItem},
         data() {
             return {
+                pageHeader: "搜索结果",
                 noneResult: false,
                 searching: false,
                 q: '',
@@ -92,7 +90,7 @@
                         } else {
                             this.noneResult = true;
                         }
-                        this.searching = false;
+                        this.searchDone();
                     });
                 } else if ('column' === this.type) {
                     apiArticle.listByColumn(this.q, this.page).then(data => {
@@ -101,7 +99,7 @@
                         } else {
                             this.noneResult = true;
                         }
-                        this.searching = false;
+                        this.searchDone();
                     });
                 } else {
                     apiArticle.list(this.q, this.page).then(data => {
@@ -110,9 +108,14 @@
                         } else {
                             this.noneResult = true;
                         }
-                        this.searching = false;
+                        this.searchDone();
                     });
                 }
+            },
+            // 搜索完成
+            searchDone() {
+                this.searching = false;
+                this.pageHeader = '搜索结果，共' + this.pageResponse.total + '条记录';
             },
             // 前往文章详情页面
             toArticleView(id) {

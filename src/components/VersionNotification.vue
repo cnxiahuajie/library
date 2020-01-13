@@ -1,20 +1,22 @@
 <template>
     <div id="notification-container">
         <el-dialog
-                title="更新通知"
+                custom-class="notification-dialog"
+                title="更新日志"
                 center
                 :visible.sync="dialogVisibleNotification"
                 :before-close="handleCloseNotification">
-            <p v-html="content"></p>
+            <mavon-editor ref="editor" v-model="content" :codeStyle="'tomorrow-night'" :defaultOpen="'preview'" :subfield="false" :toolbarsFlag="false" :ishljs="true" :boxShadow="false" :previewBackground="'#FFFFFF'"></mavon-editor>
         </el-dialog>
     </div>
 </template>
 
 <script>
-    import marked from 'marked';
+    import {mavonEditor} from "mavon-editor";
 
     export default {
         name: "VersionNotification",
+        components: {mavonEditor},
         data () {
             return {
                 content: '',
@@ -41,12 +43,12 @@
                 if (rawFile.overrideMimeType) {
                     rawFile.overrideMimeType("text/plain");
                 }
-                rawFile.open("GET", '/version/' + process.env.VUE_APP_VERSION + '.md', true);
+                rawFile.open("GET", '/version/latest.md', true);
                 let that = this;
                 rawFile.onreadystatechange = function () {
                     if (rawFile.status == "200") {
                         if (rawFile.responseText) {
-                            that.content = marked(rawFile.responseText);
+                            that.content = rawFile.responseText;
                         }
                     }
                 }
@@ -56,6 +58,10 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    #notification-container {
+        .content {
+            max-height: 60%;
+        }
+    }
 </style>
