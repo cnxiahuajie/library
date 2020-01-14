@@ -15,7 +15,7 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/library': {
-                target: 'http://192.168.122.68:54554', // 设置网关域名和端口号
+                target: 'http://192.168.229.112:6060', // 设置网关域名和端口号
                 changeOrigin: true, // 跨域
                 pathRewrite: {
                     '^/library': '/'

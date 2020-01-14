@@ -101,7 +101,7 @@
 
     #app .top {
         overflow: hidden;
-        min-height: 50px;
+        min-height: 60px;
         flex-shrink: 0;
         opacity: 1;
 

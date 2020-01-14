@@ -3,6 +3,14 @@ import service from '@/assets/api/request'
 export default {
 
     /**
+     * 按文章标题获取建议项
+     * @returns {Promise | Promise<any> | undefined | *}
+     */
+    getLikeTitle(title) {
+        return service.request('get', `/library/v1/articles/like-title?title=${title}`);
+    },
+
+    /**
      * 获取文章比例
      * @returns {*|Promise|Promise<any>|undefined}
      */

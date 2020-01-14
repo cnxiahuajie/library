@@ -50,7 +50,7 @@
         <div class="item-container" v-show="article.attachments.length > 0">
             <Attachment ref="articleAttachment"/>
         </div>
-        <div class="item-container article-content-container">
+        <div class="item-container">
             <ArticleContent v-loading="loading" ref="articleContent"/>
         </div>
         <div class="item-container article-history-box">
