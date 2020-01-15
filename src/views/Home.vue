@@ -1,19 +1,33 @@
 <template>
     <div id="home-container">
-        <!-- 文章类型占比 -->
-        <div class="item">
+
+        <!-- 最新文章 -->
+        <div class="item news-container">
             <el-card class="box-card">
-                <label class="title" for="statistics">文章统计</label>
-                <div id="statistics"></div>
+                <el-carousel>
+                    <el-carousel-item v-for="article in news" :key="article.id">
+                        <p @click="toArticleView(article.id)">{{ article.title }}</p>
+                    </el-carousel-item>
+                </el-carousel>
             </el-card>
         </div>
 
-        <!-- 近一周文章发布数量 -->
+        <!-- 文章类型占比和最近一周发布量 -->
         <div class="item">
-            <el-card class="box-card">
-                <label class="title" for="dataOfReleases">近一周文章发布量</label>
-                <div id="dataOfReleases"></div>
-            </el-card>
+            <el-row :gutter="10">
+                <el-col :span="12">
+                    <el-card class="box-card">
+                        <label class="title" for="statistics">文章统计</label>
+                        <div id="statistics"></div>
+                    </el-card>
+                </el-col>
+                <el-col :span="12">
+                    <el-card class="box-card">
+                        <label class="title" for="dataOfReleases">近一周文章发布量</label>
+                        <div id="dataOfReleases"></div>
+                    </el-card>
+                </el-col>
+            </el-row>
         </div>
 
         <!-- 文章流量榜 -->
@@ -56,6 +70,8 @@
         name: "Home",
         data() {
             return {
+                // 最新文章
+                news: [],
                 // 文章占比
                 dataOfRate: [],
                 // 文章流量榜
@@ -71,8 +87,20 @@
             this.initArticleStatistics();
             // 获取文章流量榜TOP10集合
             this.loadArticleBrowseRank();
+            // 获取最新文章
+            this.loadNews();
         },
         methods: {
+            // 前往文章详情页面
+            toArticleView(id) {
+                this.$router.push({name: 'ArticleView', query: {id: id}});
+            },
+            // 获取最新文章
+            loadNews() {
+                apiArticle.getNews(0).then(data => {
+                    this.news = data;
+                });
+            },
             // 获取文章流量榜TOP10集合
             loadArticleBrowseRank() {
                 apiArticle.getArticleBrowseRank().then(data => {
@@ -207,14 +235,38 @@
 
         .item {
             .title {
+                color: #606266;
                 font-size: 18px;
                 font-weight: bold;
+                margin-bottom: 10px;
             }
         }
 
         .item:not(:first-child) {
             margin-top: 10px;
         }
+
+        .el-carousel {
+            background-image: linear-gradient(to right, #C973FF , #AEBAF8);
+            border-radius: 4px;
+
+            .el-carousel__item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                p {
+                    color: rgba(255, 255, 255, 1);
+                    font-size: 3em;
+                }
+
+                p:hover {
+                    text-shadow: 0 0 2px #FFFFFF;
+                    cursor: pointer;
+                }
+            }
+        }
+
     }
 
 </style>

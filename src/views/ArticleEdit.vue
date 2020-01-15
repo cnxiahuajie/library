@@ -22,7 +22,7 @@
             <el-input class="article-type-column-item"
                       v-model="article.column.name" placeholder="输入自定义专栏" :maxlength="30"></el-input>
         </div>
-        <MarkdownEditor ref="markdownEditor" class="item" @handleChange="handleContentChange"/>
+        <MarkdownEditorAndViewer ref="markdownEditor" class="item" @handleChange="handleContentChange"/>
         <div class="item attachments-container">
             <el-upload
                     :action="fileUploadUrl"
@@ -70,14 +70,14 @@
     import apiCategory from '@/assets/api/library/api.category';
     import apiArticle from '@/assets/api/library/api.article';
     import apiCommon from '@/assets/api/library/api.common';
-    import MarkdownEditor from "@/components/MarkdownEditor";
     import marked from 'marked';
     import CCBYNCSA3 from "../components/CCBYNCSA3";
     import apiFiles from '@/assets/api/library/api.files';
+    import MarkdownEditorAndViewer from "../components/MarkdownEditorAndViewer";
 
     export default {
         name: "ArticleEdit",
-        components: {CCBYNCSA3, MarkdownEditor},
+        components: {MarkdownEditorAndViewer, CCBYNCSA3},
         data() {
             return {
                 fileUploadUrl: process.env.VUE_APP_FILE_UPLOAD_URL,

@@ -51,7 +51,7 @@
             <Attachment ref="articleAttachment"/>
         </div>
         <div class="item-container">
-            <ArticleContent v-loading="loading" ref="articleContent"/>
+            <MarkdownViewer ref="articleContent" v-loading="loading"/>
         </div>
         <div class="item-container article-history-box">
             <ArticleHistory v-if="null !== article.id && article.id.length > 0" :show="showArticleHistory"
@@ -63,14 +63,14 @@
 
 <script>
     import apiArticle from '@/assets/api/library/api.article';
-    import ArticleContent from "./ArticleContent";
     import ArticleHistory from "./ArticleHistory";
     import Attachment from "./Attachment";
     import CCBYNCSA3 from "./CCBYNCSA3";
+    import MarkdownViewer from "@/components/MarkdownViewer";
 
     export default {
         name: "ArticleDetails",
-        components: {CCBYNCSA3, Attachment, ArticleHistory, ArticleContent},
+        components: {MarkdownViewer, CCBYNCSA3, Attachment, ArticleHistory},
         props: {
             id: String
         },

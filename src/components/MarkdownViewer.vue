@@ -1,14 +1,15 @@
 <template>
-    <div id="article-content-container">
+    <div id="markdown-viewer">
         <mavon-editor ref="editor" v-model="content" :codeStyle="'tomorrow-night'" :defaultOpen="'preview'" :subfield="false" :toolbarsFlag="false" :ishljs="true" :boxShadow="false" :previewBackground="'#FFFFFF'"></mavon-editor>
     </div>
 </template>
 
+<style src="mavon-editor/dist/css/index.css"></style>
 <script>
     import {mavonEditor} from "mavon-editor";
 
     export default {
-        name: "ArticleContent",
+        name: "MarkdownViewer",
         components: {mavonEditor},
         props: {
             value: String
@@ -28,7 +29,7 @@
 </script>
 
 <style lang="scss" scoped>
-    #article-content-container {
+    #markdown-viewer {
         width: 100%;
     }
 </style>

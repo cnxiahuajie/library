@@ -3,6 +3,22 @@ import service from '@/assets/api/request'
 export default {
 
     /**
+     * 获取最新文章
+     * @returns {Promise | Promise<any> | undefined | *}
+     */
+    getNews(page) {
+        return service.request('get', `/library/v1/articles/news?page=${page}`);
+    },
+
+    /**
+     * 获取最新更新记录
+     * @returns {Promise | Promise<any> | undefined | *}
+     */
+    getLatelyLogs(page) {
+        return service.request('get', `/library/v1/articles/lately-logs?page=${page}`);
+    },
+
+    /**
      * 按文章标题获取建议项
      * @returns {Promise | Promise<any> | undefined | *}
      */

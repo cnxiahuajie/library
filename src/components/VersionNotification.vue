@@ -6,17 +6,17 @@
                 center
                 :visible.sync="dialogVisibleNotification"
                 :before-close="handleCloseNotification">
-            <mavon-editor ref="editor" v-model="content" :codeStyle="'tomorrow-night'" :defaultOpen="'preview'" :subfield="false" :toolbarsFlag="false" :ishljs="true" :boxShadow="false" :previewBackground="'#FFFFFF'"></mavon-editor>
+            <MarkdownViewer ref="markdownViewer" :value="content"/>
         </el-dialog>
     </div>
 </template>
 
 <script>
-    import {mavonEditor} from "mavon-editor";
+    import MarkdownViewer from "./MarkdownViewer";
 
     export default {
         name: "VersionNotification",
-        components: {mavonEditor},
+        components: {MarkdownViewer},
         data () {
             return {
                 content: '',
@@ -48,7 +48,7 @@
                 rawFile.onreadystatechange = function () {
                     if (rawFile.status == "200") {
                         if (rawFile.responseText) {
-                            that.content = rawFile.responseText;
+                            that.$refs.markdownViewer.loadContent(rawFile.responseText);
                         }
                     }
                 }
@@ -59,9 +59,4 @@
 </script>
 
 <style lang="scss" scoped>
-    #notification-container {
-        .content {
-            max-height: 60%;
-        }
-    }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div id="markdown-editor-container">
-        <mavon-editor ref="editor" v-model="content" @change="change" :codeStyle="'tomorrow-night'" :defaultOpen="'edit'" :ishljs="true" :boxShadow="false" :previewBackground="'#FFFFFF'" @imgAdd="$imgAdd"></mavon-editor>
+        <mavon-editor ref="editor" v-model="content" @change="change" :codeStyle="'tomorrow-night'" :ishljs="true" :boxShadow="false" :previewBackground="'#FFFFFF'" @imgAdd="$imgAdd"></mavon-editor>
     </div>
 </template>
 
@@ -9,7 +9,7 @@
     import {mavonEditor} from "mavon-editor";
 
     export default {
-        name: "MarkdownEditor",
+        name: "MarkdownEditorAndViewer",
         components: {mavonEditor},
         data() {
             return {
