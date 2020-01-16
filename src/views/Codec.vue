@@ -3,6 +3,12 @@
         <el-page-header @back="goBack" content="AES数据加解密"></el-page-header>
         <div class="aes-container-item">
             <div class="item">
+                <el-input v-model="key" placeholder="请输入密钥"></el-input>
+            </div>
+            <div class="item">
+                <el-input v-model="iv" placeholder="请输入偏移量"></el-input>
+            </div>
+            <div class="item">
                 <el-switch
                         v-model="isCollapse"
                         active-text="展开"
@@ -90,6 +96,14 @@
             },
             destContent(newVal) {
                 this.doCodec();
+            },
+            key(newVal) {
+                localStorage.setItem(KEY, newVal);
+                this.doAes();
+            },
+            iv(newVal) {
+                localStorage.setItem(IV, newVal);
+                this.doAes();
             }
         },
         methods: {

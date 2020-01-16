@@ -24,12 +24,16 @@
             }
         },
         created() {
-            // 获取版本更新信息
-            this.handleGetVersionNotification();
+            if (this.dialogVisibleNotification === true) {
+                // 获取版本更新信息
+                this.handleGetVersionNotification();
+            }
         },
         updated() {
-            // 获取版本更新信息
-            this.handleGetVersionNotification();
+            if (this.dialogVisibleNotification === true) {
+                // 获取版本更新信息
+                this.handleGetVersionNotification();
+            }
         },
         methods: {
             // 关闭版本更新通知
