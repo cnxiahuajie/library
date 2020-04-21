@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import ArticleDetails from "../components/ArticleDetails";
+    import ArticleDetails from "../../components/ArticleDetails";
     export default {
         name: "ArticleView",
         components: {ArticleDetails},

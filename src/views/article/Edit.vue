@@ -1,6 +1,6 @@
 <template>
     <div id="article-edit-container">
-        <el-page-header @back="goBack" content="编解文章"></el-page-header>
+        <el-page-header @back="goBack" content="编辑文章"></el-page-header>
         <el-input class="item" v-model="article.title" placeholder="请输入标题" :maxlength="30"></el-input>
         <div class="item article-type-column">
             <el-select class="article-type-column-item" v-model="article.category.id" placeholder="请选择文章类型">
@@ -71,9 +71,9 @@
     import apiArticle from '@/assets/api/library/api.article';
     import apiCommon from '@/assets/api/library/api.common';
     import marked from 'marked';
-    import CCBYNCSA3 from "../components/CCBYNCSA3";
+    import CCBYNCSA3 from "../../components/CCBYNCSA3";
     import apiFiles from '@/assets/api/library/api.files';
-    import MarkdownEditorAndViewer from "../components/MarkdownEditorAndViewer";
+    import MarkdownEditorAndViewer from "../../components/MarkdownEditorAndViewer";
 
     export default {
         name: "ArticleEdit",

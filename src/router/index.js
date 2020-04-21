@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
-import ArticleSearchResult from "@/views/ArticleSearchResult";
-import ArticleView from "@/views/ArticleView";
-import ArticleEdit from "@/views/ArticleEdit";
-import Codec from "@/views/Codec";
+import ArticleSearchResult from "@/views/article/SearchResult";
+import ArticleView from "@/views/article/View";
+import ArticleEdit from "@/views/article/Edit";
+import AesCodec from "@/views/codec/AesCodec";
 
 Vue.use(VueRouter);
 
@@ -16,27 +16,27 @@ const routes = [
     meta: {login: false}
   },
   {
-    path: "/ArticleSearchResult",
+    path: "/article/search",
     name: "ArticleSearchResult",
     component: ArticleSearchResult,
     meta: {login: false}
   },
   {
-    path: "/ArticleView",
+    path: "/article/view",
     name: "ArticleView",
     component: ArticleView,
     meta: {login: false}
   },
   {
-    path: "/ArticleEdit",
+    path: "/article/edit",
     name: "ArticleEdit",
     component: ArticleEdit,
     meta: {login: false}
   },
   {
-    path: "/Codec",
-    name: "Codec",
-    component: Codec,
+    path: "/codec/aes",
+    name: "AesCodec",
+    component: AesCodec,
     meta: {login: false}
   }
 ];

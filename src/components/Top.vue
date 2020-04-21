@@ -50,6 +50,16 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
+                <div class="item menus">
+                    <el-dropdown trigger="click" @command="handleMore">
+                      <span class="el-dropdown-link">
+                        运维工具箱<i class="el-icon-arrow-down el-icon--right"></i>
+                      </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item icon="el-icon-video-camera" command="toApplicationMonitor">应用监控器</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
             </div>
             <div class="top-item right link-box">
                 <div class="item search-icon-box ">
@@ -166,6 +176,8 @@
                     this.toArticleEdit();
                 } else if ('toCodecTool' === command) {
                     this.toCodecTool();
+                } else if ('toApplicationCamera' === command) {
+                    this.toApplicationMonitor();
                 }
             },
             // 前往搜索页面
@@ -176,7 +188,11 @@
             },
             // 前往AES页面
             toCodecTool() {
-                this.$router.push({name: 'Codec'});
+                this.$router.push({name: 'AesCodec'});
+            },
+            // 前往应用监控器页面
+            toApplicationMonitor() {
+                this.$router.push({name: 'ApplicationMonitor'});
             },
             // 折叠改变
             handleChangeCollapse() {

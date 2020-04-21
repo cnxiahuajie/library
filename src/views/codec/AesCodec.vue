@@ -67,7 +67,7 @@
     const MINUS = '-';
 
     export default {
-        name: "Codec",
+        name: "AesCodec",
         data() {
             return {
                 isCollapse: true,
