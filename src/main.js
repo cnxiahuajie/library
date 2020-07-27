@@ -5,7 +5,8 @@ import store from "@/store/index";
 import "@/assets/css/global.css";
 import VueCookies from 'vue-cookies'
 import ElementUI from 'element-ui';
-import '@/assets/css/theme/element161616/index.css';
+// import '@/assets/css/theme/element161616/index.css';
+import 'element-ui/lib/theme-chalk/index.css';
 import JsonViewer from 'vue-json-viewer';
 
 Vue.use(VueCookies)

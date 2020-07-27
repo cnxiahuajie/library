@@ -19,6 +19,14 @@
                 <strong class="child-item" v-text="article.lastModTime"></strong>
             </div>
             <div class="item">
+                <p style="margin-right: 4px;">
+                    <i class="el-icon-view"></i>
+                </p>
+                <p>
+                    <span>{{article.viewCount}}</span>
+                </p>
+            </div>
+            <div class="item">
                 <el-dropdown @command="handleDownload">
                   <span class="el-dropdown-link">
                     下载<i class="el-icon-arrow-down el-icon--right"></i>
@@ -90,6 +98,7 @@
         created() {
             this.loadArticle();
             this.$store.commit('showLeftMenu', true);
+            document.documentElement.scrollTop = 0;
         },
         beforeDestroy() {
             this.$store.commit('showProgressBar', false);
